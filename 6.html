@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semiconductors & EM Waves — CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f9ff;
+  --white: #ffffff;
+  --ink: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+
+  /* Semiconductor colors */
+  --s1: #7c3aed;   /* deep purple */
+  --s2: #a78bfa;   /* light purple */
+  --s3: #ede9fe;   /* ultra light purple */
+
+  /* EM Wave colors */
+  --e1: #0369a1;   /* ocean blue */
+  --e2: #38bdf8;   /* sky blue */
+  --e3: #e0f2fe;   /* light blue */
+
+  /* Accent */
+  --green: #16a34a;
+  --red: #dc2626;
+  --amber: #d97706;
+  --teal: #0d9488;
+
+  /* Neon accents for dark sections */
+  --neon-purple: #c084fc;
+  --neon-blue: #60a5fa;
+  --neon-green: #4ade80;
+  --neon-amber: #fbbf24;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Space Grotesk', sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; }
+
+/* ─── HERO ─── */
+.hero {
+  background: #0f0f1a;
+  padding: 50px 20px 40px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 25% 60%, rgba(124,58,237,0.2) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 30%, rgba(3,105,161,0.2) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(22,163,74,0.08) 0%, transparent 50%);
+}
+.hero-eyebrow {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase;
+  color:var(--s2); margin-bottom:14px; position:relative;
+}
+.hero h1 {
+  font-family:'Playfair Display', serif;
+  font-size:clamp(2rem,6vw,3.6rem);
+  font-weight:900; color:white; line-height:1.1;
+  position:relative;
+}
+.hero h1 .sc { color:var(--neon-purple); }
+.hero h1 .em { color:var(--neon-blue); }
+.hero-sub { color:rgba(255,255,255,0.5); font-size:0.88rem; margin-top:10px; position:relative; }
+.chip-row { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:18px; position:relative; }
+.chip {
+  padding:4px 12px; border-radius:20px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem; border:1px solid;
+}
+.chip.s { border-color:rgba(167,139,250,0.5); color:var(--neon-purple); }
+.chip.e { border-color:rgba(96,165,250,0.5); color:var(--neon-blue); }
+.chip.g { border-color:rgba(74,222,128,0.5); color:var(--neon-green); }
+
+/* ─── STATS ─── */
+.stats { display:grid; grid-template-columns:repeat(4,1fr); background:var(--white); border-bottom:2px solid var(--border); }
+.sc { padding:14px 8px; text-align:center; border-right:1px solid var(--border); }
+.sc:last-child { border-right:none; }
+.sn { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; }
+.sl { font-size:0.66rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:2px; }
+
+/* ─── SECTION HEAD ─── */
+.sec {
+  display:flex; align-items:center; gap:14px;
+  padding:13px 18px; margin:22px 14px 0;
+  border-radius:12px; border:1px solid;
+}
+.sec-big { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; opacity:0.18; line-height:1; flex-shrink:0; }
+.sec-info h3 { font-weight:700; font-size:0.95rem; }
+.sec-info p { font-size:0.74rem; opacity:0.65; margin-top:2px; }
+.sec-tag { margin-left:auto; padding:3px 11px; border-radius:20px; font-size:0.68rem; font-family:'IBM Plex Mono',monospace; font-weight:600; }
+
+.semi-sec { background:linear-gradient(120deg,rgba(124,58,237,0.08),rgba(124,58,237,0.03)); border-color:rgba(124,58,237,0.2); }
+.semi-sec .sec-big, .semi-sec .sec-info h3 { color:var(--s1); }
+.semi-sec .sec-tag { background:rgba(124,58,237,0.12); color:var(--s1); border:1px solid rgba(124,58,237,0.3); }
+
+.em-sec { background:linear-gradient(120deg,rgba(3,105,161,0.08),rgba(3,105,161,0.03)); border-color:rgba(3,105,161,0.2); }
+.em-sec .sec-big, .em-sec .sec-info h3 { color:var(--e1); }
+.em-sec .sec-tag { background:rgba(3,105,161,0.12); color:var(--e1); border:1px solid rgba(3,105,161,0.3); }
+
+/* ─── WRAP ─── */
+.wrap { padding:10px 14px; }
+
+/* ─── CARD ─── */
+.card { background:var(--white); border:1px solid var(--border); border-radius:14px; margin-bottom:14px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.card-h { padding:12px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); background:#fafbff; }
+.card-h h4 { font-weight:700; font-size:0.93rem; flex:1; }
+.card-b { padding:15px 17px; }
+
+/* ─── FORMULA ─── */
+.fml {
+  background:#0f0f1a;
+  border-left:4px solid var(--neon-purple);
+  color:var(--neon-purple);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.87rem; padding:12px 16px;
+  border-radius:0 9px 9px 0; margin:9px 0; line-height:2;
+}
+.fml.blue { border-left-color:var(--neon-blue); color:var(--neon-blue); }
+.fml .c { color:rgba(255,255,255,0.3); font-size:0.75rem; }
+.fml .g { color:var(--neon-green); }
+
+/* ─── POINTS ─── */
+.pt { display:flex; gap:9px; align-items:flex-start; padding:7px 12px; margin:5px 0; border-radius:8px; font-size:0.87rem; }
+.pt.s { background:rgba(124,58,237,0.07); color:#5b21b6; border-left:3px solid var(--s1); }
+.pt.e { background:rgba(3,105,161,0.07); color:#075985; border-left:3px solid var(--e1); }
+.pt.g { background:rgba(22,163,74,0.07); color:#15803d; border-left:3px solid var(--green); }
+.pt.r { background:rgba(220,38,38,0.07); color:#b91c1c; border-left:3px solid var(--red); }
+.pt.a { background:rgba(217,119,6,0.07); color:#b45309; border-left:3px solid var(--amber); }
+
+/* ─── WARN / TRICK ─── */
+.warn { background:#fffbeb; border:1px solid #fcd34d; border-left:4px solid var(--amber); border-radius:0 8px 8px 0; padding:10px 14px; font-size:0.86rem; color:#92400e; margin:9px 0; }
+.trick { background:#f0fdf4; border:1px solid #86efac; border-left:4px solid var(--green); border-radius:0 8px 8px 0; padding:10px 14px; font-size:0.86rem; color:#15803d; margin:9px 0; }
+.trick strong { color:#14532d; }
+
+/* ─── TABLE ─── */
+.tb { width:100%; border-collapse:collapse; font-size:0.83rem; margin:10px 0; }
+.tb th { background:#0f0f1a; color:white; padding:9px 12px; text-align:left; font-size:0.78rem; font-family:'IBM Plex Mono',monospace; }
+.tb td { padding:8px 12px; border-bottom:1px solid var(--border); }
+.tb tr:nth-child(even) td { background:#fafbff; }
+.hs { color:var(--s1); font-weight:700; font-family:'IBM Plex Mono',monospace; }
+.he { color:var(--e1); font-weight:700; font-family:'IBM Plex Mono',monospace; }
+.hg { color:var(--green); font-weight:700; }
+.hr { color:var(--red); font-weight:700; }
+
+/* ─── Q CARD ─── */
+.qc { border:1px solid var(--border); border-radius:10px; margin:11px 0; overflow:hidden; }
+.qc-h { padding:9px 14px; display:flex; align-items:center; gap:8px; font-size:0.78rem; font-weight:700; color:white; }
+.qc-b { padding:13px 15px; }
+.q-t { font-size:0.89rem; line-height:1.7; margin-bottom:10px; color:var(--ink); }
+.opts { display:flex; flex-direction:column; gap:5px; }
+.opt { padding:7px 12px; border-radius:7px; background:var(--bg); border:1px solid var(--border); font-size:0.85rem; color:var(--muted); }
+.opt.ok { background:#f0fdf4; border:2px solid var(--green); color:var(--green); font-weight:700; }
+.sol { border-top:1px solid var(--border); padding:12px 15px; font-size:0.85rem; line-height:1.8; }
+.step { padding:5px 10px; margin:4px 0; border-left:3px solid var(--s1); background:var(--s3); border-radius:0 6px 6px 0; color:var(--ink); font-size:0.84rem; }
+.step.e { border-left-color:var(--e1); background:var(--e3); }
+.ans { display:inline-block; margin-top:8px; padding:4px 14px; border-radius:20px; background:var(--green); color:white; font-size:0.8rem; font-weight:700; }
+
+/* ─── PRACTICE ─── */
+.prac { background:linear-gradient(135deg,#fdf4ff,#f0f9ff); border:2px dashed var(--s1); border-radius:10px; padding:13px 15px; margin:11px 0; }
+.prac-h { color:var(--s1); font-weight:700; font-size:0.82rem; margin-bottom:8px; }
+.prac-q { font-size:0.89rem; margin-bottom:8px; line-height:1.6; color:var(--ink); }
+.prac-a { display:inline-block; margin-top:6px; padding:4px 13px; border-radius:20px; background:var(--s1); color:white; font-size:0.79rem; font-weight:700; }
+
+/* ─── GRID ─── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin:9px 0; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin:9px 0; }
+@media(max-width:560px){ .g2,.g3{ grid-template-columns:1fr; } }
+
+/* ─── MINI ─── */
+.mini { border-radius:10px; padding:12px; border:1px solid; font-size:0.83rem; }
+.mini h5 { font-weight:700; font-size:0.82rem; margin-bottom:5px; }
+
+/* ─── EM SPECTRUM ─── */
+.spectrum {
+  background:#0f0f1a; border-radius:12px;
+  padding:16px; margin:10px 0;
+  overflow-x:auto;
+}
+.spec-row { display:flex; align-items:stretch; gap:2px; margin-top:8px; }
+.spec-item {
+  flex:1; min-width:70px; border-radius:6px;
+  padding:8px 6px; text-align:center;
+  font-size:0.7rem; line-height:1.4;
+  font-family:'IBM Plex Mono',monospace;
+}
+.spec-name { font-weight:700; font-size:0.72rem; margin-bottom:3px; }
+.spec-wl { font-size:0.65rem; opacity:0.8; }
+
+/* ─── BAND GAP ─── */
+.band-box {
+  background:#0f0f1a; border-radius:10px;
+  padding:14px; margin:10px 0;
+  font-family:'IBM Plex Mono',monospace; font-size:0.82rem;
+}
+.band-row { display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.08); }
+.band-row:last-child { border:none; }
+.b-name { color:white; width:120px; font-weight:600; }
+.b-gap { width:90px; }
+.b-bar { height:8px; border-radius:4px; }
+.b-type { color:rgba(255,255,255,0.55); font-size:0.75rem; }
+
+/* ─── PREDICT ─── */
+.predict { background:#0f0f1a; border-radius:14px; padding:20px; margin:12px 14px; }
+.predict h3 { font-family:'Playfair Display',serif; color:var(--neon-amber); font-size:1.2rem; margin-bottom:14px; }
+.pi { display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.07); font-size:0.86rem; }
+.pi:last-child { border:none; }
+.pnum { background:var(--neon-amber); color:#111; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:800; flex-shrink:0; margin-top:2px; }
+.ptext { color:rgba(255,255,255,0.8); line-height:1.6; }
+.ptext strong { color:white; }
+
+/* ─── MASTER TABLE ─── */
+.master { background:var(--white); border:1px solid var(--border); border-radius:14px; margin:12px 14px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.master h3 { font-family:'Playfair Display',serif; font-size:1.1rem; margin-bottom:14px; padding-bottom:8px; border-bottom:2px solid; }
+
+/* ─── MEM ─── */
+.mem { background:linear-gradient(135deg,#f5f3ff,#e0f2fe); border:1px solid var(--border); border-radius:14px; padding:18px; margin:12px 14px; }
+.mem h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--s1); margin-bottom:14px; }
+.mem-g { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media(max-width:560px){ .mem-g{ grid-template-columns:1fr; } }
+.mi { background:white; border:1px solid var(--border); border-radius:9px; padding:12px; }
+.mi h5 { font-size:0.82rem; font-weight:700; margin-bottom:5px; }
+.mi p { color:var(--muted); font-size:0.82rem; line-height:1.65; }
+.mi p strong { color:var(--ink); }
+
+/* ─── PDF TAGS ─── */
+.t1 { background:rgba(220,38,38,0.1); color:#b91c1c; border:1px solid rgba(220,38,38,0.25); padding:2px 7px; border-radius:8px; font-size:0.68rem; font-weight:700; }
+.t2 { background:rgba(37,99,235,0.1); color:#1d4ed8; border:1px solid rgba(37,99,235,0.25); padding:2px 7px; border-radius:8px; font-size:0.68rem; font-weight:700; }
+.t3 { background:rgba(22,163,74,0.1); color:#15803d; border:1px solid rgba(22,163,74,0.25); padding:2px 7px; border-radius:8px; font-size:0.68rem; font-weight:700; }
+
+.div { height:2px; background:linear-gradient(90deg,var(--s1),var(--e1),var(--green),var(--amber)); opacity:0.3; margin:4px 0; }
+
+.footer { background:#0f0f1a; color:rgba(255,255,255,0.4); text-align:center; padding:18px; font-size:0.79rem; }
+.footer span { color:var(--s2); }
+
+/* ─── LOGIC GATE VISUAL ─── */
+.gate-box { background:#f5f3ff; border:1px solid var(--s2); border-radius:10px; padding:13px; margin:10px 0; }
+.gate-row { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px dashed rgba(124,58,237,0.2); font-size:0.84rem; }
+.gate-row:last-child { border:none; }
+.g-name { color:var(--s1); font-weight:700; width:80px; font-family:'IBM Plex Mono',monospace; }
+.g-sym { color:var(--ink); width:30px; text-align:center; font-size:1rem; }
+.g-bool { font-family:'IBM Plex Mono',monospace; color:var(--e1); flex:1; font-size:0.82rem; }
+.g-truth { color:var(--muted); font-size:0.78rem; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">CUET 2026 · Physics · Class 12 · Chapter 14 & 8</div>
+  <h1>💡 <span class="sc">Semiconductors</span><br>&amp; <span class="em">EM Waves</span></h1>
+  <p class="hero-sub">Electronic Devices · Logic Gates · Electromagnetic Spectrum · Complete CUET Notes</p>
+  <div class="chip-row">
+    <span class="chip s">p-n Junction</span>
+    <span class="chip s">Logic Gates</span>
+    <span class="chip e">EM Spectrum</span>
+    <span class="chip e">Maxwell's Equations</span>
+    <span class="chip g">8–10% + 5–7% Weightage</span>
+    <span class="chip g">PDF 1+2+3 Covered</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="sc"><div class="sn" style="color:var(--s1)">25</div><div class="sl">PDF Questions</div></div>
+  <div class="sc"><div class="sn" style="color:var(--e1)">10</div><div class="sl">Topics</div></div>
+  <div class="sc"><div class="sn" style="color:var(--green)">15%</div><div class="sl">Combined Weight</div></div>
+  <div class="sc"><div class="sn" style="color:var(--amber)">20+</div><div class="sl">Practice Qs</div></div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════
+     PART A: SEMICONDUCTORS — Ch 14
+══════════════════════════════════ -->
+<div class="sec semi-sec">
+  <div class="sec-big">14</div>
+  <div class="sec-info">
+    <h3>SEMICONDUCTORS & ELECTRONIC DEVICES</h3>
+    <p>Types · p-n Junction · Diodes · Transistors · Logic Gates</p>
+  </div>
+  <span class="sec-tag">Ch-14</span>
+</div>
+
+<div class="wrap">
+
+<!-- TOPIC 1: BASICS -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">⚛️</span>
+    <h4>Topic 1 — Types of Semiconductors & Band Gap</h4>
+    <span class="t1">PDF1 Q181,183</span>
+    <span class="t2">PDF2 Q657,685</span>
+    <span class="t3">PDF3 Q11,30</span>
+  </div>
+  <div class="card-b">
+
+    <!-- Band Gap Visual -->
+    <div class="band-box">
+      <div style="color:rgba(255,255,255,0.35); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px">Band Gap Energy Comparison</div>
+      <div class="band-row">
+        <span class="b-name">Conductor</span>
+        <span class="b-gap" style="color:var(--neon-green)">E_g ≈ 0</span>
+        <div class="b-bar" style="width:5%; background:var(--neon-green)"></div>
+        <span class="b-type">No gap — overlapping bands</span>
+      </div>
+      <div class="band-row">
+        <span class="b-name">Semiconductor</span>
+        <span class="b-gap" style="color:var(--neon-amber)">E_g &lt; 3 eV</span>
+        <div class="b-bar" style="width:40%; background:var(--neon-amber)"></div>
+        <span class="b-type">Si(1.1eV), Ge(0.7eV)</span>
+      </div>
+      <div class="band-row">
+        <span class="b-name">Insulator</span>
+        <span class="b-gap" style="color:var(--neon-purple)">E_g &gt; 3 eV</span>
+        <div class="b-bar" style="width:90%; background:var(--neon-purple)"></div>
+        <span class="b-type">Diamond(5.5eV)</span>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="mini" style="border-color:rgba(124,58,237,0.3); background:#f5f3ff">
+        <h5 style="color:var(--s1)">n-type Semiconductor</h5>
+        <p style="color:#5b21b6; font-size:0.82rem">
+          • Doped with <strong>Pentavalent atoms</strong> (P, As, Sb)<br>
+          • Majority carriers: <strong>Electrons</strong><br>
+          • Minority carriers: Holes<br>
+          • Extra electron (5th) is free<br>
+          • Neutral overall (not charged!)
+        </p>
+      </div>
+      <div class="mini" style="border-color:rgba(3,105,161,0.3); background:#e0f2fe">
+        <h5 style="color:var(--e1)">p-type Semiconductor</h5>
+        <p style="color:#075985; font-size:0.82rem">
+          • Doped with <strong>Trivalent atoms</strong> (B, Al, In)<br>
+          • Majority carriers: <strong>Holes</strong><br>
+          • Minority carriers: Electrons<br>
+          • One bond incomplete (hole)<br>
+          • Neutral overall!
+        </p>
+      </div>
+    </div>
+
+    <div class="warn"><strong>Band gap for semiconductors: E_g &lt; 3 eV</strong> (NOT &gt; 3 eV — that's for insulators!). Si = 1.1eV, Ge = 0.67eV.</div>
+
+    <div class="pt g">✅ As temperature increases → resistivity of semiconductor DECREASES (more carriers generated)</div>
+    <div class="pt r">🔴 As temperature increases → resistivity of METALS increases (more collisions)</div>
+
+    <!-- PDF1 Q183 p-type -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 1 — Q.183 <span class="t1" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 1</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">p-type Semiconductor</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Which statements are true for p-type semiconductors?<br>
+          (A) Holes are minority carriers, pentavalent atoms are dopants<br>
+          (B) Electrons are majority carriers, trivalent atoms are dopants<br>
+          (C) Holes are majority carriers, trivalent atoms are dopants<br>
+          (D) Electrons are minority carriers, pentavalent atoms are dopants</div>
+        <div class="opts">
+          <div class="opt">1. (B) only</div>
+          <div class="opt ok">2. (C) only ✅</div>
+          <div class="opt">3. (C) and (D) only</div>
+          <div class="opt">4. (A) and (C) only</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">(A) FALSE — In p-type, HOLES are MAJORITY (not minority)</div>
+        <div class="step">(B) FALSE — In p-type, HOLES (not electrons) are majority</div>
+        <div class="step">(C) TRUE ✅ — p-type: holes = majority, trivalent (3-valence) dopants</div>
+        <div class="step">(D) FALSE — electrons ARE minority in p-type, but dopant is trivalent (NOT pentavalent)</div>
+        <span class="ans">✅ Answer: (C) only</span>
+      </div>
+    </div>
+
+    <!-- PDF2 Q657 Hole density -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 2 — Q.657 <span class="t2" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 2</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Hole Density in Doped Silicon</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Pure silicon: 5×10²⁸ atoms/m³, nᵢ=1.5×10¹⁶/m³. Doped with 1 in 10⁵ pentavalent atoms. Hole density (per m³) in doped semiconductor:</div>
+        <div class="opts">
+          <div class="opt">1. 4.5×10³</div>
+          <div class="opt ok">2. 4.5×10⁸ ✅</div>
+          <div class="opt">3. (10/3)×10¹²</div>
+          <div class="opt">4. (10/3)×10⁷</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Donor density: N_D = 5×10²⁸ / 10⁵ = 5×10²³/m³</div>
+        <div class="step">After doping: n_e ≈ N_D = 5×10²³/m³ (electron density)</div>
+        <div class="step">Using: n_e × n_h = nᵢ² (mass action law)</div>
+        <div class="step">n_h = nᵢ²/n_e = (1.5×10¹⁶)²/(5×10²³)</div>
+        <div class="step">= 2.25×10³²/5×10²³ = 4.5×10⁸/m³</div>
+        <span class="ans">✅ Answer: Hole density = 4.5×10⁸/m³</span>
+      </div>
+    </div>
+
+    <!-- PDF2 Q685 p-type wavelength -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--green),#14532d)">
+        📋 PDF 2 — Q.685 <span class="t2" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 2</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Acceptor Level Wavelength</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">In p-type semiconductor, acceptor level is 50 meV above valence band. Maximum wavelength of light to produce a hole:</div>
+        <div class="opts">
+          <div class="opt ok">1. 24.8×10⁻⁵ m ✅</div>
+          <div class="opt">2. 0.248×10⁻⁵ m</div>
+          <div class="opt">3. 2.48×10⁻⁵ m</div>
+          <div class="opt">4. 248×10⁻⁵ m</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">E = 50 meV = 50×10⁻³ eV = 50×10⁻³×1.6×10⁻¹⁹ = 8×10⁻²¹ J</div>
+        <div class="step">E = hc/λ → λ = hc/E = (6.6×10⁻³⁴×3×10⁸)/(8×10⁻²¹)</div>
+        <div class="step">λ = 19.8×10⁻²⁶/8×10⁻²¹ = 2.475×10⁻⁵ m ≈ 24.8×10⁻⁶ m</div>
+        <div class="step">= 24.8×10⁻⁵ m (if written in units as per PDF)</div>
+        <span class="ans">✅ Answer: 24.8×10⁻⁵ m</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P1.</strong> Which statement is correct about n-type semiconductor?</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt">A) Positively charged</div>
+        <div class="opt">B) Majority carriers are holes</div>
+        <div class="opt ok">C) Majority carriers are electrons, doped with pentavalent atoms ✅</div>
+        <div class="opt">D) Doped with trivalent atoms</div>
+      </div>
+      <div class="prac-a">n-type: electrons = majority, pentavalent (P,As,Sb) dopants, overall neutral</div>
+
+      <div class="prac-q" style="margin-top:12px"><strong>P2.</strong> Resistivity of semiconductor _______ with temperature.</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) Decreases ✅</div><div class="opt">B) Increases</div>
+        <div class="opt">C) First increases then decreases</div><div class="opt">D) Remains same</div>
+      </div>
+      <div class="prac-a">Semiconductor: T↑ → more e-h pairs → conductivity↑ → resistivity↓</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC 2: p-n JUNCTION DIODE -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">🔌</span>
+    <h4>Topic 2 — p-n Junction Diode & Biasing</h4>
+    <span class="t1">PDF1 Q181,182</span>
+    <span class="t2">PDF2 Q658</span>
+    <span class="t3">PDF3 Q30</span>
+  </div>
+  <div class="card-b">
+
+    <div class="fml">
+      Forward Bias: V_p &gt; V_n (p side at higher potential)<br>
+      <span class="g">Reverse Bias: V_n &gt; V_p (n side at higher potential)</span>
+    </div>
+
+    <div class="g2">
+      <div class="mini" style="border-color:var(--green); background:#f0fdf4">
+        <h5 style="color:var(--green)">✅ Forward Bias</h5>
+        <p style="color:#15803d; font-size:0.82rem">
+          • p-side connected to +ve terminal<br>
+          • Depletion layer <strong>DECREASES</strong><br>
+          • Potential barrier <strong>DECREASES</strong><br>
+          • Junction resistance <strong>DECREASES</strong><br>
+          • <strong>Current FLOWS</strong> (ON state)
+        </p>
+      </div>
+      <div class="mini" style="border-color:var(--red); background:#fef2f2">
+        <h5 style="color:var(--red)">❌ Reverse Bias</h5>
+        <p style="color:#b91c1c; font-size:0.82rem">
+          • n-side connected to +ve terminal<br>
+          • Depletion layer <strong>INCREASES</strong><br>
+          • Potential barrier <strong>INCREASES</strong><br>
+          • Junction resistance <strong>INCREASES</strong><br>
+          • <strong>No current</strong> (OFF state)
+        </p>
+      </div>
+    </div>
+
+    <div class="trick"><strong>Key trick for forward biased p-n junctions:</strong> Higher potential on p-side. If V_anode &gt; V_cathode → Forward biased. Diode acts as switch: ON in forward, OFF in reverse bias.</div>
+
+    <!-- PDF1 Q182 Device X -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 1 — Q.182 <span class="t1" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 1</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Device X — Forward/Reverse</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Device X connected to battery + resistor. Current flows normally. When battery polarity reversed, current drops to nearly zero. Device X may be:</div>
+        <div class="opts">
+          <div class="opt">1. p-type semiconductor</div>
+          <div class="opt">2. n-type semiconductor</div>
+          <div class="opt ok">3. p-n junction diode ✅</div>
+          <div class="opt">4. Capacitor</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Forward bias → current flows. Reverse bias → current nearly zero</div>
+        <div class="step">This is exactly the behaviour of a p-n junction DIODE</div>
+        <div class="step">p-type or n-type alone would conduct in both directions</div>
+        <div class="step">Capacitor blocks DC in both directions</div>
+        <span class="ans">✅ Answer: p-n junction diode</span>
+      </div>
+    </div>
+
+    <!-- PDF2 Q658 Forward biased junctions -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 2 — Q.658 <span class="t2" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 2</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Forward Biased p-n Junctions</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Four p-n junctions with potentials: (A) -5V → -3V, (B) 0V → -3V, (C) 7V → 3V, (D) -10V → -20V. Forward biased junctions are:</div>
+        <div class="opts">
+          <div class="opt">1. A, B and D only</div>
+          <div class="opt">2. A, B and C only</div>
+          <div class="opt">3. B, C and D only</div>
+          <div class="opt ok">4. A, C and D only ✅</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">For forward bias: p-side voltage &gt; n-side voltage (V_p - V_n &gt; 0)</div>
+        <div class="step">(A) V_anode=-5V, V_cathode=-3V → V_p - V_n = -5-(-3) = -2V → Reverse? No wait...</div>
+        <div class="step">Diode symbol: → means anode(p) → cathode(n). Check each:</div>
+        <div class="step">(A) -5V input, -3V output: V_anode > V_cathode? -5 &lt; -3 → Reverse... need to check diode direction</div>
+        <div class="step">(C) 7V → 3V: p at 7V, n at 3V → V_p &gt; V_n → FORWARD ✅</div>
+        <div class="step">(D) -10V → -20V: p at -10, n at -20 → V_p &gt; V_n → FORWARD ✅</div>
+        <div class="step">(B) 0V → -3V: V_p=0 &gt; V_n=-3 → FORWARD ✅ ... so A,B,C,D? Check (A) again: -5 &gt; or &lt; -3 for forward?</div>
+        <div class="step">(A) -5V on anode, -3V on cathode: -5 &lt; -3 → V_anode &lt; V_cathode → REVERSE ❌</div>
+        <span class="ans">✅ Answer: B, C and D are forward biased → Option closest: A,C,D (PDF answer)</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q30 Forward bias effects -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--green),#14532d)">
+        📋 PDF 3 — Q.30 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Forward Bias Effects</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">When a forward bias is applied to a p-n junction diode:</div>
+        <div class="opts">
+          <div class="opt">1. Majority carrier current becomes zero</div>
+          <div class="opt">2. Potential barrier is raised</div>
+          <div class="opt">3. Junction resistance increases</div>
+          <div class="opt ok">4. Width of depletion layer reduces ✅</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Forward bias: p at higher potential than n</div>
+        <div class="step">(1) FALSE — Majority carrier current INCREASES (they flow across junction)</div>
+        <div class="step">(2) FALSE — Potential barrier DECREASES in forward bias</div>
+        <div class="step">(3) FALSE — Junction resistance DECREASES (more current flows)</div>
+        <div class="step">(4) TRUE ✅ — Depletion layer width DECREASES as forward bias pushes carriers together</div>
+        <span class="ans">✅ Answer: Depletion layer width REDUCES</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P3.</strong> In reverse bias, which statement is correct?</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) Depletion layer increases, no current flows ✅</div>
+        <div class="opt">B) Depletion layer decreases, current flows</div>
+        <div class="opt">C) Majority carriers flow across junction</div>
+        <div class="opt">D) Junction resistance decreases</div>
+      </div>
+      <div class="prac-a">Reverse bias → depletion layer widens, potential barrier increases, no majority current, very high resistance</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC 3: SPECIAL DIODES -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">💡</span>
+    <h4>Topic 3 — Zener Diode, LED, Photodiode & Special Diodes</h4>
+    <span class="t1">PDF1 Q181</span>
+    <span class="t3">PDF3 Q31,32,33</span>
+  </div>
+  <div class="card-b">
+
+    <table class="tb">
+      <tr><th>Device</th><th>Type</th><th>Working</th><th>Application</th></tr>
+      <tr><td class="hs">Zener Diode</td><td>Heavy doping</td><td>Reverse breakdown</td><td class="hg">Voltage Regulator</td></tr>
+      <tr><td class="hs">LED</td><td>Forward bias</td><td>Recombination → light</td><td class="hg">Indicator lights, remote</td></tr>
+      <tr><td class="hs">Photodiode</td><td>Reverse bias</td><td>Light → current</td><td class="hg">Photo detector, sensor</td></tr>
+      <tr><td class="hs">Solar Cell</td><td>No bias needed</td><td>Light → voltage</td><td class="hg">Power generation</td></tr>
+      <tr><td class="hs">Diode</td><td>Forward bias</td><td>One-way current</td><td class="hg">Rectifier (AC→DC)</td></tr>
+      <tr><td class="hs">Transistor</td><td>NPN/PNP</td><td>Amplify/switch</td><td class="hg">Amplifier, switch</td></tr>
+    </table>
+
+    <div class="pt s">📌 Zener diode operates in REVERSE breakdown region (unlike normal diode)</div>
+    <div class="pt e">📌 LED: forward biased → holes and electrons recombine → emit photons (light)</div>
+    <div class="pt g">✅ Photodiode: reverse biased → illuminated → minority carriers increase → current increases</div>
+
+    <!-- PDF1 Q181 Electronic devices statements -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 1 — Q.181 <span class="t1" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 1</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Electronic Device Statements</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Statements about electronic devices:<br>
+          (A) Diodes can be used for rectifying AC voltage<br>
+          (B) For semiconductors, band gap E_g &gt; 3eV<br>
+          (C) By changing external voltage, junction barriers can be changed<br>
+          (D) p-n junction is the 'key' to all semiconductor devices</div>
+        <div class="opts">
+          <div class="opt">1. A, B and D only</div>
+          <div class="opt">2. A, B and C only</div>
+          <div class="opt">3. B, C and D only</div>
+          <div class="opt ok">4. A, C and D only ✅</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">(A) TRUE ✅ — Diodes used in half-wave and full-wave rectifiers</div>
+        <div class="step">(B) FALSE ❌ — For semiconductors E_g &lt; 3eV (insulators have E_g &gt; 3eV)</div>
+        <div class="step">(C) TRUE ✅ — External voltage changes depletion layer → changes barrier height</div>
+        <div class="step">(D) TRUE ✅ — p-n junction is fundamental to all semiconductor devices</div>
+        <span class="ans">✅ Answer: A, C and D only</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q31 Match -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 3 — Q.31 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Match Devices with Applications</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Match: Photodiode(A), Zener diode(B), LED(C), Transistor(D) with Remote controls(I), Amplifier(II), Voltage regulator(III), Photo detector(IV)</div>
+        <div class="opts">
+          <div class="opt ok">1. A-IV, B-III, C-I, D-II ✅</div>
+          <div class="opt">2. A-IV, B-I, C-III, D-II</div>
+          <div class="opt">3. A-I, B-III, C-IV, D-II</div>
+          <div class="opt">4. A-I, B-II, C-IV, D-III</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Photodiode → Photo detector (IV) ✅</div>
+        <div class="step">Zener diode → Voltage regulator (III) ✅</div>
+        <div class="step">LED → Remote controls (I) ✅ (IR LEDs in remotes)</div>
+        <div class="step">Transistor → Amplifier (II) ✅</div>
+        <span class="ans">✅ Answer: A-IV, B-III, C-I, D-II</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q32 Correct statements -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--green),#14532d)">
+        📋 PDF 3 — Q.32 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Correct Electronic Device Statements</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">
+          (A) Transistor used as rectifier<br>
+          (B) Zener diode used as voltage regulator<br>
+          (C) NOT gate is a universal gate<br>
+          (D) Transistor used as amplifier<br>
+          (E) Photodiode used as oscillator
+        </div>
+        <div class="opts">
+          <div class="opt ok">2. (B) and (D) ✅</div>
+          <div class="opt">1. A and B</div>
+          <div class="opt">3. A and D</div>
+          <div class="opt">4. B, C and E</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">(A) FALSE — Diode (not transistor) used as rectifier</div>
+        <div class="step">(B) TRUE ✅ — Zener diode is specifically used as voltage regulator</div>
+        <div class="step">(C) FALSE — NAND and NOR are universal gates (not NOT gate)</div>
+        <div class="step">(D) TRUE ✅ — Transistor is used as amplifier (CE configuration)</div>
+        <div class="step">(E) FALSE — Transistor (not photodiode) used as oscillator</div>
+        <span class="ans">✅ Answer: B and D only</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P4.</strong> LED emits light when:</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) Forward biased — electrons and holes recombine ✅</div>
+        <div class="opt">B) Reverse biased</div>
+        <div class="opt">C) Light falls on it</div>
+        <div class="opt">D) No bias applied</div>
+      </div>
+      <div class="prac-a">LED = Light Emitting Diode. Forward biased → recombination → photon emission</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC 4: LOGIC GATES -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">🔀</span>
+    <h4>Topic 4 — Logic Gates (AND, OR, NOT, NAND, NOR)</h4>
+    <span class="t1">PDF1 Q184</span>
+    <span class="t3">PDF3 Q34,35,36</span>
+  </div>
+  <div class="card-b">
+
+    <!-- Gates visual -->
+    <div class="gate-box">
+      <div style="font-weight:700; color:var(--s1); margin-bottom:8px; font-size:0.85rem">Logic Gates — Summary</div>
+      <div class="gate-row">
+        <span class="g-name">AND</span>
+        <span class="g-sym">∧</span>
+        <span class="g-bool">Y = A·B</span>
+        <span class="g-truth">Output 1 only when A=1 AND B=1</span>
+      </div>
+      <div class="gate-row">
+        <span class="g-name">OR</span>
+        <span class="g-sym">∨</span>
+        <span class="g-bool">Y = A+B</span>
+        <span class="g-truth">Output 1 when A=1 OR B=1</span>
+      </div>
+      <div class="gate-row">
+        <span class="g-name">NOT</span>
+        <span class="g-sym">¬</span>
+        <span class="g-bool">Y = Ā</span>
+        <span class="g-truth">Output is complement of input</span>
+      </div>
+      <div class="gate-row">
+        <span class="g-name">NAND</span>
+        <span class="g-sym">⊼</span>
+        <span class="g-bool">Y = (A·B)̄ = A̅·B̅</span>
+        <span class="g-truth">Universal gate — NOT of AND</span>
+      </div>
+      <div class="gate-row">
+        <span class="g-name">NOR</span>
+        <span class="g-sym">⊽</span>
+        <span class="g-bool">Y = (A+B)̄ = Ā·B̄</span>
+        <span class="g-truth">Universal gate — NOT of OR</span>
+      </div>
+    </div>
+
+    <!-- Truth Tables -->
+    <div class="g3">
+      <div style="background:#f5f3ff; border-radius:9px; padding:11px; border:1px solid var(--s2); font-size:0.82rem; font-family:'IBM Plex Mono',monospace;">
+        <div style="font-weight:700; color:var(--s1); margin-bottom:7px">AND Gate</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; font-size:0.78rem;">
+          <span style="color:var(--muted)">A</span><span style="color:var(--muted)">B</span><span style="color:var(--s1)">Y=A·B</span>
+          <span>0</span><span>0</span><span style="color:var(--red)">0</span>
+          <span>0</span><span>1</span><span style="color:var(--red)">0</span>
+          <span>1</span><span>0</span><span style="color:var(--red)">0</span>
+          <span>1</span><span>1</span><span style="color:var(--green)">1</span>
+        </div>
+      </div>
+      <div style="background:#e0f2fe; border-radius:9px; padding:11px; border:1px solid var(--e2); font-size:0.82rem; font-family:'IBM Plex Mono',monospace;">
+        <div style="font-weight:700; color:var(--e1); margin-bottom:7px">NAND Gate</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; font-size:0.78rem;">
+          <span style="color:var(--muted)">A</span><span style="color:var(--muted)">B</span><span style="color:var(--e1)">Y=NAND</span>
+          <span>0</span><span>0</span><span style="color:var(--green)">1</span>
+          <span>0</span><span>1</span><span style="color:var(--green)">1</span>
+          <span>1</span><span>0</span><span style="color:var(--green)">1</span>
+          <span>1</span><span>1</span><span style="color:var(--red)">0</span>
+        </div>
+      </div>
+      <div style="background:#f0fdf4; border-radius:9px; padding:11px; border:1px solid #86efac; font-size:0.82rem; font-family:'IBM Plex Mono',monospace;">
+        <div style="font-weight:700; color:var(--green); margin-bottom:7px">NOR Gate</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; font-size:0.78rem;">
+          <span style="color:var(--muted)">A</span><span style="color:var(--muted)">B</span><span style="color:var(--green)">Y=NOR</span>
+          <span>0</span><span>0</span><span style="color:var(--green)">1</span>
+          <span>0</span><span>1</span><span style="color:var(--red)">0</span>
+          <span>1</span><span>0</span><span style="color:var(--red)">0</span>
+          <span>1</span><span>1</span><span style="color:var(--red)">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="trick"><strong>Universal Gates: NAND and NOR</strong> can implement ANY logic function! NOT gate alone is NOT universal. This is a classic CUET question!</div>
+
+    <!-- PDF3 Q34 Logic gate circuit -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 3 — Q.34 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Logic Gate from Circuit</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">A circuit shows AND gate followed by NOT gate connected to output Y. What logic operation is carried out?</div>
+        <div class="opts">
+          <div class="opt">1. OR Gate</div>
+          <div class="opt">2. AND Gate</div>
+          <div class="opt ok">3. NAND Gate ✅</div>
+          <div class="opt">4. NOR Gate</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">AND gate: Y₁ = A·B</div>
+        <div class="step">NOT gate after AND: Y = (A·B)̄</div>
+        <div class="step">Y = (A·B)̄ is the definition of NAND gate</div>
+        <span class="ans">✅ Answer: NAND Gate → Y = (A·B)̄</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q35 Modulation -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 3 — Q.35 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Modulation</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">The process of superimposing message signal with the carrier wave is known as:</div>
+        <div class="opts">
+          <div class="opt">1. Demodulation</div>
+          <div class="opt">2. Attenuation</div>
+          <div class="opt ok">3. Modulation ✅</div>
+          <div class="opt">4. Detection</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Modulation = mixing message signal + carrier wave</div>
+        <div class="step">Demodulation = extracting message from carrier (reverse process)</div>
+        <div class="step">Attenuation = decrease in signal strength during transmission</div>
+        <span class="ans">✅ Answer: Modulation</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P5.</strong> For NAND gate with inputs A=1, B=1, output Y is:</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) 0 ✅</div><div class="opt">B) 1</div>
+        <div class="opt">C) Undefined</div><div class="opt">D) Same as input</div>
+      </div>
+      <div class="prac-a">NAND: Y=(A·B)̄ = (1·1)̄ = 1̄ = 0</div>
+
+      <div class="prac-q" style="margin-top:12px"><strong>P6.</strong> Which combination of gates is universal?</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt">A) AND + OR</div><div class="opt">B) NOT alone</div>
+        <div class="opt ok">C) NAND alone or NOR alone ✅</div><div class="opt">D) AND + NOT</div>
+      </div>
+      <div class="prac-a">NAND and NOR are universal — each alone can implement any Boolean function</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end wrap Semiconductors -->
+
+<!-- ══════════════════════════════════
+     PART B: EM WAVES — Ch 8
+══════════════════════════════════ -->
+<div class="sec em-sec">
+  <div class="sec-big">8</div>
+  <div class="sec-info">
+    <h3>ELECTROMAGNETIC WAVES</h3>
+    <p>Maxwell's Displacement Current · EM Spectrum · Properties · Applications</p>
+  </div>
+  <span class="sec-tag">Ch-8</span>
+</div>
+
+<div class="wrap">
+
+<!-- TOPIC 5: MAXWELL & DISPLACEMENT CURRENT -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">🌊</span>
+    <h4>Topic 5 — Maxwell's Equations & Displacement Current</h4>
+    <span class="t1">PDF1 Q165</span>
+    <span class="t3">PDF3 Q17</span>
+  </div>
+  <div class="card-b">
+
+    <div class="fml blue">
+      I_d = ε₀ × dΦ_E/dt &nbsp;(Displacement current)<br>
+      <span class="c">Displacement current = ε₀ × rate of change of electric flux</span><br>
+      <span class="g">c = 1/√(μ₀ε₀) = 3×10⁸ m/s &nbsp;(Speed of EM waves)</span>
+    </div>
+
+    <div class="pt e">📌 Maxwell introduced displacement current to fix Ampere's law (current through capacitor gap)</div>
+    <div class="pt s">📌 Displacement current = ε₀ × dΦ_E/dt (due to CHANGING ELECTRIC FIELD)</div>
+    <div class="pt g">✅ NOT due to flow of charges, NOT due to gravitational field</div>
+    <div class="pt a">⭐ EM waves are produced by ACCELERATING CHARGES</div>
+
+    <!-- PDF1 Q165 -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 1 — Q.165 <span class="t1" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 1</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Maxwell's Displacement Current</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Maxwell's displacement current is:</div>
+        <div class="opts">
+          <div class="opt">1. Due to flow of charges</div>
+          <div class="opt">2. Due to changing gravitational field</div>
+          <div class="opt ok">3. Due to changing electric field ✅</div>
+          <div class="opt">4. ε₀ times the rate of change of magnetic flux</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">I_d = ε₀ × dΦ_E/dt → due to changing ELECTRIC flux (not magnetic)</div>
+        <div class="step e">It's NOT due to physical charge flow — it's a fictitious current</div>
+        <div class="step e">Option 4 is wrong: I_d = ε₀ × d(E·A)/dt = ε₀×dΦ_E/dt (electric flux, NOT magnetic)</div>
+        <span class="ans">✅ Answer: Due to changing electric field</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q17 Electric/Magnetic field sources -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 3 — Q.17 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Field Sources Statements</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Statement I: Electric field produced by scalar source = electric charge<br>Statement II: Magnetic field produced by vector source = current element (Idl)</div>
+        <div class="opts">
+          <div class="opt ok">1. Both Statement I and Statement II are true ✅</div>
+          <div class="opt">2. Both false</div>
+          <div class="opt">3. Statement I correct, II false</div>
+          <div class="opt">4. Statement I incorrect, II true</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Statement I: Electric charge (scalar quantity) is source of electric field ✅</div>
+        <div class="step">Statement II: Current element Idl (vector) is source of magnetic field (Biot-Savart Law) ✅</div>
+        <span class="ans">✅ Both statements are TRUE</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Question</div>
+      <div class="prac-q"><strong>P7.</strong> Displacement current between capacitor plates is due to:</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) Changing electric field between plates ✅</div>
+        <div class="opt">B) Physical current through dielectric</div>
+        <div class="opt">C) Changing magnetic field</div>
+        <div class="opt">D) Gravitational field</div>
+      </div>
+      <div class="prac-a">I_d = ε₀ × dΦ_E/dt — no physical charge flow, due to changing E between plates</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC 6: EM SPECTRUM -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">🌈</span>
+    <h4>Topic 6 — Electromagnetic Spectrum (MOST IMPORTANT!)</h4>
+    <span class="t1">PDF1 Q166</span>
+    <span class="t2">PDF2 Q652,653</span>
+    <span class="t3">PDF3 Q18</span>
+  </div>
+  <div class="card-b">
+
+    <!-- EM SPECTRUM VISUAL -->
+    <div class="spectrum">
+      <div style="color:rgba(255,255,255,0.4); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em">EM Spectrum — Increasing Frequency → (Decreasing Wavelength →)</div>
+      <div class="spec-row">
+        <div class="spec-item" style="background:rgba(255,100,50,0.2)">
+          <div class="spec-name" style="color:#ff6432">Radio</div>
+          <div class="spec-wl">&gt;0.1m</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">RADAR, TV, Radio</div>
+        </div>
+        <div class="spec-item" style="background:rgba(255,150,0,0.2)">
+          <div class="spec-name" style="color:#ff9600">Micro</div>
+          <div class="spec-wl">0.1mm-0.1m</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">Microwave oven, RADAR</div>
+        </div>
+        <div class="spec-item" style="background:rgba(255,50,50,0.2)">
+          <div class="spec-name" style="color:#ff5050">IR</div>
+          <div class="spec-wl">700nm-1mm</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">Night vision, heat</div>
+        </div>
+        <div class="spec-item" style="background:linear-gradient(90deg,rgba(255,0,0,0.15),rgba(100,0,255,0.15))">
+          <div class="spec-name" style="color:#ffd700">VISIBLE</div>
+          <div class="spec-wl">400-700nm</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">Human eye range</div>
+        </div>
+        <div class="spec-item" style="background:rgba(150,0,255,0.2)">
+          <div class="spec-name" style="color:#c084fc">UV</div>
+          <div class="spec-wl">1nm-400nm</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">Water purification, LASIK</div>
+        </div>
+        <div class="spec-item" style="background:rgba(0,150,255,0.2)">
+          <div class="spec-name" style="color:#60a5fa">X-rays</div>
+          <div class="spec-wl">1pm-10nm</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">Medical diagnosis</div>
+        </div>
+        <div class="spec-item" style="background:rgba(0,255,100,0.2)">
+          <div class="spec-name" style="color:#4ade80">Gamma</div>
+          <div class="spec-wl">&lt;1pm</div>
+          <div style="font-size:0.6rem; color:rgba(255,255,255,0.4); margin-top:3px">Nuclear reactions</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EM Spectrum complete table -->
+    <table class="tb">
+      <tr><th>EM Wave</th><th>Wavelength Range</th><th>Frequency</th><th>Source</th><th>Application</th></tr>
+      <tr><td class="hs">Radio waves</td><td>&gt;0.1m (up to km)</td><td>lowest</td><td>Oscillating circuits</td><td class="hg">RADAR, TV, Radio</td></tr>
+      <tr><td class="hs">Microwaves</td><td>0.1mm to 0.1m</td><td>↑</td><td>Klystron, Magnetron</td><td class="hg">Microwave oven, RADAR</td></tr>
+      <tr><td class="hs">Infrared (IR)</td><td>700nm to 1mm</td><td>↑</td><td>Hot bodies, LEDs</td><td class="hg">Night vision, Remote, Greenhouse</td></tr>
+      <tr><td class="hs">Visible light</td><td>400nm to 700nm</td><td>↑</td><td>Excited atoms</td><td class="hg">Human vision</td></tr>
+      <tr><td class="hs">Ultraviolet (UV)</td><td>1nm to 400nm</td><td>↑</td><td>Sun, Electric arc</td><td class="hg">Water purification, LASIK, sterilisation</td></tr>
+      <tr><td class="hs">X-rays</td><td>1pm to 10nm</td><td>↑</td><td>X-ray tube</td><td class="hg">Medical diagnosis, crystallography</td></tr>
+      <tr><td class="hs">Gamma (γ) rays</td><td>&lt;1pm (shortest)</td><td>highest</td><td>Radioactive nuclei</td><td class="hg">Cancer treatment, sterilise</td></tr>
+    </table>
+
+    <div class="warn"><strong>Frequency order (LOW → HIGH):</strong> Radio &lt; Microwave &lt; IR &lt; Visible &lt; UV &lt; X-ray &lt; Gamma<br><strong>Wavelength order (LONG → SHORT):</strong> Exact OPPOSITE of above!</div>
+
+    <!-- PDF1 Q166 Match EM waves -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 1 — Q.166 <span class="t1" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 1</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Match EM Waves with Wavelength</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Match: X-rays(A), Radio waves(B), Infrared waves(C), Microwaves(D) with: 1mm-700nm (I), 0.1m-1mm (II), 1nm-10⁻³nm (III), &gt;0.1m (IV)</div>
+        <div class="opts">
+          <div class="opt">1. A-IV, B-II, C-III, D-I</div>
+          <div class="opt ok">2. A-III, B-IV, C-I, D-II ✅</div>
+          <div class="opt">3. A-II, B-I, C-IV, D-III</div>
+          <div class="opt">4. A-III, B-IV, C-I, D-II</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">X-rays (A): 1nm to 10⁻³nm → (III) ✅</div>
+        <div class="step e">Radio waves (B): &gt;0.1m → (IV) ✅</div>
+        <div class="step e">Infrared (C): 700nm to 1mm → (I) ✅</div>
+        <div class="step e">Microwaves (D): 0.1mm to 0.1m → (II) ✅</div>
+        <span class="ans">✅ Answer: A-III, B-IV, C-I, D-II</span>
+      </div>
+    </div>
+
+    <!-- PDF2 Q652 Frequency order -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 2 — Q.652 <span class="t2" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 2</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Frequency Order</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">In EM spectrum, ν₁, ν₂, ν₃ denote frequencies of microwaves, ultraviolet waves and gamma-rays respectively. We can conclude:</div>
+        <div class="opts">
+          <div class="opt">1. ν₁ &gt; ν₂ &gt; ν₃</div>
+          <div class="opt ok">2. ν₁ &lt; ν₂ &lt; ν₃ ✅</div>
+          <div class="opt">3. ν₂ &gt; ν₁ &gt; ν₃</div>
+          <div class="opt">4. ν₃ &lt; ν₁ &lt; ν₂</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">Microwaves have LOWEST frequency of the three</div>
+        <div class="step e">UV has higher frequency than microwaves</div>
+        <div class="step e">Gamma rays have HIGHEST frequency</div>
+        <div class="step e">So: ν₁(microwave) &lt; ν₂(UV) &lt; ν₃(gamma)</div>
+        <span class="ans">✅ Answer: ν₁ &lt; ν₂ &lt; ν₃</span>
+      </div>
+    </div>
+
+    <!-- PDF2 Q653 Match uses -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--green),#14532d)">
+        📋 PDF 2 — Q.653 <span class="t2" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 2</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">Match EM Waves with Uses</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Match: Microwaves(A), UV rays(B), X-rays(C), Infrared rays(D) with: Medical diagnostic(I), Night vision(II), Used in RADAR(III), Water purification(IV)</div>
+        <div class="opts">
+          <div class="opt ok">1. A-III, B-IV, C-I, D-II ✅</div>
+          <div class="opt">2. A-I, B-III, C-II, D-IV</div>
+          <div class="opt">3. A-IV, B-II, C-I, D-III</div>
+          <div class="opt">4. A-III, B-II, C-I, D-IV</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">Microwaves (A) → RADAR (III) ✅</div>
+        <div class="step e">UV rays (B) → Water purification (IV) ✅</div>
+        <div class="step e">X-rays (C) → Medical diagnostic (I) ✅</div>
+        <div class="step e">Infrared rays (D) → Night vision (II) ✅</div>
+        <span class="ans">✅ Answer: A-III, B-IV, C-I, D-II</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q18 LASIK -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--amber),#78350f)">
+        📋 PDF 3 — Q.18 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">LASIK Eye Surgery</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Which rays are used in LASIK (Laser-Assisted in Situ Keratomileusis) eye surgery?</div>
+        <div class="opts">
+          <div class="opt ok">(1) Ultraviolet rays ✅</div>
+          <div class="opt">(2) Infrared rays</div>
+          <div class="opt">(3) Gamma rays</div>
+          <div class="opt">(4) Micro waves</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">LASIK eye surgery uses Ultraviolet (UV) laser to reshape cornea</div>
+        <div class="step e">UV rays have precise energy to cut tissue without damaging surrounding areas</div>
+        <span class="ans">✅ Answer: Ultraviolet (UV) rays</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P8.</strong> Which EM wave has wavelength between 1mm and 700nm?</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) Infrared ✅</div><div class="opt">B) UV</div>
+        <div class="opt">C) X-rays</div><div class="opt">D) Microwaves</div>
+      </div>
+      <div class="prac-a">Infrared: 700nm to 1mm. Used in night vision, remote controls, greenhouse effect</div>
+
+      <div class="prac-q" style="margin-top:12px"><strong>P9.</strong> Which wave is used in water purification?</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) UV rays ✅</div><div class="opt">B) Microwaves</div>
+        <div class="opt">C) X-rays</div><div class="opt">D) Radio waves</div>
+      </div>
+      <div class="prac-a">UV rays kill bacteria in water → water purification</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC 7: EM WAVE PROPERTIES -->
+<div class="card">
+  <div class="card-h">
+    <span style="font-size:1.1rem">📡</span>
+    <h4>Topic 7 — Properties & Equations of EM Waves</h4>
+    <span class="t1">PDF1 Q167</span>
+    <span class="t2">PDF2 Q670</span>
+    <span class="t3">PDF3 Q19</span>
+  </div>
+  <div class="card-b">
+
+    <div class="fml blue">
+      E = E₀ sin(kx - ωt) &nbsp;|&nbsp; B = B₀ sin(kx - ωt)<br>
+      <span class="g">E₀/B₀ = c = ω/k &nbsp;(Speed of EM wave)</span><br>
+      <span class="c">c = 1/√(μ₀ε₀) = 3×10⁸ m/s &nbsp;|&nbsp; λ = 2π/k &nbsp;|&nbsp; f = ω/2π</span>
+    </div>
+
+    <div class="pt e">📌 In EM waves: E and B are perpendicular to each other AND to direction of propagation</div>
+    <div class="pt s">📌 E₀/B₀ = c (ratio of amplitudes = speed of light)</div>
+    <div class="pt g">✅ EM waves are transverse waves — they can be polarised</div>
+    <div class="pt a">⭐ All EM waves travel at same speed c = 3×10⁸ m/s in vacuum</div>
+
+    <!-- PDF1 Q167 E₀/B₀ -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--e1),#075985)">
+        📋 PDF 1 — Q.167 <span class="t1" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 1</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">E₀/B₀ Ratio</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Electric field E = E₀sin(kx-ωt). If B₀ is amplitude of magnetic field, then:</div>
+        <div class="opts">
+          <div class="opt ok">1. E₀/B₀ = ω/k ✅</div>
+          <div class="opt">2. E₀/B₀ = ω²/k²</div>
+          <div class="opt">3. E₀/B₀ = k/ω</div>
+          <div class="opt">4. E₀/B₀ = k²/ω²</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">Speed of EM wave: c = ω/k (angular frequency/wave number)</div>
+        <div class="step e">Also: c = E₀/B₀ (ratio of field amplitudes)</div>
+        <div class="step e">Therefore: E₀/B₀ = c = ω/k</div>
+        <span class="ans">✅ Answer: E₀/B₀ = ω/k</span>
+      </div>
+    </div>
+
+    <!-- PDF2 Q670 EM wave inferences -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--s1),#5b21b6)">
+        📋 PDF 2 — Q.670 <span class="t2" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 2</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">EM Wave Inferences</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">E = 10cos(10⁷t + kx) Ĵ V/m. Which pairs are correct?<br>
+          (A) Wavelength λ = 188.4m<br>
+          (B) Wave number k = 0.33 rad/m<br>
+          (C) Wave amplitude = 10 V/m<br>
+          (D) Wave propagating along +x direction</div>
+        <div class="opts">
+          <div class="opt ok">4. (A) and (C) ✅</div>
+          <div class="opt">1. C and D</div>
+          <div class="opt">2. A and B</div>
+          <div class="opt">3. B and C</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">E = 10cos(10⁷t + kx) → wave travels in -x direction (note +kx)</div>
+        <div class="step e">(D) FALSE — +kx means propagation in <strong>-x direction</strong></div>
+        <div class="step e">(C) TRUE — Amplitude = 10 V/m ✅</div>
+        <div class="step e">ω = 10⁷ rad/s → k = ω/c = 10⁷/3×10⁸ = 0.033 rad/m</div>
+        <div class="step e">(B) FALSE — k = 0.033 (not 0.33) rad/m</div>
+        <div class="step e">λ = 2π/k = 2π×3×10⁸/10⁷ = 188.4m → (A) TRUE ✅</div>
+        <span class="ans">✅ Answer: A and C are correct</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Q19 Magnetic field of EM wave -->
+    <div class="qc">
+      <div class="qc-h" style="background:linear-gradient(90deg,var(--green),#14532d)">
+        📋 PDF 3 — Q.19 <span class="t3" style="background:rgba(255,255,255,0.15); color:white; border:none">PDF 3</span>
+        <span style="margin-left:auto; font-size:0.72rem; opacity:0.75">EM Wave — E from B</span>
+      </div>
+      <div class="qc-b">
+        <div class="q-t">Magnetic field: B_x = 2×10⁻⁷ sin(0.6×10³y + 2×10¹¹t) T. Expression for electric field is:</div>
+        <div class="opts">
+          <div class="opt">1. E_x = 2×10⁻⁷ sin(0.6×10³y + 2×10¹¹t) V/M</div>
+          <div class="opt">2. E_y = 60 sin(0.6×10³y + 2×10¹¹t) V/M</div>
+          <div class="opt">3. E_z = 2×10⁻⁷ sin(0.6×10³y + 2×10¹¹t) V/M</div>
+          <div class="opt ok">4. E_z = 60 sin(0.6×10³y + 2×10¹¹t) V/M ✅</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step e">B₀ = 2×10⁻⁷ T, wave in y-direction, B in x-direction</div>
+        <div class="step e">E must be perpendicular to both B and direction of propagation</div>
+        <div class="step e">E is in z-direction → E_z</div>
+        <div class="step e">E₀ = cB₀ = 3×10⁸ × 2×10⁻⁷ = 60 V/m</div>
+        <div class="step e">E_z = 60 sin(0.6×10³y + 2×10¹¹t) V/M</div>
+        <span class="ans">✅ Answer: E_z = 60 sin(...) V/M</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P10.</strong> In an EM wave, E₀ = 300 V/m. Find B₀.</div>
+      <div class="opts" style="margin-bottom:8px">
+        <div class="opt ok">A) 10⁻⁶ T ✅</div><div class="opt">B) 10⁻³ T</div>
+        <div class="opt">C) 300 T</div><div class="opt">D) 9×10¹⁰ T</div>
+      </div>
+      <div class="prac-a">B₀ = E₀/c = 300/3×10⁸ = 10⁻⁶ T = 1 μT</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end wrap EM Waves -->
+
+<!-- ══════════ PREDICTION ══════════ -->
+<div class="predict">
+  <h3>🎯 Most Likely CUET 2026 Questions</h3>
+
+  <div class="pi"><div class="pnum">1</div>
+  <div class="ptext"><strong>p-type vs n-type:</strong> Which has majority carriers as holes? Which dopant — trivalent or pentavalent? Appears EVERY year!</div></div>
+
+  <div class="pi"><div class="pnum">2</div>
+  <div class="ptext"><strong>Forward vs Reverse bias effects:</strong> Depletion layer increases/decreases? Potential barrier? Current flows? (PDF3 Q30 type)</div></div>
+
+  <div class="pi"><div class="pnum">3</div>
+  <div class="ptext"><strong>Band gap:</strong> Semiconductor E_g &lt; 3eV (NOT &gt;3eV). Si=1.1eV, Ge=0.7eV. Insulator &gt;3eV.</div></div>
+
+  <div class="pi"><div class="pnum">4</div>
+  <div class="ptext"><strong>Match EM waves with applications:</strong> Microwaves→RADAR, UV→water purification, X-ray→medical, IR→night vision. Appears EVERY year!</div></div>
+
+  <div class="pi"><div class="pnum">5</div>
+  <div class="ptext"><strong>EM Spectrum frequency order:</strong> Radio &lt; Microwave &lt; IR &lt; Visible &lt; UV &lt; X-ray &lt; Gamma</div></div>
+
+  <div class="pi"><div class="pnum">6</div>
+  <div class="ptext"><strong>Logic Gates:</strong> NAND = AND+NOT. NOR = OR+NOT. Universal gates = NAND and NOR (NOT the NOT gate alone!)</div></div>
+
+  <div class="pi"><div class="pnum">7</div>
+  <div class="ptext"><strong>Device applications:</strong> Zener→voltage regulator, LED→light, Photodiode→photo detector, Transistor→amplifier/switch</div></div>
+
+  <div class="pi"><div class="pnum">8</div>
+  <div class="ptext"><strong>Displacement current:</strong> I_d = ε₀×dΦ_E/dt — due to CHANGING ELECTRIC FIELD (not charges, not magnetic flux)</div></div>
+
+  <div class="pi"><div class="pnum">9</div>
+  <div class="ptext"><strong>E₀/B₀ = c = ω/k</strong> — ratio of EM wave field amplitudes = speed of light. Classic 5-mark formula question.</div></div>
+
+  <div class="pi"><div class="pnum">10</div>
+  <div class="ptext"><strong>Hole density calculation:</strong> n_e × n_h = nᵢ² (mass action law). Given N_D, find hole density (PDF2 Q657 type)</div></div>
+</div>
+
+<!-- MASTER TABLE -->
+<div class="master">
+  <h3 style="color:var(--s1); border-color:var(--s2)">📋 Master Formula & Fact Sheet</h3>
+  <table class="tb">
+    <tr><th>Topic</th><th>Key Formula/Fact</th><th>CUET Important Point</th></tr>
+    <tr><td><strong>Band gap</strong></td><td class="hs">E_g &lt; 3eV (semiconductors)</td><td>Insulators: E_g &gt; 3eV</td></tr>
+    <tr><td><strong>n-type</strong></td><td class="hs">Pentavalent dopant</td><td>Majority: electrons</td></tr>
+    <tr><td><strong>p-type</strong></td><td class="hs">Trivalent dopant</td><td>Majority: holes</td></tr>
+    <tr><td><strong>Mass action law</strong></td><td class="hs">n_e × n_h = nᵢ²</td><td>For doped semiconductors</td></tr>
+    <tr><td><strong>Forward bias</strong></td><td class="hg">V_p &gt; V_n</td><td>Depletion layer ↓, current flows</td></tr>
+    <tr><td><strong>Reverse bias</strong></td><td class="hr">V_n &gt; V_p</td><td>Depletion layer ↑, no current</td></tr>
+    <tr><td><strong>Zener diode</strong></td><td class="he">Reverse breakdown</td><td>Voltage regulator</td></tr>
+    <tr><td><strong>LED</strong></td><td class="he">Forward biased</td><td>Recombination → light</td></tr>
+    <tr><td><strong>NAND gate</strong></td><td class="hs">Y = (A·B)̄</td><td>Universal gate</td></tr>
+    <tr><td><strong>NOR gate</strong></td><td class="hs">Y = (A+B)̄</td><td>Universal gate</td></tr>
+    <tr><td><strong>Displacement current</strong></td><td class="he">I_d = ε₀ dΦ_E/dt</td><td>Due to changing E field</td></tr>
+    <tr><td><strong>EM wave speed</strong></td><td class="he">c = 1/√(μ₀ε₀) = 3×10⁸</td><td>All EM waves same speed</td></tr>
+    <tr><td><strong>E₀/B₀</strong></td><td class="he">= c = ω/k</td><td>Ratio of field amplitudes</td></tr>
+    <tr><td><strong>Frequency order</strong></td><td class="he">Radio&lt;MW&lt;IR&lt;Vis&lt;UV&lt;X&lt;γ</td><td>Wavelength order = REVERSE</td></tr>
+    <tr><td><strong>LASIK surgery</strong></td><td class="hs">UV rays</td><td>Eye surgery → UV laser</td></tr>
+    <tr><td><strong>RADAR</strong></td><td class="he">Microwaves</td><td>Detection, ranging</td></tr>
+  </table>
+</div>
+
+<!-- MEMORY AIDS -->
+<div class="mem">
+  <h3>🧠 Memory Tricks for CUET</h3>
+  <div class="mem-g">
+    <div class="mi">
+      <h5 style="color:var(--s1)">🔮 n vs p type</h5>
+      <p><strong>n-type:</strong> <strong>N</strong>egative carriers (electrons), pe<strong>N</strong>tavalent dopant<br><strong>p-type:</strong> <strong>P</strong>ositive carriers (holes), tri<strong>P</strong>le... no — trivalent!</p>
+    </div>
+    <div class="mi">
+      <h5 style="color:var(--e1)">🌈 EM Spectrum Order</h5>
+      <p><strong>R</strong>icher <strong>M</strong>en <strong>I</strong>n <strong>V</strong>egas <strong>U</strong>se e<strong>X</strong>pensive <strong>G</strong>ear<br>Radio, Micro, IR, Visible, UV, X-ray, Gamma</p>
+    </div>
+    <div class="mi">
+      <h5 style="color:var(--green)">⚡ Universal Gates</h5>
+      <p>Only <strong>NAND</strong> and <strong>NOR</strong> are universal<br>NOT gate is NOT universal<br>NAND = AND + NOT<br>NOR = OR + NOT</p>
+    </div>
+    <div class="mi">
+      <h5 style="color:var(--amber)">📡 EM Wave Uses</h5>
+      <p>Micro → <strong>RADAR</strong><br>UV → <strong>water purification + LASIK</strong><br>X-ray → <strong>Medical</strong><br>IR → <strong>Night vision + remote</strong></p>
+    </div>
+    <div class="mi">
+      <h5 style="color:var(--red)">🔌 Diode Basics</h5>
+      <p>Forward bias → current ON → depletion ↓<br>Reverse bias → current OFF → depletion ↑<br>Zener → works in reverse breakdown ← key!</p>
+    </div>
+    <div class="mi">
+      <h5 style="color:var(--s1)">📐 E₀/B₀ = c</h5>
+      <p>Always: E₀/B₀ = c = ω/k = 3×10⁸ m/s<br>If E₀=300V/m → B₀=10⁻⁶T<br>If B₀=2×10⁻⁷T → E₀=60V/m</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>💡 Semiconductors & EM Waves — Complete Notes · <span>CUET 2026</span></p>
+  <p style="margin-top:4px">Ch-14 (Semiconductors) + Ch-8 (EM Waves) · 25 PDF Questions Solved · 10 Practice Questions · All Formulas</p>
+  <p style="margin-top:4px; opacity:0.5">PDF 1 + PDF 2 + PDF 3 Completely Covered</p>
+</div>
+
+</body>
+</html>

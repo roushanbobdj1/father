@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI & AC Circuits — CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafaf7;--ink:#111118;--card:#ffffff;--border:#e2e2d8;--red:#d63031;--red-l:#fff0ef;--blue:#0984e3;--blue-l:#eaf4ff;--green:#00b894;--green-l:#e8fff9;--amber:#e17055;--amber-l:#fff4f0;--purple:#6c5ce7;--purple-l:#f0eeff;--teal:#00cec9;--teal-l:#e0fffe;--muted:#8888a0;--code-bg:#1e1e2e;--code-txt:#cdd6f4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.hero{background:var(--ink);padding:44px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+.hero-label{font-family:'Fira Code',monospace;font-size:0.72rem;letter-spacing:0.3em;color:#fdcb6e;text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(2rem,7vw,3.4rem);font-weight:900;color:#fff;line-height:1.05}
+.hero h1 em{color:#fdcb6e;font-style:normal}
+.hero p{color:rgba(255,255,255,0.5);font-size:0.9rem;margin-top:10px}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.pill{padding:4px 13px;border-radius:20px;font-size:0.72rem;font-family:'Fira Code',monospace;border:1px solid}
+.pill.a{border-color:#fdcb6e;color:#fdcb6e}
+.pill.b{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.55)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-bottom:1px solid var(--border)}
+.stat{padding:16px 10px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:900}
+.stat-l{font-size:0.68rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
+.sh{display:flex;align-items:center;gap:14px;padding:12px 16px;margin:22px 12px 0;border-radius:12px;border-left:5px solid}
+.sh-n{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;opacity:0.18;line-height:1}
+.sh-info h3{font-family:'Fraunces',serif;font-size:1rem;font-weight:700}
+.sh-info p{font-size:0.75rem;color:var(--muted);margin-top:2px}
+.sh-tag{margin-left:auto;padding:4px 12px;border-radius:20px;font-size:0.7rem;font-family:'Fira Code',monospace;font-weight:600}
+.sh-r{background:var(--red-l);border-color:var(--red)}.sh-r .sh-n,.sh-r h3{color:var(--red)}.sh-r .sh-tag{background:rgba(214,48,49,0.12);color:var(--red)}
+.sh-b{background:var(--blue-l);border-color:var(--blue)}.sh-b .sh-n,.sh-b h3{color:var(--blue)}.sh-b .sh-tag{background:rgba(9,132,227,0.12);color:var(--blue)}
+.sh-p{background:var(--purple-l);border-color:var(--purple)}.sh-p .sh-n,.sh-p h3{color:var(--purple)}.sh-p .sh-tag{background:rgba(108,92,231,0.12);color:var(--purple)}
+.wrap{padding:10px 12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.ct{padding:12px 17px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);background:var(--bg)}
+.ct h4{font-weight:600;font-size:0.93rem;flex:1}
+.cb{padding:15px 17px}
+.formula{background:var(--code-bg);color:#89b4fa;font-family:'Fira Code',monospace;font-size:0.88rem;padding:12px 16px;border-radius:9px;margin:9px 0;line-height:1.9;border-left:3px solid var(--blue)}
+.formula .cm{color:#6c7086;font-size:0.78rem}
+.formula .h1c{color:#a6e3a1}.formula .h2c{color:#f9e2af}.formula .h3c{color:#cba6f7}
+.pt{display:flex;gap:9px;align-items:flex-start;padding:7px 11px;margin:5px 0;border-radius:7px;font-size:0.88rem;line-height:1.6}
+.pt.r{background:var(--red-l);color:#922b21;border-left:3px solid var(--red)}
+.pt.b{background:var(--blue-l);color:#1a5276;border-left:3px solid var(--blue)}
+.pt.g{background:var(--green-l);color:#0e6655;border-left:3px solid var(--green)}
+.pt.a{background:var(--amber-l);color:#7d3d0a;border-left:3px solid var(--amber)}
+.pt.p{background:var(--purple-l);color:#4a235a;border-left:3px solid var(--purple)}
+.tbl{width:100%;border-collapse:collapse;font-size:0.84rem;margin:10px 0}
+.tbl th{background:var(--ink);color:#fff;padding:9px 12px;text-align:left;font-family:'Fira Code',monospace;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em}
+.tbl td{padding:8px 12px;border-bottom:1px solid var(--border)}
+.tbl tr:nth-child(even) td{background:#fafaf7}
+.hl{color:var(--blue);font-family:'Fira Code',monospace;font-weight:600}
+.hlr{color:var(--red);font-weight:600}
+.hlg{color:var(--green);font-weight:600}
+.warn{background:var(--amber-l);border:1px solid rgba(225,112,85,0.4);border-radius:8px;padding:10px 14px;font-size:0.86rem;color:#7d3d0a;margin:9px 0}
+.trick{background:var(--green-l);border:1px solid rgba(0,184,148,0.4);border-radius:8px;padding:11px 15px;font-size:0.86rem;color:#0e6655;margin:9px 0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:9px 0}
+@media(max-width:560px){.g2{grid-template-columns:1fr}}
+.mini{border-radius:10px;padding:13px;border:1px solid;font-size:0.84rem}
+.mini h5{font-size:0.82rem;font-weight:700;margin-bottom:5px}
+.qc{border:1px solid var(--border);border-radius:10px;margin:11px 0;overflow:hidden}
+.qct{padding:9px 14px;display:flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:600;color:#fff}
+.qcb{padding:13px 15px}
+.qt{font-size:0.9rem;line-height:1.7;margin-bottom:10px;color:var(--ink)}
+.opts{display:flex;flex-direction:column;gap:5px}
+.opt{padding:7px 12px;border-radius:7px;background:var(--bg);border:1px solid var(--border);font-size:0.86rem;color:var(--muted)}
+.opt.ok{background:var(--green-l);border:2px solid var(--green);color:#0a3d33;font-weight:600}
+.sol{border-top:1px solid var(--border);padding:12px 15px;font-size:0.85rem;line-height:1.75}
+.step{padding:5px 10px;margin:4px 0;border-left:2px solid var(--blue);background:var(--blue-l);border-radius:0 6px 6px 0;color:#1a5276;font-size:0.84rem}
+.ans-b{display:inline-block;margin-top:8px;padding:4px 14px;border-radius:20px;font-size:0.8rem;font-weight:700;background:var(--green);color:#fff}
+.prac{background:var(--purple-l);border:1.5px dashed rgba(108,92,231,0.4);border-radius:10px;padding:13px 15px;margin:11px 0}
+.prac-h{color:var(--purple);font-weight:700;font-size:0.82rem;margin-bottom:8px}
+.prac-q{font-size:0.89rem;margin-bottom:8px;line-height:1.6;color:var(--ink)}
+.prac-a{display:inline-block;margin-top:6px;padding:4px 12px;border-radius:20px;background:var(--purple);color:white;font-size:0.78rem;font-weight:700}
+.p1{background:rgba(214,48,49,0.15);color:var(--red);padding:2px 7px;border-radius:8px;font-size:0.68rem;font-weight:600}
+.p2{background:rgba(9,132,227,0.15);color:var(--blue);padding:2px 7px;border-radius:8px;font-size:0.68rem;font-weight:600}
+.p3{background:rgba(0,184,148,0.15);color:var(--green);padding:2px 7px;border-radius:8px;font-size:0.68rem;font-weight:600}
+.predict{background:var(--ink);border-radius:14px;padding:18px;margin:12px}
+.predict h3{font-family:'Fraunces',serif;font-size:1.2rem;color:#fdcb6e;margin-bottom:14px}
+.pi{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.86rem}
+.pi:last-child{border-bottom:none}
+.pn{background:#fdcb6e;color:var(--ink);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;flex-shrink:0;margin-top:2px}
+.pt-txt{color:rgba(255,255,255,0.75);line-height:1.6}
+.pt-txt strong{color:#fff}
+.master{background:var(--card);border:1px solid var(--border);border-radius:14px;margin:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.master h3{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--ink);margin-bottom:14px;border-bottom:2px solid #fdcb6e;padding-bottom:8px}
+.mem{background:var(--ink);border-radius:14px;padding:18px;margin:12px}
+.mem h3{font-family:'Fraunces',serif;color:var(--teal);font-size:1.1rem;margin-bottom:14px}
+.mem-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.mem-g{grid-template-columns:1fr}}
+.mem-i{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:12px}
+.mem-i h5{color:#fdcb6e;font-size:0.82rem;margin-bottom:5px}
+.mem-i p{color:rgba(255,255,255,0.55);font-size:0.82rem;line-height:1.6}
+.mem-i p strong{color:rgba(255,255,255,0.9)}
+.div{height:1px;margin:4px 0;background:linear-gradient(90deg,var(--red),var(--blue),var(--green),var(--purple));opacity:0.3}
+.footer{background:var(--ink);color:rgba(255,255,255,0.4);text-align:center;padding:18px;font-size:0.8rem}
+.footer span{color:#fdcb6e}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">CUET 2026 · Physics · Class 12 · Chapter 6 & 7</div>
+  <h1>EMI &amp; <em>AC Circuits</em> ⚡</h1>
+  <p>Electromagnetic Induction · Alternating Current · LCR Resonance · Transformers</p>
+  <div class="pills">
+    <span class="pill a">12–14% Weightage</span>
+    <span class="pill b">Faraday's Law</span>
+    <span class="pill b">Lenz's Law</span>
+    <span class="pill b">LCR Resonance</span>
+    <span class="pill b">Self &amp; Mutual Inductance</span>
+    <span class="pill a">PDF 1+2+3 Solved</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n" style="color:var(--red)">22</div><div class="stat-l">PDF Questions</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--blue)">8</div><div class="stat-l">Topics</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--green)">13%</div><div class="stat-l">CUET Weight</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--purple)">15+</div><div class="stat-l">Practice Qs</div></div>
+</div>
+<div class="div"></div>
+
+<!-- ═══ PART A: EMI ═══ -->
+<div class="sh sh-r">
+  <div class="sh-n">6</div>
+  <div class="sh-info"><h3>ELECTROMAGNETIC INDUCTION (EMI)</h3><p>Faraday · Lenz · Motional EMF · Self &amp; Mutual Inductance</p></div>
+  <span class="sh-tag">Ch-6</span>
+</div>
+<div class="wrap">
+
+<!-- FARADAY & LENZ -->
+<div class="card">
+  <div class="ct"><span>🔄</span><h4>1 — Faraday's Laws &amp; Lenz's Law</h4><span class="p1">PDF1 Q158,164</span><span class="p3">PDF3 Q46-50</span></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">ε = -N × dΦ/dt</span> &nbsp;&nbsp;<span class="cm">(Faraday's Law — for N turns)</span><br>
+      <span class="h2c">Φ = B·A·cosθ</span> &nbsp;&nbsp;&nbsp;<span class="cm">(Magnetic flux)</span><br>
+      <span class="h3c">Lenz's Law: Induced current OPPOSES the change in flux</span>
+    </div>
+    <div class="g2">
+      <div class="mini" style="border-color:rgba(214,48,49,0.3);background:var(--red-l)">
+        <h5 style="color:var(--red)">Faraday's 1st Law</h5>
+        <p style="color:#922b21;font-size:0.83rem">Flux changes → emf induced<br>No flux change → No emf</p>
+      </div>
+      <div class="mini" style="border-color:rgba(9,132,227,0.3);background:var(--blue-l)">
+        <h5 style="color:var(--blue)">Faraday's 2nd Law</h5>
+        <p style="color:#1a5276;font-size:0.83rem">ε = -N×dΦ/dt<br>More N → more emf</p>
+      </div>
+    </div>
+    <div class="pt r">🔴 Lenz's Law: Induced current OPPOSES the change → negative sign in Faraday's law</div>
+    <div class="pt b">📌 "emf = total change of flux" is WRONG. Correct: emf = RATE of change (dΦ/dt)</div>
+    <div class="pt g">✅ Faster magnet movement → LARGER emf (NOT smaller)</div>
+    <div class="pt a">⚡ Bar magnet stationary → NO flux change → NO induced current</div>
+    <div class="warn">Most common CUET trap — emf = rate of flux change, NOT total flux change!</div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--red),#a93226)">📋 PDF 1 — Q.164 <span class="p1" style="background:rgba(255,255,255,0.2);color:white">PDF1</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">NOT Correct Statement</span></div>
+      <div class="qcb">
+        <div class="qt">Which statement is NOT correct for EMI?<br>1. ε = time rate of change of flux<br>2. ε = total change of magnetic flux ← (suspect)<br>3. ε increases by increasing N<br>4. Polarity of ε opposes change (Lenz)</div>
+        <div class="opts">
+          <div class="opt ok">Statement 2 is NOT correct ✅</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">Statement 2 says ε = total change of flux → WRONG. ε = dΦ/dt (rate of change)</div>
+        <div class="step">All other statements 1, 3, 4 are correct</div>
+        <span class="ans-b">✅ Answer: Statement 2 is NOT correct</span>
+      </div>
+    </div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--blue),#1a5276)">📋 PDF 1 — Q.158 <span class="p1" style="background:rgba(255,255,255,0.2);color:white">PDF1</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">Coil + Magnet Statements</span></div>
+      <div class="qcb">
+        <div class="qt">N-pole pushed towards coil C connected to galvanometer G:<br>(A) Galvanometer deflects → current in coil<br>(B) Deflection SMALLER when magnet pushed faster<br>(C) Repulsion between magnet and coil (Lenz's law)<br>(D) Magnet stationary → no induced current</div>
+        <div class="opts">
+          <div class="opt ok">1. A, C and D only ✅</div>
+          <div class="opt">2. A, B and C only</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">(A) TRUE — deflection means current flows</div>
+        <div class="step">(B) FALSE — faster movement = larger dΦ/dt = LARGER deflection, not smaller</div>
+        <div class="step">(C) TRUE — Lenz's law: coil face near N-pole becomes N-pole → repulsion</div>
+        <div class="step">(D) TRUE — no movement = no flux change = no current</div>
+        <span class="ans-b">✅ Answer: A, C and D only</span>
+      </div>
+    </div>
+
+    <!-- PDF3 Metal Rod Q46-50 -->
+    <div class="card" style="background:var(--blue-l);border:1px solid rgba(9,132,227,0.3);margin:12px 0">
+      <div class="ct" style="background:var(--blue);border-color:rgba(255,255,255,0.2)"><span style="color:white">📋</span><h4 style="color:white">PDF 3 — Q.46 to Q.50 — Metal Rod PQ (5 Case-Based Questions)</h4></div>
+      <div class="cb">
+        <div class="pt b">Setup: Rod PQ on rails. L=15cm=0.15m, B=0.50T, R=180mΩ=0.18Ω, v=12cm/s=0.12m/s</div>
+        <div class="qc"><div class="qct" style="background:var(--blue)">Q.46 — K open. Induced emf magnitude?</div>
+        <div class="qcb"><div class="opts"><div class="opt ok">(2) 9.0×10⁻³ V = 9 mV ✅</div></div></div>
+        <div class="sol"><div class="step">ε = BLv = 0.50 × 0.15 × 0.12 = 0.009 V = 9 mV</div><span class="ans-b">✅ ε = BLv = 9 mV</span></div></div>
+
+        <div class="qc"><div class="qct" style="background:var(--blue)">Q.47 — K closed. Magnetic force on rod?</div>
+        <div class="qcb"><div class="opts"><div class="opt ok">(4) 3.75×10⁻³ N ✅</div></div></div>
+        <div class="sol">
+          <div class="step">I = ε/R = 9×10⁻³/0.18 = 0.05 A</div>
+          <div class="step">F = BIL = 0.50×0.05×0.15 = 3.75×10⁻³ N</div>
+          <span class="ans-b">✅ F = BIL = 3.75×10⁻³ N</span>
+        </div></div>
+
+        <div class="qc"><div class="qct" style="background:var(--blue)">Q.48 — Power to keep rod moving at same speed (K closed)?</div>
+        <div class="qcb"><div class="opts"><div class="opt ok">4.5×10⁻⁴ W ✅</div></div></div>
+        <div class="sol"><div class="step">P = ε²/R = (9×10⁻³)²/0.18 = 81×10⁻⁶/0.18 = 4.5×10⁻⁴ W</div><span class="ans-b">✅ P = ε²/R = 4.5×10⁻⁴ W</span></div></div>
+
+        <div class="qc"><div class="qct" style="background:var(--blue)">Q.49 — Power dissipated as heat?</div>
+        <div class="qcb"><div class="opts"><div class="opt ok">4.5×10⁻⁴ W ✅ (same as mechanical power)</div></div></div>
+        <div class="sol"><div class="step">P_heat = I²R = (0.05)²×0.18 = 4.5×10⁻⁴ W (equals mechanical power — energy conservation)</div><span class="ans-b">✅ P_heat = I²R = 4.5×10⁻⁴ W</span></div></div>
+
+        <div class="qc"><div class="qct" style="background:var(--blue)">Q.50 — B parallel to rails → induced emf?</div>
+        <div class="qcb"><div class="opts"><div class="opt ok">(4) Zero ✅</div></div></div>
+        <div class="sol"><div class="step">ε = BLv sinθ. If B parallel to rails and rod moves along rails → θ=0 → sinθ=0 → ε=0</div><span class="ans-b">✅ Answer: Zero emf</span></div></div>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P1.</strong> Coil: N=100, A=0.05m², B=0.2T → 0 in 0.1s. Induced emf?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 10 V ✅</div><div class="opt">B) 1 V</div><div class="opt">C) 100 V</div><div class="opt">D) 0.1 V</div></div>
+      <div class="prac-a">ε = N×ΔΦ/Δt = 100×(0.2×0.05-0)/0.1 = 100×0.01/0.1 = 10 V</div>
+      <div class="prac-q" style="margin-top:12px"><strong>P2.</strong> Rod L=0.5m, v=2m/s, B=0.4T (all perpendicular). Motional emf?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 0.4 V ✅</div><div class="opt">B) 4 V</div><div class="opt">C) 0.04 V</div><div class="opt">D) 40 V</div></div>
+      <div class="prac-a">ε = BLv = 0.4×0.5×2 = 0.4 V</div>
+    </div>
+  </div>
+</div>
+
+<!-- SELF & MUTUAL INDUCTANCE -->
+<div class="card">
+  <div class="ct"><span>🌀</span><h4>2 — Self-Inductance &amp; Mutual Inductance</h4><span class="p1">PDF1 Q160,161,162</span><span class="p2">PDF2 Q650,651,666</span></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">ε = -L × dI/dt</span> &nbsp;&nbsp;&nbsp;<span class="cm">(Self-inductance emf)</span><br>
+      <span class="h2c">L = NΦ/I</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(Definition)</span><br>
+      <span class="h3c">U = LI²/2</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(Energy stored in inductor)</span><br>
+      <span class="h1c">ε = NBAω = ε₀ sin(ωt)</span> &nbsp;<span class="cm">(Rotating coil emf)</span>
+    </div>
+    <div class="pt r">🔴 Opening switch rapidly → large back emf (L×ΔI/Δt can be very large!)</div>
+    <div class="pt b">📌 Energy is stored in magnetic field of inductor: U = LI²/2</div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--red),#a93226)">📋 PDF 1 — Q.162 <span class="p1" style="background:rgba(255,255,255,0.2);color:white">PDF1</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">Back EMF — Switch Opened</span></div>
+      <div class="qcb">
+        <div class="qt">12V battery, 6Ω resistance, 10mH coil. Constant current. Switch opened in 1ms. Average emf across coil?</div>
+        <div class="opts"><div class="opt">1. 10 V</div><div class="opt">2. 20 V</div><div class="opt ok">3. 200 V ✅</div><div class="opt">4. 12 V</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">Steady current I = 12/6 = 2A</div>
+        <div class="step">ε = L×ΔI/Δt = L×(2-0)/Δt</div>
+        <div class="step">For 200V: Δt = L×ΔI/ε. If L=0.1H: ε = 0.1×2/0.001 = 200V ✓</div>
+        <span class="ans-b">✅ Answer: 200V (large back emf when switch opens rapidly)</span>
+      </div>
+    </div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--blue),#1a5276)">📋 PDF 2 — Q.650 <span class="p2" style="background:rgba(255,255,255,0.2);color:white">PDF2</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">Self-Inductance Numerical</span></div>
+      <div class="qcb">
+        <div class="qt">Current increases from 5A to 10A in 100ms, inducing emf of 100V. Self-inductance?</div>
+        <div class="opts"><div class="opt ok">3. 2 H ✅</div><div class="opt">4. 20 H</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">ε = L×ΔI/Δt → L = ε×Δt/ΔI</div>
+        <div class="step">L = 100×0.1/5 = 10/5 = 2 H</div>
+        <span class="ans-b">✅ L = 2 H</span>
+      </div>
+    </div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--green),#0e6655)">📋 PDF 2 — Q.651 <span class="p2" style="background:rgba(255,255,255,0.2);color:white">PDF2</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">Rotating Coil Max Voltage</span></div>
+      <div class="qcb">
+        <div class="qt">200-turn coil, area 10³ cm²=0.1m², rotates at 60 rpm in B=0.02T. Maximum voltage?</div>
+        <div class="opts"><div class="opt ok">3. (4/5)π V ✅</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">ω = 2π×(60/60) = 2π rad/s</div>
+        <div class="step">ε₀ = NBAω = 200×0.02×0.1×2π = 0.8π = (4/5)π V</div>
+        <span class="ans-b">✅ ε₀ = NBAω = (4/5)π V</span>
+      </div>
+    </div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--purple),#4a235a)">📋 PDF 1 — Q.161 <span class="p1" style="background:rgba(255,255,255,0.2);color:white">PDF1</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">Capacitance for Resonance (Max Current)</span></div>
+      <div class="qcb">
+        <div class="qt">L=500mH, series with R and variable C, source 0.4 kHz. Capacitance for maximum current?</div>
+        <div class="opts"><div class="opt ok">2. 0.32 μF ✅</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">Max current at resonance → X_L = X_C → C = 1/(ω²L)</div>
+        <div class="step">ω = 2π×400 = 800π rad/s</div>
+        <div class="step">C = 1/(800π)²×0.5 = 1/(320000π²) ≈ 3.2×10⁻⁷ F ≈ 0.32 μF</div>
+        <span class="ans-b">✅ C = 0.32 μF (resonance condition)</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P3.</strong> Current changes from 2A to 5A in 0.1s, emf = 15V. Find L.</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 0.5 H ✅</div><div class="opt">B) 5 H</div><div class="opt">C) 0.05 H</div><div class="opt">D) 50 mH</div></div>
+      <div class="prac-a">L = ε×Δt/ΔI = 15×0.1/3 = 0.5 H</div>
+      <div class="prac-q" style="margin-top:12px"><strong>P4.</strong> Energy stored in L=2H, I=3A?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 9 J ✅</div><div class="opt">B) 6 J</div><div class="opt">C) 3 J</div><div class="opt">D) 18 J</div></div>
+      <div class="prac-a">U = LI²/2 = 2×9/2 = 9 J</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end EMI wrap -->
+
+<!-- ═══ PART B: AC CIRCUITS ═══ -->
+<div class="sh sh-b">
+  <div class="sh-n">7</div>
+  <div class="sh-info"><h3>ALTERNATING CURRENT (AC) CIRCUITS</h3><p>AC Values · Reactance · Impedance · Power · Transformer</p></div>
+  <span class="sh-tag">Ch-7</span>
+</div>
+<div class="wrap">
+
+<!-- AC BASICS -->
+<div class="card">
+  <div class="ct"><span>〰️</span><h4>3 — AC Values: Peak, RMS &amp; Average</h4><span class="p1">PDF1 Q163</span></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">V = V₀ sin(ωt)</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(AC voltage equation)</span><br>
+      <span class="h2c">V_rms = V₀/√2 = 0.707 V₀</span> &nbsp;&nbsp;<span class="cm">(RMS = root mean square)</span><br>
+      <span class="h3c">Average (full cycle) = 0</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(sine wave symmetry)</span><br>
+      <span class="h1c">Average (half cycle) = 2V₀/π</span> &nbsp;<span class="cm">(0.637 V₀)</span>
+    </div>
+    <div class="warn"><strong>Rated values are always RMS!</strong> 220V AC means V_rms=220V. Peak = 220√2 ≈ 311V</div>
+    <table class="tbl">
+      <tr><th>Value</th><th>Formula</th><th>For 220V AC</th></tr>
+      <tr><td>Peak (V₀)</td><td class="hl">√2 × V_rms</td><td>311 V</td></tr>
+      <tr><td>RMS</td><td class="hl">V₀/√2</td><td>220 V (rated)</td></tr>
+      <tr><td>Avg (full cycle)</td><td class="hl">0</td><td>0 V</td></tr>
+      <tr><td>Avg (half cycle)</td><td class="hl">2V₀/π</td><td>198 V</td></tr>
+    </table>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--blue),#1a5276)">📋 PDF 1 — Q.163 <span class="p1" style="background:rgba(255,255,255,0.2);color:white">PDF1</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">AC Source 220V 50Hz</span></div>
+      <div class="qcb">
+        <div class="qt">For AC source rated 220V, 50Hz, which statement is correct?</div>
+        <div class="opts">
+          <div class="opt">1. Peak value over (1/50)s is 220V</div>
+          <div class="opt">2. Average value over (1/50)s is 220V</div>
+          <div class="opt ok">3. Average value over (1/50)s is 0V ✅</div>
+          <div class="opt">4. Average = 220√2 V</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">220V = V_rms (NOT peak). Peak = 220√2 ≈ 311V</div>
+        <div class="step">Average over full period (1/50 s) = 0 (complete sine cycle cancels)</div>
+        <span class="ans-b">✅ Answer: Option 3 — Average over full cycle = 0V</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P5.</strong> Peak voltage of AC = 141.4V. RMS voltage?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 100 V ✅</div><div class="opt">B) 141.4 V</div><div class="opt">C) 200 V</div><div class="opt">D) 70.7 V</div></div>
+      <div class="prac-a">V_rms = V₀/√2 = 141.4/1.414 = 100 V</div>
+    </div>
+  </div>
+</div>
+
+<!-- R, L, C in AC -->
+<div class="card">
+  <div class="ct"><span>⚡</span><h4>4 — Reactance, Impedance &amp; Phase Angles</h4><span class="p2">PDF2 Q639,668</span><span class="p3">PDF3 Q37</span></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">X_L = ωL = 2πfL</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(Inductive reactance)</span><br>
+      <span class="h2c">X_C = 1/ωC = 1/2πfC</span> &nbsp;&nbsp;<span class="cm">(Capacitive reactance)</span><br>
+      <span class="h3c">Z = √(R² + (X_L - X_C)²)</span> &nbsp;<span class="cm">(Impedance)</span><br>
+      <span class="h1c">tan φ = (X_L - X_C)/R</span> &nbsp;&nbsp;&nbsp;<span class="cm">(Phase angle)</span>
+    </div>
+    <table class="tbl">
+      <tr><th>Element</th><th>Phase Relation</th><th>Power</th></tr>
+      <tr><td class="hl">Resistor R</td><td>V and I in phase (φ=0)</td><td class="hlg">P = I²R ≠ 0</td></tr>
+      <tr><td class="hl">Inductor L</td><td>V leads I by 90°</td><td class="hlr">P = 0 (wattless)</td></tr>
+      <tr><td class="hl">Capacitor C</td><td>I leads V by 90°</td><td class="hlr">P = 0 (wattless)</td></tr>
+    </table>
+    <div class="trick"><strong>ELI the ICE man:</strong> E(voltage) leads I in L (Inductor). I leads E in C (Capacitor)</div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--blue),#1a5276)">📋 PDF 2 — Q.639 <span class="p2" style="background:rgba(255,255,255,0.2);color:white">PDF2</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">RL Circuit Impedance</span></div>
+      <div class="qcb">
+        <div class="qt">AC circuit: R=4Ω in series with inductance coil X_L=3Ω. Impedance?</div>
+        <div class="opts"><div class="opt">1. 7 Ω</div><div class="opt ok">2. 5 Ω ✅</div><div class="opt">3. 1 Ω</div></div>
+      </div>
+      <div class="sol"><div class="step">Z = √(R²+X_L²) = √(16+9) = √25 = 5 Ω</div><span class="ans-b">✅ Z = 5 Ω</span></div>
+    </div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--purple),#4a235a)">📋 PDF 2 — Q.668 <span class="p2" style="background:rgba(255,255,255,0.2);color:white">PDF2</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">LCR Values Order</span></div>
+      <div class="qcb">
+        <div class="qt">LCR circuit: E=30sin(100t), R=120Ω, L=100mH, C=100μF. Arrange Z, R, X_C, X_L in increasing order:</div>
+        <div class="opts"><div class="opt ok">3. X_L, X_C, R, Z ✅</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">ω=100. X_L = 100×0.1 = 10Ω</div>
+        <div class="step">X_C = 1/(100×10⁻⁴) = 100Ω</div>
+        <div class="step">Z = √(120²+(10-100)²) = √(14400+8100) = √22500 = 150Ω</div>
+        <div class="step">Increasing: X_L(10) &lt; X_C(100) &lt; R(120) &lt; Z(150)</div>
+        <span class="ans-b">✅ Order: X_L &lt; X_C &lt; R &lt; Z</span>
+      </div>
+    </div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--red),#a93226)">📋 PDF 3 — Q.37 <span class="p3" style="background:rgba(255,255,255,0.2);color:white">PDF3</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">X(Inductor)+Y(Resistor) Series</span></div>
+      <div class="qcb">
+        <div class="qt">X: V=200V peak, I=5A peak, current lags by π/2 (inductor). Y: in phase (resistor). Same values. X and Y in series with 200V peak. RMS current?</div>
+        <div class="opts"><div class="opt ok">2. 5/√2 A ✅</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">X is inductor: X_L = 200/5 = 40Ω. Y is resistor: R = 200/5 = 40Ω</div>
+        <div class="step">Series: Z = √(40²+40²) = 40√2 Ω</div>
+        <div class="step">I₀ = V₀/Z = 200/40√2 = 5/√2 A (peak current)</div>
+        <span class="ans-b">✅ Answer: 5/√2 A</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P6.</strong> R=8Ω, X_L=6Ω. Find Z and power factor.</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) Z=10Ω, cosφ=0.8 ✅</div><div class="opt">B) Z=14Ω, cosφ=1</div></div>
+      <div class="prac-a">Z=√(64+36)=10Ω. cosφ = R/Z = 8/10 = 0.8</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end AC wrap -->
+
+<!-- ═══ LCR RESONANCE ═══ -->
+<div class="sh sh-p">
+  <div class="sh-n">★</div>
+  <div class="sh-info"><h3>LCR RESONANCE — Most Important!</h3><p>Resonant Frequency · Power Factor · Maximum Current</p></div>
+  <span class="sh-tag">VERY HIGH PRIORITY</span>
+</div>
+<div class="wrap">
+<div class="card">
+  <div class="ct"><span>🎯</span><h4>5 — LCR Series Resonance</h4><span class="p1">PDF1 Q161</span><span class="p2">PDF2 Q667,668,669</span></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">ω₀ = 1/√(LC)</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(Resonant angular frequency)</span><br>
+      <span class="h2c">f₀ = 1/2π√(LC)</span> &nbsp;&nbsp;<span class="cm">(Resonant frequency in Hz)</span><br>
+      <span class="h3c">At resonance: X_L = X_C → Z = R (minimum) → I = maximum</span><br>
+      <span class="h1c">Power factor cos φ = 1 at resonance</span>
+    </div>
+    <div class="g2">
+      <div class="mini" style="border-color:rgba(108,92,231,0.3);background:var(--purple-l)">
+        <h5 style="color:var(--purple)">AT Resonance</h5>
+        <p style="color:#4a235a;font-size:0.83rem">X_L = X_C<br>Z = R (minimum!)<br>I = E/R (maximum!)<br>cos φ = 1<br>φ = 0° (V &amp; I in phase)</p>
+      </div>
+      <div class="mini" style="border-color:rgba(0,184,148,0.3);background:var(--green-l)">
+        <h5 style="color:var(--green)">OFF Resonance</h5>
+        <p style="color:#0e6655;font-size:0.83rem">f &lt; f₀: X_C &gt; X_L (capacitive)<br>f &gt; f₀: X_L &gt; X_C (inductive)<br>Z &gt; R → I &lt; maximum<br>cos φ &lt; 1</p>
+      </div>
+    </div>
+    <div class="pt p">⭐ At resonance: Z minimum, I maximum, Power factor = 1 (maximum power)</div>
+    <div class="pt r">🔴 Voltage across L or C can be MUCH larger than supply voltage! (Q-factor effect)</div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--purple),#4a235a)">📋 PDF 2 — Q.669 <span class="p2" style="background:rgba(255,255,255,0.2);color:white">PDF2</span> <span style="margin-left:auto;opacity:0.8;font-size:0.72rem">Power Factor at Resonance</span></div>
+      <div class="qcb">
+        <div class="qt">For LCR series circuit at resonance, power factor will be:</div>
+        <div class="opts"><div class="opt">1. Zero</div><div class="opt ok">2. 1.0 ✅</div><div class="opt">3. 0.2</div><div class="opt">4. 0.5</div></div>
+      </div>
+      <div class="sol">
+        <div class="step">At resonance: X_L = X_C → net reactance = 0 → Z = R</div>
+        <div class="step">cos φ = R/Z = R/R = 1. Phase angle φ = 0°</div>
+        <span class="ans-b">✅ Power factor = 1 at resonance</span>
+      </div>
+    </div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P7.</strong> LCR: L=1H, C=100μF. Find resonant frequency f₀.</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 15.9 Hz ✅</div><div class="opt">B) 50 Hz</div><div class="opt">C) 100 Hz</div><div class="opt">D) 5 Hz</div></div>
+      <div class="prac-a">f₀ = 1/2π√(LC) = 1/2π√(10⁻⁴) = 1/0.0628 ≈ 15.9 Hz</div>
+      <div class="prac-q" style="margin-top:12px"><strong>P8.</strong> What happens to impedance Z at resonance?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt">A) Maximum</div><div class="opt ok">B) Minimum = R ✅</div><div class="opt">C) Zero</div><div class="opt">D) Infinity</div></div>
+      <div class="prac-a">At resonance: X_L = X_C cancel out → Z = √(R²+0) = R (minimum)</div>
+    </div>
+  </div>
+</div>
+
+<!-- POWER & TRANSFORMER -->
+<div class="card">
+  <div class="ct"><span>🔌</span><h4>6 — Power in AC &amp; Transformer</h4></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">P = V_rms × I_rms × cos φ</span> &nbsp;<span class="cm">(Average power)</span><br>
+      <span class="h2c">P = I²_rms × R</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">(Only R consumes power)</span><br>
+      <span class="h3c">Transformer: V_s/V_p = N_s/N_p = I_p/I_s</span>
+    </div>
+    <div class="pt r">🔴 Pure L or C: cos φ = 0 → Power = 0 (wattless current)</div>
+    <div class="pt g">✅ Step-up: N_s &gt; N_p → V_s &gt; V_p but I_s &lt; I_p</div>
+    <div class="pt b">📌 Step-down: N_s &lt; N_p → V_s &lt; V_p but I_s &gt; I_p</div>
+
+    <div class="prac">
+      <div class="prac-h">🎯 Practice Questions</div>
+      <div class="prac-q"><strong>P9.</strong> V_rms=200V, I_rms=2A, φ=60°. Average power?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 200 W ✅</div><div class="opt">B) 400 W</div><div class="opt">C) 346 W</div><div class="opt">D) 100 W</div></div>
+      <div class="prac-a">P = 200×2×cos60° = 400×0.5 = 200 W</div>
+      <div class="prac-q" style="margin-top:12px"><strong>P10.</strong> Primary: 100 turns, 220V. Secondary: 500 turns. Output voltage?</div>
+      <div class="opts" style="margin-bottom:8px"><div class="opt ok">A) 1100 V ✅</div><div class="opt">B) 44 V</div><div class="opt">C) 220 V</div><div class="opt">D) 550 V</div></div>
+      <div class="prac-a">V_s = V_p × (N_s/N_p) = 220 × 5 = 1100 V (step-up)</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAXWELL -->
+<div class="card">
+  <div class="ct"><span>📡</span><h4>7 — Maxwell's Displacement Current</h4><span class="p1">PDF1 Q165</span></div>
+  <div class="cb">
+    <div class="formula">
+      <span class="h1c">I_d = ε₀ × dΦ_E/dt</span> &nbsp;<span class="cm">(Displacement current)</span>
+    </div>
+    <div class="pt r">📌 Displacement current is due to CHANGING ELECTRIC FIELD — NOT actual charge flow</div>
+    <div class="pt b">📌 Added by Maxwell to Ampere's law → predicted electromagnetic waves</div>
+
+    <div class="qc">
+      <div class="qct" style="background:linear-gradient(90deg,var(--blue),#1a5276)">📋 PDF 1 — Q.165 <span class="p1" style="background:rgba(255,255,255,0.2);color:white">PDF1</span></div>
+      <div class="qcb">
+        <div class="qt">Maxwell's displacement current is:</div>
+        <div class="opts">
+          <div class="opt">1. Due to flow of charges</div>
+          <div class="opt">2. Due to changing gravitational field</div>
+          <div class="opt ok">3. Due to changing electric field ✅</div>
+          <div class="opt">4. ε₀ times rate of change of magnetic flux</div>
+        </div>
+      </div>
+      <div class="sol">
+        <div class="step">I_d = ε₀ × dΦ_E/dt → proportional to rate of change of ELECTRIC flux</div>
+        <div class="step">It is NOT due to actual charges flowing</div>
+        <span class="ans-b">✅ Answer: Due to changing electric field</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end LCR wrap -->
+
+<!-- PREDICTION BOX -->
+<div class="predict">
+  <h3>🎯 Most Likely CUET 2026 Questions — EMI &amp; AC</h3>
+  <div class="pi"><div class="pn">1</div><div class="pt-txt"><strong>Faraday's Law Numerical</strong> — ε = N×ΔΦ/Δt. Given N, B, A, Δt → find emf. Appears EVERY year!</div></div>
+  <div class="pi"><div class="pn">2</div><div class="pt-txt"><strong>LCR Resonance</strong> — f₀=1/2π√(LC), power factor=1 at resonance, Z=R minimum.</div></div>
+  <div class="pi"><div class="pn">3</div><div class="pt-txt"><strong>Impedance Z = √(R²+(X_L-X_C)²)</strong> — Given R,L,C,f → find Z and current</div></div>
+  <div class="pi"><div class="pn">4</div><div class="pt-txt"><strong>Self-Inductance</strong> — L = ε×Δt/ΔI. Numerical + concept of back emf when switch opens</div></div>
+  <div class="pi"><div class="pn">5</div><div class="pt-txt"><strong>Motional EMF ε = BLv</strong> — Case-based (like PDF3 Q46-50). Very common pattern!</div></div>
+  <div class="pi"><div class="pn">6</div><div class="pt-txt"><strong>NOT correct EMI statement</strong> — emf ≠ total flux change. emf = RATE of change. Classic trap!</div></div>
+  <div class="pi"><div class="pn">7</div><div class="pt-txt"><strong>RMS and Peak values</strong> — V_rms = V₀/√2. Average over full cycle = 0. Rated = RMS</div></div>
+  <div class="pi"><div class="pn">8</div><div class="pt-txt"><strong>Lenz's Law</strong> — Faster magnet → LARGER deflection (not smaller). Induced current opposes change.</div></div>
+  <div class="pi"><div class="pn">9</div><div class="pt-txt"><strong>Rotating coil max emf</strong> — ε₀ = NBAω. Formula with N, B, A, ω all given</div></div>
+  <div class="pi"><div class="pn">10</div><div class="pt-txt"><strong>Transformer ratio</strong> — V_s/V_p = N_s/N_p. Identify step-up vs step-down.</div></div>
+</div>
+
+<!-- MASTER TABLE -->
+<div class="master">
+  <h3>📋 Master Formula Sheet — EMI &amp; AC Circuits</h3>
+  <table class="tbl">
+    <tr><th>Topic</th><th>Formula</th><th>Key CUET Point</th></tr>
+    <tr><td><strong>Faraday's Law</strong></td><td class="hl">ε = -N×dΦ/dt</td><td>Rate of flux change (NOT total!)</td></tr>
+    <tr><td><strong>Lenz's Law</strong></td><td class="hl">Negative sign</td><td>Opposes change in flux</td></tr>
+    <tr><td><strong>Motional EMF</strong></td><td class="hl">ε = BLv</td><td>B⊥L⊥v all perpendicular</td></tr>
+    <tr><td><strong>Self-Inductance</strong></td><td class="hl">ε = -L×dI/dt</td><td>L = ε×Δt/ΔI</td></tr>
+    <tr><td><strong>Energy in L</strong></td><td class="hl">U = LI²/2</td><td>Stored in magnetic field</td></tr>
+    <tr><td><strong>Max EMF coil</strong></td><td class="hl">ε₀ = NBAω</td><td>Rotating coil generator</td></tr>
+    <tr><td><strong>RMS value</strong></td><td class="hl">V_rms = V₀/√2</td><td>Rated voltage = RMS</td></tr>
+    <tr><td><strong>Avg full cycle</strong></td><td class="hl">V_avg = 0</td><td>Sine wave symmetry!</td></tr>
+    <tr><td><strong>X_L</strong></td><td class="hl">X_L = ωL = 2πfL</td><td>X_L ∝ f (increases with freq)</td></tr>
+    <tr><td><strong>X_C</strong></td><td class="hl">X_C = 1/ωC</td><td>X_C ∝ 1/f (decreases with freq)</td></tr>
+    <tr><td><strong>Impedance Z</strong></td><td class="hl">Z = √(R²+(X_L-X_C)²)</td><td>At resonance: Z = R</td></tr>
+    <tr><td><strong>Phase angle</strong></td><td class="hl">tan φ = (X_L-X_C)/R</td><td>φ=0 at resonance</td></tr>
+    <tr><td><strong>Resonant freq</strong></td><td class="hl">f₀ = 1/2π√(LC)</td><td>X_L=X_C at f₀</td></tr>
+    <tr><td><strong>Power factor</strong></td><td class="hl">cos φ = R/Z</td><td>=1 at resonance</td></tr>
+    <tr><td><strong>Avg power</strong></td><td class="hl">P = V_rms I_rms cos φ</td><td>P=0 for pure L or C</td></tr>
+    <tr><td><strong>Transformer</strong></td><td class="hl">V_s/V_p = N_s/N_p</td><td>Step-up: N_s&gt;N_p</td></tr>
+    <tr><td><strong>Displacement I</strong></td><td class="hl">I_d = ε₀×dΦ_E/dt</td><td>Due to changing E field</td></tr>
+  </table>
+</div>
+
+<!-- MEMORY TRICKS -->
+<div class="mem">
+  <h3>🧠 Memory Tricks for CUET 2026</h3>
+  <div class="mem-g">
+    <div class="mem-i"><h5>⚡ ELI the ICE man</h5><p><strong>ELI:</strong> Voltage (E) leads I in Inductor (L)<br><strong>ICE:</strong> Current (I) leads Voltage in Capacitor (C)</p></div>
+    <div class="mem-i"><h5>🎯 Resonance Summary</h5><p>X_L=X_C → Z=R → I=max → cosφ=1<br><strong>At resonance: Z &amp; φ minimum; I &amp; P maximum!</strong></p></div>
+    <div class="mem-i"><h5>🔄 Lenz's Law Trick</h5><p>Always OPPOSES the cause:<br>• Faster magnet → <strong>LARGER</strong> emf<br>• Current induced repels approaching magnet</p></div>
+    <div class="mem-i"><h5>📏 AC Values Trick</h5><p>Peak = <strong>√2 × RMS</strong><br>RMS = 0.707 × Peak<br>Average (full cycle) = <strong>ALWAYS ZERO</strong></p></div>
+    <div class="mem-i"><h5>🌀 Self vs Mutual L</h5><p><strong>Self (L):</strong> Opposes own current change<br><strong>Mutual (M):</strong> EMF in 2nd coil due to 1st<br>Unit of both: <strong>Henry (H)</strong></p></div>
+    <div class="mem-i"><h5>🔌 Power Rule</h5><p>Only <strong>R</strong> consumes power in AC<br>L &amp; C: Power = 0 (wattless)<br>P = I_rms² × R always</p></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>⚡ EMI &amp; AC Circuits — Complete CUET 2026 Notes · <span>All PDF Questions Solved</span></p>
+  <p style="margin-top:4px">Chapter 6 (EMI) + Chapter 7 (AC Circuits) · 22 Questions · 10 Practice Questions · All Formulas</p>
+  <p style="margin-top:4px;opacity:0.4">PDF 1 + PDF 2 + PDF 3 Completely Covered</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 | Computer Science Mock Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f0f4ff; --surface:#ffffff; --border:#e2e8f4; --border2:#c7d4ef;
+  --accent:#2563eb; --accent-lt:#eff4ff; --accent2:#7c3aed; --accent2-lt:#f5f0ff;
+  --green:#059669; --green-lt:#ecfdf5; --red:#dc2626; --red-lt:#fef2f2;
+  --amber:#d97706; --amber-lt:#fffbeb;
+  --text:#0f172a; --text2:#334155; --muted:#64748b; --muted2:#94a3b8;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.05);
+  --shadow-lg:0 8px 30px rgba(37,99,235,.12); --radius:14px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:200;background:linear-gradient(145deg,#f0f4ff,#e8eeff 50%,#f5f0ff);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow-y:auto;}
+.splash-inner{width:100%;max-width:560px;animation:fadeUp .6s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.splash-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-lt);border:1px solid #bfcfff;padding:5px 14px;border-radius:99px;margin-bottom:20px;}
+.splash-badge::before{content:'●';font-size:8px;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.splash-title{font-size:clamp(26px,5vw,44px);font-weight:800;line-height:1.15;letter-spacing:-.02em;margin-bottom:10px;}
+.splash-title em{font-style:normal;color:var(--accent);}
+.splash-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+.splash-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.splash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;box-shadow:var(--shadow);}
+.splash-card .icon{font-size:22px;margin-bottom:8px;}
+.splash-card .val{font-size:26px;font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace;line-height:1;}
+.splash-card .lbl{font-size:11px;color:var(--muted);margin-top:4px;font-weight:500;}
+.marking-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow);}
+.marking-box h4{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.marking-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:600;}
+.pill.g{background:var(--green-lt);color:var(--green);border:1px solid #a7f3d0;}
+.pill.r{background:var(--red-lt);color:var(--red);border:1px solid #fca5a5;}
+.pill.u{background:#f8fafc;color:var(--muted);border:1px solid var(--border);}
+.topic-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
+.topic-tag{font-size:11px;font-weight:600;background:var(--accent-lt);color:var(--accent);border:1px solid #bfcfff;border-radius:99px;padding:4px 12px;}
+.btn-start{width:100%;background:var(--accent);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;border:none;border-radius:var(--radius);padding:17px;cursor:pointer;box-shadow:var(--shadow-lg);transition:all .2s;}
+.btn-start:hover{background:#1d4ed8;transform:translateY(-1px);}
+
+/* EXAM */
+#exam{display:none;flex-direction:column;min-height:100vh;}
+.exam-hdr{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;}
+.hdr-logo{font-size:15px;font-weight:800;color:var(--accent);}
+.hdr-logo span{color:var(--muted2);font-weight:400;font-size:13px;}
+.timer{display:flex;align-items:center;gap:8px;background:var(--amber-lt);border:1.5px solid #fde68a;border-radius:99px;padding:6px 16px;font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--amber);transition:all .3s;}
+.timer.danger{background:var(--red-lt);border-color:#fca5a5;color:var(--red);animation:blink .6s infinite;}
+.hdr-progress{padding:0 20px 10px;}
+.prog-bar{height:5px;background:var(--border);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#818cf8);transition:width .4s cubic-bezier(.4,0,.2,1);}
+.prog-info{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+.prog-info span{font-size:12px;color:var(--muted);font-weight:500;}
+.ans-count{font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-lt);padding:2px 10px;border-radius:99px;}
+
+/* LAYOUT */
+.exam-body{flex:1;display:grid;grid-template-columns:260px 1fr;gap:20px;max-width:1200px;margin:0 auto;width:100%;padding:20px 16px;}
+.sidebar{position:sticky;top:90px;height:fit-content;}
+.sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+.sidebar-card h3{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.q-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:16px;}
+.q-dot{height:34px;border-radius:7px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;border:1.5px solid var(--border);background:var(--bg);color:var(--muted2);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.q-dot:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt);}
+.q-dot.current{border-color:var(--accent);background:var(--accent);color:#fff;}
+.q-dot.answered{border-color:var(--green);background:var(--green-lt);color:var(--green);}
+.q-dot.current.answered{background:var(--green);color:#fff;border-color:var(--green);}
+.q-dot.flagged{border-color:var(--amber);background:var(--amber-lt);color:var(--amber);}
+.legend{display:flex;flex-wrap:wrap;gap:6px;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:var(--muted);}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+.leg-dot.a{background:var(--green-lt);border:1.5px solid var(--green);}
+.leg-dot.c{background:var(--accent);}
+.leg-dot.f{background:var(--amber-lt);border:1.5px solid var(--amber);}
+.leg-dot.u{background:var(--bg);border:1.5px solid var(--border);}
+
+/* QUESTION PANEL */
+.q-panel{display:flex;flex-direction:column;gap:16px;}
+.q-meta-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.q-num-badge{font-size:12px;font-weight:800;background:var(--accent);color:#fff;padding:4px 12px;border-radius:99px;font-family:'JetBrains Mono',monospace;}
+.q-topic-badge{font-size:11px;font-weight:600;color:var(--accent2);background:var(--accent2-lt);border:1px solid #ddd6fe;padding:3px 12px;border-radius:99px;}
+.q-diff{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:99px;}
+.q-diff.easy{background:var(--green-lt);color:var(--green);}
+.q-diff.med{background:var(--amber-lt);color:var(--amber);}
+.q-diff.hard{background:var(--red-lt);color:var(--red);}
+.q-marks-badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--bg);border:1px solid var(--border);padding:3px 12px;border-radius:99px;margin-left:auto;}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+.q-text{font-size:15px;line-height:1.8;color:var(--text);font-weight:500;margin-bottom:22px;}
+.q-text code{font-family:'JetBrains Mono',monospace;background:#eef2ff;color:#4338ca;padding:2px 8px;border-radius:5px;font-size:13px;}
+.q-text pre{font-family:'JetBrains Mono',monospace;background:#1e1e2e;color:#cdd6f4;border-radius:10px;padding:16px;font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;border:1px solid #313244;}
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;align-items:center;gap:14px;border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;cursor:pointer;background:var(--bg);transition:all .18s;color:var(--text2);font-size:14px;font-weight:500;text-align:left;line-height:1.5;width:100%;}
+.opt:hover{border-color:var(--accent);background:var(--accent-lt);color:var(--text);}
+.opt.sel{border-color:var(--accent);background:var(--accent-lt);color:var(--accent);font-weight:600;}
+.opt-lbl{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;min-width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--border);color:var(--muted);flex-shrink:0;transition:all .18s;}
+.opt.sel .opt-lbl{background:var(--accent);color:#fff;}
+.explanation{margin-top:16px;display:none;background:linear-gradient(135deg,#eff4ff,#f5f0ff);border:1px solid #c7d4ef;border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text2);line-height:1.65;}
+.explanation.show{display:block;animation:fadeUp .3s ease;}
+.exp-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;display:block;}
+.q-nav{display:flex;gap:10px;flex-wrap:wrap;}
+.nav-btn{flex:1;min-width:80px;padding:11px 16px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .18s;}
+.nav-btn:hover{border-color:var(--accent2);color:var(--accent2);background:var(--accent2-lt);}
+.nav-btn:disabled{opacity:.4;cursor:not-allowed;}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.25);}
+.nav-btn.primary:hover{background:#1d4ed8;border-color:#1d4ed8;}
+.nav-btn.danger{background:#fff;border-color:var(--red);color:var(--red);}
+.nav-btn.flag-on{background:var(--amber-lt);border-color:var(--amber);color:var(--amber);}
+.btn-submit{width:100%;padding:14px;font-size:15px;font-weight:700;border-radius:10px;border:none;background:var(--green);color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(5,150,105,.25);transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-submit:hover{background:#047857;transform:translateY(-1px);}
+
+/* RESULTS */
+#results{display:none;background:var(--bg);min-height:100vh;padding:24px 16px;}
+.results-inner{max-width:860px;margin:0 auto;}
+.result-hdr{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;text-align:center;margin-bottom:20px;box-shadow:var(--shadow);}
+.result-hdr h1{font-size:clamp(20px,4vw,30px);font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
+.result-hdr h1 em{font-style:normal;color:var(--accent);}
+.score-display{display:flex;align-items:center;justify-content:center;gap:28px;margin:24px 0;flex-wrap:wrap;}
+.score-circle{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px var(--surface),0 0 0 10px var(--border);position:relative;background:conic-gradient(var(--accent) calc(var(--pct,0) * 3.6deg),var(--border) 0deg);}
+.score-circle-inner{width:100px;height:100px;border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.sc-val{font-size:26px;font-weight:800;color:var(--text);font-family:'JetBrains Mono',monospace;}
+.sc-max{font-size:11px;color:var(--muted);}
+.score-breakdown{text-align:left;}
+.sb-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:14px;font-weight:500;}
+.sb-icon{font-size:16px;width:24px;}
+.sb-label{color:var(--muted);width:100px;}
+.sb-val{font-weight:700;font-family:'JetBrains Mono',monospace;}
+.sb-val.g{color:var(--green);} .sb-val.r{color:var(--red);} .sb-val.u{color:var(--muted);}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+.stat-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);text-align:center;}
+.stat-tile .tv{font-size:28px;font-weight:800;font-family:'JetBrains Mono',monospace;}
+.stat-tile .tl{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
+.tv.c{color:var(--green);} .tv.w{color:var(--red);} .tv.u{color:var(--muted);} .tv.a{color:var(--accent);}
+.topic-section,.review-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.section-title{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;}
+.topic-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.topic-name{font-size:12px;font-weight:600;color:var(--text2);width:160px;flex-shrink:0;}
+.topic-bar{flex:1;height:8px;background:var(--border);border-radius:99px;overflow:hidden;}
+.topic-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#818cf8);}
+.topic-pct{font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;width:36px;text-align:right;color:var(--text2);}
+.topic-score-lbl{font-size:11px;color:var(--muted);width:40px;text-align:right;}
+.review-item{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;}
+.review-item.r-ok{border-color:#a7f3d0;background:#f0fdf4;}
+.review-item.r-bad{border-color:#fca5a5;background:#fff5f5;}
+.review-item.r-skip{background:var(--bg);}
+.rev-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.rev-status{font-size:16px;flex-shrink:0;}
+.rev-qtext{font-size:13px;color:var(--text2);line-height:1.6;font-weight:500;}
+.rev-ans{font-size:12px;margin-top:5px;color:var(--muted);}
+.rev-ans .ok-a{color:var(--green);font-weight:700;}
+.rev-ans .bad-a{color:var(--red);font-weight:700;}
+.rev-exp{margin-top:8px;padding:10px 12px;background:#eff4ff;border-radius:7px;font-size:12px;color:var(--text2);line-height:1.6;border-left:3px solid var(--accent);}
+.btn-retry{width:100%;background:var(--accent);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;border:none;border-radius:var(--radius);padding:16px;cursor:pointer;box-shadow:var(--shadow-lg);transition:all .2s;margin-top:4px;}
+.btn-retry:hover{background:#1d4ed8;transform:translateY(-1px);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:300;align-items:center;justify-content:center;padding:20px;display:none;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:fadeUp .25s ease;}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:8px;}
+.modal p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
+.modal-btns{display:flex;gap:10px;}
+.modal-btns button{flex:1;padding:12px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:all .18s;font-family:'Plus Jakarta Sans',sans-serif;border:none;}
+.modal-cancel{background:var(--bg);border:1.5px solid var(--border) !important;color:var(--text2);border:none;}
+.modal-confirm{background:var(--green);color:#fff;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .exam-body{grid-template-columns:1fr;padding:12px;gap:12px;}
+  .sidebar{position:static;}
+  .q-grid{grid-template-columns:repeat(10,1fr);gap:4px;}
+  .q-dot{height:28px;font-size:10px;border-radius:5px;}
+  .q-card{padding:18px;}
+  .q-text{font-size:14px;}
+  .opt{padding:11px 13px;font-size:13px;}
+  .topic-name{width:110px;font-size:11px;}
+  .score-display{flex-direction:column;}
+}
+@media(max-width:480px){
+  .q-grid{grid-template-columns:repeat(7,1fr);}
+  .splash-cards{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-inner">
+    <div class="splash-badge">CUET UG 2026 • Official Pattern</div>
+    <h1 class="splash-title">Computer Science<br><em>Mock Test</em></h1>
+    <p class="splash-sub">Based on rigorous PYQ analysis (2022–2025). 50 highest-probability questions curated for CUET 2026.</p>
+    <div class="splash-cards">
+      <div class="splash-card"><div class="icon">📝</div><div class="val">50</div><div class="lbl">Questions</div></div>
+      <div class="splash-card"><div class="icon">⏱</div><div class="val">45</div><div class="lbl">Minutes</div></div>
+      <div class="splash-card"><div class="icon">🎯</div><div class="val">200</div><div class="lbl">Max Marks</div></div>
+    </div>
+    <div class="marking-box">
+      <h4>Marking Scheme</h4>
+      <div class="marking-pills">
+        <div class="pill g">✔ Correct +5</div>
+        <div class="pill r">✘ Wrong −1</div>
+        <div class="pill u">— Skipped 0</div>
+      </div>
+    </div>
+    <div class="topic-tags">
+      <div class="topic-tag">🐍 Python (15 Qs)</div>
+      <div class="topic-tag">🗄 SQL & DB (7 Qs)</div>
+      <div class="topic-tag">🌐 Networks (7 Qs)</div>
+      <div class="topic-tag">🧮 DS & Algo (6 Qs)</div>
+      <div class="topic-tag">⚡ Digital Logic (5 Qs)</div>
+      <div class="topic-tag">💻 OS (5 Qs)</div>
+      <div class="topic-tag">🔧 Hardware (3 Qs)</div>
+      <div class="topic-tag">🔐 Security & AI (2 Qs)</div>
+    </div>
+    <button class="btn-start" onclick="startExam()">Start Mock Test →</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Submit Test?</h3>
+    <p id="modalMsg">Are you sure you want to submit?</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">Review More</button>
+      <button class="modal-confirm" onclick="doSubmit()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXAM -->
+<div id="exam">
+  <div class="exam-hdr">
+    <div class="hdr-top">
+      <div class="hdr-logo">CUET 2026 <span>| CS Mock Test</span></div>
+      <div class="timer" id="timerEl">⏱ <span id="timerTxt">45:00</span></div>
+    </div>
+    <div class="hdr-progress">
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:2%"></div></div>
+      <div class="prog-info">
+        <span id="progTxt">Question 1 of 50</span>
+        <span class="ans-count" id="ansCount">0 Answered</span>
+      </div>
+    </div>
+  </div>
+  <div class="exam-body">
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <h3>Question Navigator</h3>
+        <div class="q-grid" id="qGrid"></div>
+        <div class="legend">
+          <div class="leg-item"><div class="leg-dot a"></div>Answered</div>
+          <div class="leg-item"><div class="leg-dot c"></div>Current</div>
+          <div class="leg-item"><div class="leg-dot f"></div>Flagged</div>
+          <div class="leg-item"><div class="leg-dot u"></div>Unattempted</div>
+        </div>
+      </div>
+    </div>
+    <div class="q-panel">
+      <div class="q-meta-bar">
+        <div class="q-num-badge" id="qNumBadge">Q1</div>
+        <div class="q-topic-badge" id="qTopicBadge">Topic</div>
+        <div class="q-diff" id="qDiff"></div>
+        <div class="q-marks-badge">+5 / −1</div>
+      </div>
+      <div class="q-card">
+        <div class="q-text" id="qText"></div>
+        <div class="options" id="options"></div>
+        <div class="explanation" id="explanation">
+          <span class="exp-label">💡 Explanation</span>
+          <span id="expText"></span>
+        </div>
+      </div>
+      <div class="q-nav">
+        <button class="nav-btn" id="btnPrev" onclick="nav(-1)">← Previous</button>
+        <button class="nav-btn" id="btnFlag" onclick="toggleFlag()">🚩 Flag</button>
+        <button class="nav-btn danger" onclick="clearAns()">✕ Clear</button>
+        <button class="nav-btn primary" id="btnNext" onclick="nav(1)">Next →</button>
+      </div>
+      <button class="btn-submit" onclick="openModal()">✔ Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results"></div>
+
+<script>
+const Q=[
+  // PYTHON (1-15)
+  {t:"Python Programming",d:"easy",
+   q:"What will be the output of the following expression?\n<code>type(3.0 + 2)</code>",
+   o:["<class 'int'>","<class 'float'>","<class 'complex'>","TypeError"],
+   a:1,e:"When an int (2) is added to a float (3.0), Python performs implicit type promotion — the result is always a float. So type(5.0) returns <class 'float'>."},
+
+  {t:"Python Programming",d:"easy",
+   q:"What will be the output of the following Python code?\n<pre>L = [10, 20, 30, 40, 50]\nprint(L[1:4])</pre>",
+   o:["[10, 20, 30]","[20, 30, 40]","[20, 30, 40, 50]","[10, 20, 30, 40]"],
+   a:1,e:"List slicing L[start:stop] includes index 1 (value 20) up to but NOT including index 4. Elements at indices 1, 2, 3 → [20, 30, 40]."},
+
+  {t:"Python Programming",d:"easy",
+   q:"Which of the following data types is <strong>mutable</strong> in Python?",
+   o:["Tuple","String","List","Integer"],
+   a:2,e:"A List is mutable — its elements can be changed, added, or deleted after creation. Tuples, Strings, and Integers are immutable; once created they cannot be changed in-place."},
+
+  {t:"Python Programming",d:"med",
+   q:"What will be the output of the following code?\n<pre>def fun(a, b=5, c=10):\n    print(a, b, c)\nfun(3, c=20)</pre>",
+   o:["3 5 10","3 5 20","3 20 10","SyntaxError"],
+   a:1,e:"a=3 (positional), b=5 (uses default), c=20 (overridden by keyword argument). Output: 3 5 20."},
+
+  {t:"Python Programming",d:"easy",
+   q:"What is the output of this Python code?\n<pre>d = {'a':1, 'b':2, 'a':3}\nprint(len(d))</pre>",
+   o:["3","2","1","Error"],
+   a:1,e:"Dictionaries cannot have duplicate keys. The second 'a':3 overwrites 'a':1. Final dict is {'a':3, 'b':2} — only 2 unique keys. len() returns 2."},
+
+  {t:"Python Programming",d:"easy",
+   q:"Which of the following correctly reverses a string <code>s</code> in Python?",
+   o:["s.reverse()","reversed(s)","s[::-1]","s.flip()"],
+   a:2,e:"s[::-1] uses extended slicing with step=-1, traversing the string backward — the most Pythonic way. str.reverse() does not exist; reversed() returns an iterator, not a string."},
+
+  {t:"Python Programming",d:"med",
+   q:"What will be the output of this code?\n<pre>x = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)</pre>",
+   o:["[1, 2, 3]","[1, 2, 3, 4]","[4]","Error"],
+   a:1,e:"y = x does NOT create a copy — both variables point to the same list in memory. y.append(4) modifies the original list that x also refers to. Output: [1, 2, 3, 4]. Use y = x.copy() for a shallow copy."},
+
+  {t:"Python Programming",d:"med",
+   q:"What does <code>list(map(lambda x: x**2, [1, 2, 3, 4]))</code> return?",
+   o:["[1, 4, 9, 16]","[2, 4, 6, 8]","[1, 2, 3, 4]","[0, 1, 4, 9]"],
+   a:0,e:"map() applies the lambda to each element: 1²=1, 2²=4, 3²=9, 4²=16. list() converts the map object to a list. Output: [1, 4, 9, 16]."},
+
+  {t:"Python Programming",d:"easy",
+   q:"What values does <code>range(2, 10, 3)</code> generate?",
+   o:["2, 5, 8","2, 5, 8, 11","3, 6, 9","2, 4, 6, 8, 10"],
+   a:0,e:"range(start=2, stop=10, step=3): 2 → 5 → 8 → 11 (stops, 11 ≥ 10). Result: 2, 5, 8."},
+
+  {t:"Python Programming",d:"med",
+   q:"What is the purpose of the <code>global</code> keyword in Python?",
+   o:["To declare a new global variable","To modify a global variable from inside a function","To create class-level attributes","To import a module into global scope"],
+   a:1,e:"Without global, assigning inside a function creates a new local variable. Using 'global x' inside a function tells Python to use and modify the variable x from the module (global) scope."},
+
+  {t:"Python Programming",d:"med",
+   q:"What will this recursive function print?\n<pre>def fact(n):\n    if n == 0:\n        return 1\n    return n * fact(n-1)\nprint(fact(4))</pre>",
+   o:["4","12","24","Error"],
+   a:2,e:"fact(4) = 4×fact(3) = 4×3×fact(2) = 4×3×2×fact(1) = 4×3×2×1×fact(0) = 4×3×2×1×1 = 24."},
+
+  {t:"Python Programming",d:"hard",
+   q:"What will be the output of the following code?\n<pre>a = [1, 2, 3]\nb = a[:]\nb[0] = 99\nprint(a[0])</pre>",
+   o:["99","1","[99, 2, 3]","Error"],
+   a:1,e:"b = a[:] creates a SHALLOW COPY — b is a new list. Modifying b[0]=99 does NOT affect a. So a[0] remains 1. This is different from b=a which would share the same object reference."},
+
+  {t:"Python Programming",d:"med",
+   q:"Which statement about the <code>finally</code> block in Python is correct?",
+   o:["Executes only when an exception occurs","Executes only when no exception occurs","Always executes regardless of exceptions","Only executes if a return statement is present"],
+   a:2,e:"The finally block always executes — whether the try block raises an exception or not, and even if a return statement is hit. It is used for cleanup operations like closing files or database connections."},
+
+  {t:"Python Programming",d:"med",
+   q:"What is the output of the following list comprehension?\n<pre>result = [x for x in range(10) if x % 2 == 0]\nprint(result)</pre>",
+   o:["[1, 3, 5, 7, 9]","[0, 2, 4, 6, 8]","[0, 2, 4, 6, 8, 10]","[2, 4, 6, 8]"],
+   a:1,e:"range(10) generates 0–9. The condition x%2==0 filters for even numbers. Even numbers from 0–9 are: 0, 2, 4, 6, 8. Result: [0, 2, 4, 6, 8]."},
+
+  {t:"Python Programming",d:"hard",
+   q:"What does this code print?\n<pre>def outer():\n    x = 10\n    def inner():\n        nonlocal x\n        x += 5\n    inner()\n    print(x)\nouter()</pre>",
+   o:["10","15","Error","None"],
+   a:1,e:"'nonlocal x' makes inner() use the x from outer()'s scope. After inner() runs, x becomes 10+5=15. outer() then prints 15. Without nonlocal, x += 5 would raise UnboundLocalError."},
+
+  // SQL (16-22)
+  {t:"Database (SQL)",d:"easy",
+   q:"Which of the following correctly describes a <strong>PRIMARY KEY</strong> constraint?",
+   o:["It allows NULL values","It can exist multiple times in a table","It ensures both UNIQUE and NOT NULL on a column","Multiple primary keys are allowed per table"],
+   a:2,e:"A PRIMARY KEY implicitly enforces both UNIQUE and NOT NULL. Every table can have only one primary key (though it can be composite — spanning multiple columns)."},
+
+  {t:"Database (SQL)",d:"med",
+   q:"When is the <code>HAVING</code> clause used in SQL?",
+   o:["As a substitute for WHERE clause","To filter individual rows before grouping","To apply conditions on aggregate functions after GROUP BY","To sort grouped results in order"],
+   a:2,e:"HAVING filters groups after GROUP BY — it works on aggregate functions (COUNT, SUM, AVG). WHERE filters individual rows BEFORE grouping. Example: HAVING AVG(salary) > 50000."},
+
+  {t:"Database (SQL)",d:"easy",
+   q:"Which SQL keyword removes duplicate rows from a SELECT query result?",
+   o:["UNIQUE","DISTINCT","NODUPLICATE","FILTER"],
+   a:1,e:"SELECT DISTINCT column_name FROM table removes duplicate values from the result set. It compares entire selected columns and returns only unique combinations."},
+
+  {t:"Database (SQL)",d:"med",
+   q:"What does a <strong>FOREIGN KEY</strong> constraint enforce?",
+   o:["Prevents duplicate values in the column","Maintains referential integrity between two tables","Automatically creates an index on the column","Restricts all DELETE operations"],
+   a:1,e:"A FOREIGN KEY in one table references the PRIMARY KEY of another. It enforces referential integrity — you cannot insert a value in the FK column that doesn't exist in the referenced table's PK."},
+
+  {t:"Database (SQL)",d:"easy",
+   q:"What does an <code>INNER JOIN</code> return?",
+   o:["All rows from the left table","Only rows with a match in BOTH tables","All rows from both tables including unmatched","Only unmatched rows"],
+   a:1,e:"INNER JOIN returns only rows that have matching values in both tables based on the join condition. Rows without a corresponding match in the other table are excluded."},
+
+  {t:"Database (SQL)",d:"med",
+   q:"Which of the following is a DML (Data Manipulation Language) command?",
+   o:["CREATE","ALTER","INSERT","DROP"],
+   a:2,e:"DML operates on data: INSERT, UPDATE, DELETE, SELECT. DDL defines structure: CREATE, ALTER, DROP, TRUNCATE. DCL handles permissions: GRANT, REVOKE. TCL manages transactions: COMMIT, ROLLBACK."},
+
+  {t:"Database (SQL)",d:"hard",
+   q:"In database normalization, which normal form eliminates <strong>transitive dependencies</strong>?",
+   o:["1NF","2NF","3NF","BCNF"],
+   a:2,e:"3NF eliminates transitive dependencies — where a non-key attribute depends on another non-key attribute rather than directly on the primary key. 2NF removes partial dependencies. 1NF ensures atomicity."},
+
+  // NETWORKS (23-29)
+  {t:"Computer Networks",d:"easy",
+   q:"How many layers does the OSI model have, and which layer handles physical bit transmission?",
+   o:["5 layers; Layer 1","7 layers; Layer 1","7 layers; Layer 7","4 layers; Layer 2"],
+   a:1,e:"OSI model has 7 layers: Physical(1), Data Link(2), Network(3), Transport(4), Session(5), Presentation(6), Application(7). Physical layer handles actual bit transmission over cables/fiber/radio."},
+
+  {t:"Computer Networks",d:"easy",
+   q:"Which port number does the HTTP protocol use by default?",
+   o:["21","25","80","443"],
+   a:2,e:"HTTP uses port 80. HTTPS uses 443. FTP uses 21. SMTP uses 25. SSH uses 22. These are well-known ports standardized by IANA."},
+
+  {t:"Computer Networks",d:"med",
+   q:"The IP address <code>172.16.0.1</code> belongs to which class?",
+   o:["Class A","Class B","Class C","Class D"],
+   a:1,e:"Class A: 1–126.x.x.x | Class B: 128–191.x.x.x | Class C: 192–223.x.x.x | Class D: 224–239 (multicast). Since 172 falls between 128–191, this is a Class B address."},
+
+  {t:"Computer Networks",d:"easy",
+   q:"What is the primary function of DNS (Domain Name System)?",
+   o:["To encrypt transmitted data","To translate domain names into IP addresses","To route packets between networks","To dynamically assign IP addresses"],
+   a:1,e:"DNS is the internet's phone book. When you type 'google.com', DNS queries return the IP address (e.g., 142.250.64.46) allowing your computer to establish a connection."},
+
+  {t:"Computer Networks",d:"med",
+   q:"What is the key difference between TCP and UDP?",
+   o:["TCP is faster; UDP is slower","TCP is connection-oriented and reliable; UDP is connectionless and faster","UDP provides guaranteed delivery; TCP does not","Both protocols provide identical reliability"],
+   a:1,e:"TCP: connection-oriented (3-way handshake), guaranteed delivery, ordered, error-checked — used for web, email, file transfer. UDP: connectionless, no guarantee, faster — used for video streaming, DNS, gaming, VoIP."},
+
+  {t:"Computer Networks",d:"easy",
+   q:"In which network topology are all devices connected to a single central switch or hub?",
+   o:["Bus Topology","Ring Topology","Star Topology","Mesh Topology"],
+   a:2,e:"Star Topology: all nodes connect to a central hub/switch. Advantage: one node failure doesn't affect others. Disadvantage: if the central hub fails, the entire network goes down."},
+
+  {t:"Computer Networks",d:"med",
+   q:"Which protocol automatically assigns IP addresses to devices on a network?",
+   o:["DNS","FTP","DHCP","SMTP"],
+   a:2,e:"DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses, subnet masks, default gateways, and DNS server addresses to devices when they connect to a network."},
+
+  // DATA STRUCTURES (30-35)
+  {t:"Data Structures & Algorithms",d:"easy",
+   q:"A Stack data structure follows which principle?",
+   o:["FIFO (First In, First Out)","LIFO (Last In, First Out)","Random Access","Priority-Based Access"],
+   a:1,e:"Stack = LIFO. The last element pushed is the first one popped. Real examples: browser Back button, function call stack (recursion), undo/redo in editors, expression evaluation."},
+
+  {t:"Data Structures & Algorithms",d:"easy",
+   q:"What is the time complexity of Binary Search on a sorted array of n elements?",
+   o:["O(n)","O(n²)","O(log n)","O(n log n)"],
+   a:2,e:"Binary Search halves the search space with each comparison. After k steps, n/2^k=1, so k=log₂n. Time complexity: O(log n). It REQUIRES the array to be sorted first."},
+
+  {t:"Data Structures & Algorithms",d:"med",
+   q:"What is the worst-case time complexity of Bubble Sort for n elements?",
+   o:["O(n)","O(n log n)","O(n²)","O(log n)"],
+   a:2,e:"Bubble Sort worst case (reverse-sorted): n-1 passes, with n-1, n-2, ..., 1 comparisons each. Total = n(n-1)/2 → O(n²). Best case with optimization (already sorted): O(n)."},
+
+  {t:"Data Structures & Algorithms",d:"easy",
+   q:"In a Queue, where do Enqueue and Dequeue operations occur?",
+   o:["Both at the front","Both at the rear","Enqueue at rear; Dequeue at front","Enqueue at front; Dequeue at rear"],
+   a:2,e:"Queue = FIFO. Enqueue (insertion) at REAR. Dequeue (deletion) at FRONT. Like a cinema ticket queue — first person in line gets served first."},
+
+  {t:"Data Structures & Algorithms",d:"hard",
+   q:"What is the maximum number of nodes in a Binary Tree of height h? (Root at height 0)",
+   o:["2h","2h − 1","2(h+1) − 1","h²"],
+   a:2,e:"A full binary tree of height h: Level 0 has 1, Level 1 has 2, ..., Level h has 2^h nodes. Total = 1+2+4+...+2^h = 2^(h+1)−1 (geometric series)."},
+
+  {t:"Data Structures & Algorithms",d:"med",
+   q:"Which is a key advantage of a Linked List over an Array?",
+   o:["O(1) random access","Fixed memory allocation","Dynamic size with efficient insertion and deletion","Better cache performance"],
+   a:2,e:"Linked Lists are dynamically sized — they grow/shrink at runtime. Insertion/deletion at a known position is O(1) (just change pointers). Arrays have O(1) access but O(n) insertion/deletion and fixed size."},
+
+  // BOOLEAN ALGEBRA (36-40)
+  {t:"Boolean Algebra",d:"med",
+   q:"Simplify the Boolean expression: <code>A + A'B</code>",
+   o:["A'B","A + B","AB","A"],
+   a:1,e:"Using distribution: A + A'B = (A+A')(A+B) = 1·(A+B) = A+B. Or: A+A'B = A+AB+A'B = A+B(A+A') = A+B."},
+
+  {t:"Boolean Algebra",d:"easy",
+   q:"Why is the NAND gate called a 'Universal Gate'?",
+   o:["It is the fastest gate","Any Boolean function can be implemented using only NAND gates","It consumes least power","It has fewest transistors"],
+   a:1,e:"NAND and NOR are universal gates because NOT, AND, and OR can each be implemented using only NAND gates. Therefore any digital circuit can be built from NAND gates alone."},
+
+  {t:"Boolean Algebra",d:"med",
+   q:"According to De Morgan's Theorem, <code>(A · B)'</code> equals:",
+   o:["A' · B'","A' + B'","A · B","(A + B)'"],
+   a:1,e:"De Morgan's First Theorem: (A·B)' = A' + B'. Second Theorem: (A+B)' = A'·B'. Memory trick: 'Break the bar, change the operator' — AND becomes OR, each variable gets complemented."},
+
+  {t:"Boolean Algebra",d:"easy",
+   q:"In an XOR gate, what is the output when both inputs are identical (e.g., A=1, B=1)?",
+   o:["1","0","Same as input","Undefined"],
+   a:1,e:"XOR (Exclusive OR) outputs 1 ONLY when inputs are DIFFERENT. When inputs are same (0,0 or 1,1), output is 0. Truth table: 0⊕0=0, 0⊕1=1, 1⊕0=1, 1⊕1=0."},
+
+  {t:"Boolean Algebra",d:"easy",
+   q:"What is the decimal equivalent of the binary number <code>11011</code>?",
+   o:["25","27","29","23"],
+   a:1,e:"11011₂ = 1×2⁴ + 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 16 + 8 + 0 + 2 + 1 = 27₁₀."},
+
+  // OS (41-45)
+  {t:"Operating System",d:"med",
+   q:"Which is NOT one of the four Coffman conditions required for Deadlock?",
+   o:["Mutual Exclusion","Hold and Wait","Circular Wait","Preemption Allowed"],
+   a:3,e:"Coffman's 4 conditions: (1) Mutual Exclusion, (2) Hold and Wait, (3) No Preemption, (4) Circular Wait. 'Preemption Allowed' is the NEGATION of condition 3 — if preemption is allowed, deadlock cannot occur."},
+
+  {t:"Operating System",d:"med",
+   q:"Which CPU scheduling algorithm may cause <strong>starvation</strong> for longer processes?",
+   o:["FCFS","Round Robin","SJF (Shortest Job First)","LRTF"],
+   a:2,e:"SJF always picks the shortest burst time process. If short processes keep arriving, longer processes may never get CPU time — this is starvation. Aging is used to prevent it."},
+
+  {t:"Operating System",d:"med",
+   q:"What is the primary purpose of Virtual Memory?",
+   o:["To increase physical RAM speed","To allow programs to use more memory than physically available RAM","To permanently store OS files","To improve network performance"],
+   a:1,e:"Virtual Memory allows programs to use more memory than physical RAM by using a portion of the hard disk (swap space) as an extension of RAM. The OS swaps pages between RAM and disk as needed."},
+
+  {t:"Operating System",d:"easy",
+   q:"In Linux, what does <code>chmod 755 file.sh</code> do?",
+   o:["Deletes the file","Owner: rwx; Group & Others: r-x","Gives full access to everyone","Makes the file read-only for all"],
+   a:1,e:"chmod uses octal: 7=rwx (4+2+1), 5=r-x (4+0+1). So 755 = Owner: read+write+execute, Group: read+execute, Others: read+execute. Commonly used for shell scripts."},
+
+  {t:"Operating System",d:"med",
+   q:"What is the fundamental difference between a Process and a Thread?",
+   o:["Threads are always slower than processes","A process is independent with its own memory; a thread is a lightweight unit within a process sharing its memory","Processes share memory with each other by default","Threads cannot communicate with each other"],
+   a:1,e:"Process: independent program with its own memory space and PCB. Thread: lightweight unit within a process that shares the process's memory/resources. Creating/switching threads is faster. Multiple threads in one process enable concurrency."},
+
+  // HARDWARE (46-48)
+  {t:"Computer Organization",d:"easy",
+   q:"Which CPU unit performs arithmetic and logical operations?",
+   o:["Control Unit (CU)","Memory Unit","Arithmetic Logic Unit (ALU)","Input/Output Unit"],
+   a:2,e:"ALU performs all arithmetic (add, subtract, multiply, divide) and logical operations (AND, OR, NOT, comparisons). The Control Unit (CU) manages instruction fetch, decode, and execution sequencing."},
+
+  {t:"Computer Organization",d:"med",
+   q:"Which statement about Cache Memory is correct?",
+   o:["It is slower than RAM but faster than HDD","It sits between CPU and RAM providing the fastest memory access","It is used for permanent OS storage","It is the same as virtual memory"],
+   a:1,e:"Cache sits between CPU and RAM in the memory hierarchy. Speed: Registers > Cache (L1>L2>L3) > RAM > SSD > HDD. L1 cache is typically inside the CPU die. Cache stores frequently accessed data to minimize slow RAM accesses."},
+
+  {t:"Computer Organization",d:"easy",
+   q:"How many bytes are in 1 Gigabyte (GB) in the binary (IEC) standard?",
+   o:["1,000,000,000","1,024,000","1,073,741,824","536,870,912"],
+   a:2,e:"Binary standard: 1 KB = 2¹⁰ = 1024 bytes, 1 MB = 2²⁰ bytes, 1 GB = 2³⁰ = 1,073,741,824 bytes. Storage manufacturers use SI (1 GB = 10⁹ bytes), but computers traditionally use the binary definition."},
+
+  // CYBERSECURITY & AI (49-50)
+  {t:"Cybersecurity & AI",d:"easy",
+   q:"Which cyberattack tricks users into revealing sensitive information by impersonating a trusted entity through fake emails or websites?",
+   o:["Denial of Service (DoS)","Phishing","SQL Injection","Man-in-the-Middle"],
+   a:1,e:"Phishing attacks use fraudulent emails or websites mimicking legitimate sources (banks, tech companies) to steal credentials, credit card numbers, or personal data. Always verify URLs before entering any information."},
+
+  {t:"Cybersecurity & AI",d:"med",
+   q:"In Machine Learning, what distinguishes <strong>Supervised Learning</strong> from Unsupervised Learning?",
+   o:["Supervised learning uses unlabeled data","Supervised learning trains on labeled input-output pairs to learn a mapping","Unsupervised learning requires human supervision at each step","Both use the same type of training data"],
+   a:1,e:"Supervised Learning trains on labeled data (each input has a known correct output). Examples: spam detection, image classification. Unsupervised Learning finds patterns in unlabeled data. Examples: customer clustering, anomaly detection."}
+];
+
+let cur=0, ans=new Array(Q.length).fill(-1), flagged=new Set(), timeLeft=45*60, timerInt=null;
+
+function startExam(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('exam').style.display='flex';
+  buildGrid(); renderQ();
+  timerInt=setInterval(tick,1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m=String(Math.floor(timeLeft/60)).padStart(2,'0');
+  const s=String(timeLeft%60).padStart(2,'0');
+  document.getElementById('timerTxt').textContent=`${m}:${s}`;
+  if(timeLeft<=300) document.getElementById('timerEl').classList.add('danger');
+  if(timeLeft<=0){clearInterval(timerInt);doSubmit();}
+}
+
+function buildGrid(){
+  const g=document.getElementById('qGrid'); g.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('div');
+    let c='q-dot';
+    if(i===cur) c+=' current';
+    if(ans[i]!==-1) c+=' answered';
+    if(flagged.has(i)) c+=' flagged';
+    d.className=c; d.textContent=i+1;
+    d.onclick=()=>goTo(i);
+    g.appendChild(d);
+  });
+}
+
+function renderQ(){
+  const q=Q[cur];
+  document.getElementById('qNumBadge').textContent=`Q${cur+1}`;
+  document.getElementById('qTopicBadge').textContent=q.t;
+  const dEl=document.getElementById('qDiff');
+  dEl.textContent=q.d.charAt(0).toUpperCase()+q.d.slice(1);
+  dEl.className='q-diff '+q.d;
+  document.getElementById('progFill').style.width=`${((cur+1)/Q.length)*100}%`;
+  document.getElementById('progTxt').textContent=`Question ${cur+1} of ${Q.length}`;
+  document.getElementById('ansCount').textContent=`${ans.filter(a=>a!==-1).length} Answered`;
+  document.getElementById('qText').innerHTML=q.q.replace(/\n/g,'<br>');
+  const labels=['A','B','C','D'];
+  const od=document.getElementById('options'); od.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(ans[cur]===i?' sel':'');
+    b.innerHTML=`<span class="opt-lbl">${labels[i]}</span><span>${opt}</span>`;
+    b.onclick=()=>{ans[cur]=i;renderQ();};
+    od.appendChild(b);
+  });
+  document.getElementById('explanation').className='explanation';
+  document.getElementById('btnFlag').className='nav-btn'+(flagged.has(cur)?' flag-on':'');
+  document.getElementById('btnFlag').textContent=flagged.has(cur)?'🚩 Flagged':'🚩 Flag';
+  document.getElementById('btnPrev').disabled=cur===0;
+  buildGrid();
+}
+
+function clearAns(){ans[cur]=-1;renderQ();}
+function toggleFlag(){flagged.has(cur)?flagged.delete(cur):flagged.add(cur);renderQ();}
+function nav(d){const n=cur+d;if(n<0||n>=Q.length)return;cur=n;renderQ();}
+function goTo(i){cur=i;renderQ();document.querySelector('.q-panel').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function openModal(){
+  const u=ans.filter(a=>a===-1).length;
+  document.getElementById('modalMsg').textContent=u>0?`You have ${u} unattempted question(s). Ready to submit?`:'All questions answered! Ready to submit?';
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show');}
+
+function doSubmit(){
+  closeModal(); clearInterval(timerInt);
+  document.getElementById('exam').style.display='none';
+  let correct=0,wrong=0,unattempted=0;
+  const tmap={};
+  Q.forEach((q,i)=>{
+    if(!tmap[q.t]) tmap[q.t]={total:0,correct:0};
+    tmap[q.t].total++;
+    if(ans[i]===-1) unattempted++;
+    else if(ans[i]===q.a){correct++;tmap[q.t].correct++;}
+    else wrong++;
+  });
+  const score=correct*5-wrong, maxScore=Q.length*5;
+  const pct=Math.max(0,Math.round((Math.max(0,score)/maxScore)*100));
+  const acc=correct+wrong>0?Math.round((correct/(correct+wrong))*100):0;
+  const used=45*60-timeLeft, tm=Math.floor(used/60), ts=used%60;
+  const grade=pct>=85?'🏆 Excellent':pct>=70?'🎯 Good':pct>=50?'📚 Average':'💪 Needs Work';
+  const labels=['A','B','C','D'];
+
+  let topicHTML='';
+  Object.entries(tmap).forEach(([name,data])=>{
+    const p=Math.round((data.correct/data.total)*100);
+    topicHTML+=`<div class="topic-row"><div class="topic-name">${name}</div><div class="topic-bar"><div class="topic-fill" style="width:${p}%"></div></div><div class="topic-pct">${p}%</div><div class="topic-score-lbl">${data.correct}/${data.total}</div></div>`;
+  });
+
+  let reviewHTML='';
+  Q.forEach((q,i)=>{
+    const ua=ans[i], isOk=ua===q.a, isSkip=ua===-1;
+    const cls=isSkip?'r-skip':isOk?'r-ok':'r-bad';
+    const icon=isSkip?'⬜':isOk?'✅':'❌';
+    let aLine=isSkip?`<span class="bad-a">Not Attempted</span> → Correct: <span class="ok-a">${labels[q.a]}. ${q.o[q.a]}</span>`:isOk?`Your Answer: <span class="ok-a">${labels[ua]}. ${q.o[ua]}</span>`:`Your Answer: <span class="bad-a">${labels[ua]}. ${q.o[ua]}</span> → Correct: <span class="ok-a">${labels[q.a]}. ${q.o[q.a]}</span>`;
+    reviewHTML+=`<div class="review-item ${cls}"><div class="rev-top"><div class="rev-status">${icon}</div><div><div class="rev-qtext"><strong>Q${i+1}.</strong> ${q.q.replace(/<[^>]+>/g,'').replace(/\n/g,' ')}</div><div class="rev-ans">${aLine}</div></div></div><div class="rev-exp">💡 ${q.e}</div></div>`;
+  });
+
+  document.getElementById('results').style.display='block';
+  document.getElementById('results').innerHTML=`
+  <div class="results-inner">
+    <div class="result-hdr">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);background:var(--green-lt);border:1px solid #a7f3d0;padding:5px 14px;border-radius:99px;margin-bottom:16px">✅ Test Submitted</div>
+      <h1>Your Score: <em>${score}</em> / ${maxScore}</h1>
+      <div style="font-size:14px;color:var(--muted);margin-top:4px">${grade} &nbsp;·&nbsp; Percentile Estimate: <strong style="color:var(--accent)">${pct}%</strong></div>
+      <div class="score-display">
+        <div class="score-circle" style="--pct:${pct}"><div class="score-circle-inner"><div class="sc-val">${score}</div><div class="sc-max">/ ${maxScore}</div></div></div>
+        <div class="score-breakdown">
+          <div class="sb-row"><div class="sb-icon">✅</div><div class="sb-label">Correct</div><div class="sb-val g">${correct} (+${correct*5})</div></div>
+          <div class="sb-row"><div class="sb-icon">❌</div><div class="sb-label">Wrong</div><div class="sb-val r">${wrong} (−${wrong})</div></div>
+          <div class="sb-row"><div class="sb-icon">⬜</div><div class="sb-label">Skipped</div><div class="sb-val u">${unattempted}</div></div>
+          <div class="sb-row"><div class="sb-icon">⏱</div><div class="sb-label">Time Used</div><div class="sb-val">${tm}m ${ts}s</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-tile"><div class="tv c">${correct}</div><div class="tl">✅ Correct Answers</div></div>
+      <div class="stat-tile"><div class="tv w">${wrong}</div><div class="tl">❌ Wrong Answers</div></div>
+      <div class="stat-tile"><div class="tv u">${unattempted}</div><div class="tl">⬜ Unattempted</div></div>
+      <div class="stat-tile"><div class="tv a">${acc}%</div><div class="tl">🎯 Accuracy Rate</div></div>
+    </div>
+    <div class="topic-section"><div class="section-title">📊 Topic-Wise Performance</div>${topicHTML}</div>
+    <div class="review-section"><div class="section-title">📖 Detailed Review & Explanations</div>${reviewHTML}</div>
+    <button class="btn-retry" onclick="location.reload()">🔄 Attempt Again</button>
+  </div>`;
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

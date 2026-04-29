@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 Physics Mock Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<!-- KaTeX for math rendering -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<style>
+  :root {
+    --bg: #f0f4ff;
+    --bg2: #e8eeff;
+    --indigo: #4338ca;
+    --indigo2: #6366f1;
+    --indigo-light: #c7d2fe;
+    --indigo-soft: #e0e7ff;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --teal: #0d9488;
+    --teal-light: #ccfbf1;
+    --white: #ffffff;
+    --text: #1e1b4b;
+    --text2: #4338ca;
+    --gray: #64748b;
+    --gray-light: #f1f5f9;
+    --shadow: 0 4px 28px rgba(67,56,202,0.12);
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #eef2ff 0%, #f0f4ff 60%, #fafafe 100%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(90deg, #312e81 0%, #4338ca 50%, #6366f1 100%);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(67,56,202,0.25);
+  }
+  .header-inner {
+    max-width: 1120px;
+    margin: auto;
+    padding: 11px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .header-title { display: flex; align-items: center; gap: 12px; }
+  .logo { font-size: 2rem; }
+  .header-text h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+  .header-text p { font-size: 0.76rem; opacity: 0.85; }
+  .timer-box {
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 12px;
+    padding: 8px 18px;
+    text-align: center;
+    min-width: 110px;
+  }
+  .timer-label { font-size: 0.66rem; opacity: 0.82; letter-spacing: 1px; text-transform: uppercase; }
+  .timer-val { font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; }
+  .timer-val.warning { color: #fde68a; }
+  .timer-val.danger { color: #fca5a5; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.45} }
+
+  /* SECTION TABS */
+  .section-tabs {
+    background: #fff;
+    border-bottom: 2px solid var(--indigo-light);
+    position: sticky;
+    top: 62px;
+    z-index: 90;
+  }
+  .section-tabs-inner {
+    max-width: 1120px;
+    margin: auto;
+    display: flex;
+    overflow-x: auto;
+    padding: 0 12px;
+    scrollbar-width: none;
+  }
+  .section-tabs-inner::-webkit-scrollbar { display: none; }
+  .sec-tab {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gray);
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .sec-tab.active { color: var(--indigo); border-bottom-color: var(--indigo); }
+  .sec-tab:hover { color: var(--indigo2); }
+
+  /* MAIN */
+  .main {
+    max-width: 1120px;
+    margin: 22px auto;
+    padding: 0 16px 48px;
+    display: grid;
+    grid-template-columns: 1fr 264px;
+    gap: 22px;
+    align-items: start;
+  }
+  @media(max-width:780px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+    .section-tabs { top: 56px; }
+  }
+
+  /* INTRO */
+  #intro-screen { padding: 10px 0; }
+  .intro-hero {
+    background: linear-gradient(135deg, #312e81 0%, #4338ca 60%, #6366f1 100%);
+    border-radius: var(--radius);
+    color: #fff;
+    padding: 32px 28px;
+    text-align: center;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro-hero::before {
+    content: '⚛';
+    position: absolute;
+    font-size: 8rem;
+    right: -20px;
+    top: -20px;
+    opacity: 0.08;
+  }
+  .intro-hero h2 { font-family: 'Playfair Display', serif; font-size: 1.65rem; margin-bottom: 8px; }
+  .intro-hero p { font-size: 0.88rem; opacity: 0.88; max-width: 440px; margin: 0 auto; }
+  .intro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 13px; margin-bottom: 18px; }
+  .info-box {
+    background: #fff;
+    border: 1.5px solid #c7d2fe;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .info-icon { font-size: 1.55rem; flex-shrink: 0; }
+  .info-label { font-size: 0.7rem; color: var(--gray); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-val { font-size: 0.98rem; font-weight: 800; color: var(--text); }
+  .pattern-analysis {
+    background: #fff;
+    border: 1.5px solid #c7d2fe;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .pa-title { font-family: 'Playfair Display', serif; font-size: 1.08rem; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .pa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; }
+  .pa-item { background: var(--indigo-soft); border-radius: 10px; padding: 12px 14px; border: 1.5px solid var(--indigo-light); }
+  .pa-topic { font-size: 0.76rem; font-weight: 700; color: var(--indigo); margin-bottom: 5px; }
+  .pa-bar-wrap { background: var(--indigo-light); border-radius: 4px; height: 6px; margin-bottom: 4px; }
+  .pa-bar { background: var(--indigo); border-radius: 4px; height: 6px; transition: width 1s ease; }
+  .pa-pct { font-size: 0.7rem; color: var(--gray); font-weight: 600; }
+  .start-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #312e81, #6366f1);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 18px rgba(67,56,202,0.28);
+  }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(67,56,202,0.38); }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 26px 26px 20px;
+    border: 1.5px solid #c7d2fe;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .q-num-badge { background: var(--indigo); color: #fff; border-radius: 8px; padding: 4px 12px; font-size: 0.78rem; font-weight: 700; }
+  .q-type-badge { background: var(--indigo-soft); color: var(--indigo); border-radius: 8px; padding: 4px 10px; font-size: 0.73rem; font-weight: 700; }
+  .q-chapter-badge { background: var(--teal-light); color: var(--teal); border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; font-weight: 700; }
+  .q-marks { margin-left: auto; font-size: 0.76rem; color: var(--gray); font-weight: 600; }
+  .q-marks span { color: var(--green); font-weight: 700; }
+  .q-marks span.neg { color: var(--red); }
+
+  .q-text {
+    font-size: 0.97rem;
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .formula-box {
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    border-left: 4px solid var(--indigo);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 10px 0 16px;
+    font-size: 0.93rem;
+    color: var(--text);
+    text-align: center;
+  }
+  .given-box {
+    background: #f8faff;
+    border: 1.5px dashed var(--indigo-light);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    color: var(--text2);
+    font-weight: 600;
+    line-height: 1.7;
+  }
+  .given-box strong { color: var(--indigo); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+  .options { display: grid; gap: 9px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 0.91rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.18s;
+    background: #fafbff;
+    line-height: 1.5;
+  }
+  .opt:hover { border-color: var(--indigo2); background: var(--indigo-soft); }
+  .opt.selected { border-color: var(--indigo); background: var(--indigo-light); color: var(--indigo); font-weight: 700; }
+  .opt.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 700; }
+  .opt.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
+  .opt-key {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .opt.selected .opt-key { background: var(--indigo); color: #fff; }
+  .opt.correct .opt-key { background: var(--green); color: #fff; }
+  .opt.wrong .opt-key { background: var(--red); color: #fff; }
+
+  /* SOLUTION BOX */
+  .solution-box {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border: 1.5px solid #86efac;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.87rem;
+    display: none;
+  }
+  .solution-box.show { display: block; animation: fadeUp 0.3s ease; }
+  .sol-head { font-weight: 800; color: var(--green); margin-bottom: 7px; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+  .sol-text { color: #166534; line-height: 1.7; }
+  .sol-step {
+    background: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-family: monospace;
+    font-size: 0.88rem;
+    color: #14532d;
+    border-left: 3px solid #4ade80;
+  }
+  .sol-tip {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: var(--amber-light);
+    border-radius: 8px;
+    border-left: 3px solid var(--amber);
+    font-size: 0.8rem;
+    color: #78350f;
+    font-weight: 600;
+  }
+
+  /* NAV */
+  .q-nav-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .q-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .btn-prev { background: var(--gray-light); color: var(--gray); }
+  .btn-prev:hover { background: #e2e8f0; }
+  .btn-next { background: var(--indigo); color: #fff; }
+  .btn-next:hover { background: #3730a3; }
+  .btn-check { background: var(--amber-light); color: #78350f; border: 1.5px solid #fbbf24; font-size: 0.82rem; padding: 8px 14px; }
+  .btn-check:hover { background: #fde68a; }
+  .btn-review { background: #f5f3ff; color: #5b21b6; border: 1.5px solid #a78bfa; font-size: 0.8rem; padding: 8px 13px; }
+  .btn-review:hover { background: #ede9fe; }
+  .btn-review.marked { background: #7c3aed; color: #fff; }
+  .btn-submit { background: var(--green); color: #fff; }
+  .btn-submit:hover { background: #15803d; }
+  .btn:disabled { opacity: 0.42; cursor: not-allowed; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 15px; }
+  .side-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 17px;
+    border: 1.5px solid #c7d2fe;
+  }
+  .side-title { font-size: 0.76rem; font-weight: 800; color: var(--indigo); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .q-palette { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .pal-btn {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 7px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 0.73rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Nunito', sans-serif;
+    color: var(--gray);
+  }
+  .pal-btn.current { border-color: var(--indigo); background: var(--indigo-light); color: var(--indigo); }
+  .pal-btn.attempted { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .pal-btn.wrong-att { background: var(--red-light); border-color: var(--red); color: var(--red); }
+  .pal-btn.reviewed { background: #ede9fe; border-color: #a78bfa; color: #5b21b6; }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 11px; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 0.71rem; color: var(--gray); font-weight: 600; }
+  .leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .leg-dot.nv { background: #f8fafc; border: 1.5px solid #e2e8f0; }
+  .leg-dot.att { background: var(--green-light); border: 1.5px solid var(--green); }
+  .leg-dot.curr { background: var(--indigo-light); border: 1.5px solid var(--indigo); }
+  .leg-dot.rev { background: #ede9fe; border: 1.5px solid #a78bfa; }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .stat-item { text-align: center; padding: 10px 5px; border-radius: 10px; }
+  .stat-item.att { background: var(--green-light); }
+  .stat-item.skip { background: var(--gray-light); }
+  .stat-item.rev { background: #ede9fe; }
+  .stat-num { font-size: 1.4rem; font-weight: 800; }
+  .stat-item.att .stat-num { color: var(--green); }
+  .stat-item.skip .stat-num { color: var(--gray); }
+  .stat-item.rev .stat-num { color: #7c3aed; }
+  .stat-lbl { font-size: 0.66rem; font-weight: 700; color: var(--gray); margin-top: 2px; }
+  .pattern-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #e0e7ff; font-size: 0.78rem; }
+  .pattern-row:last-child { border-bottom: none; }
+  .p-type { color: var(--text); font-weight: 600; }
+  .p-count { font-weight: 800; color: var(--indigo); background: var(--indigo-soft); padding: 2px 9px; border-radius: 6px; font-size: 0.73rem; }
+
+  /* RESULT */
+  #result-screen { display: none; text-align: center; padding: 36px 20px; }
+  .result-ring {
+    position: relative;
+    width: 148px;
+    height: 148px;
+    margin: 0 auto 20px;
+  }
+  .result-ring svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: #e0e7ff; stroke-width: 12; }
+  .ring-fill { fill: none; stroke: var(--indigo); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 376; stroke-dashoffset: 376; transition: stroke-dashoffset 1.5s ease; }
+  .ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-pct { font-size: 1.6rem; font-weight: 800; color: var(--indigo); }
+  .ring-lbl { font-size: 0.7rem; color: var(--gray); font-weight: 700; }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text); margin-bottom: 5px; }
+  .result-sub { color: var(--gray); font-size: 0.87rem; margin-bottom: 22px; }
+  .result-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; max-width: 360px; margin: 0 auto 22px; }
+  .result-stat { background: #fff; border-radius: 12px; border: 1.5px solid #c7d2fe; padding: 14px 10px; box-shadow: 0 2px 10px rgba(67,56,202,0.08); }
+  .rs-num { font-size: 1.5rem; font-weight: 800; }
+  .rs-lbl { font-size: 0.73rem; color: var(--gray); font-weight: 600; margin-top: 2px; }
+  .rs-num.c { color: var(--green); }
+  .rs-num.w { color: var(--red); }
+  .rs-num.s { color: var(--gray); }
+  .rs-num.sc { color: var(--indigo); }
+
+  .diff-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; margin-left: 4px; }
+  .diff-easy { background: var(--green-light); color: var(--green); }
+  .diff-med { background: var(--amber-light); color: var(--amber); }
+  .diff-hard { background: var(--red-light); color: var(--red); }
+
+  @media(max-width:500px) {
+    .q-card { padding: 16px 13px; }
+    .q-text { font-size: 0.9rem; }
+    .opt { font-size: 0.85rem; padding: 10px 11px; }
+    .q-palette { grid-template-columns: repeat(7,1fr); }
+    .header-text h1 { font-size: 1.05rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="header-title">
+      <div class="logo">⚛️</div>
+      <div class="header-text">
+        <h1>CUET 2026 Physics Mock Test</h1>
+        <p>50 Questions · 2022–2025 Pattern Analysis · Detailed Solutions</p>
+      </div>
+    </div>
+    <div class="timer-box">
+      <div class="timer-label">⏱ Time Left</div>
+      <div class="timer-val" id="timer-val">60:00</div>
+    </div>
+  </div>
+</header>
+
+<div class="section-tabs" id="sec-tabs" style="display:none;">
+  <div class="section-tabs-inner">
+    <button class="sec-tab active" onclick="jumpSection(0)" id="tab-0">⚡ Electrostatics</button>
+    <button class="sec-tab" onclick="jumpSection(1)" id="tab-1">🔋 Current Electricity</button>
+    <button class="sec-tab" onclick="jumpSection(2)" id="tab-2">🧲 Magnetism</button>
+    <button class="sec-tab" onclick="jumpSection(3)" id="tab-3">💡 Optics</button>
+    <button class="sec-tab" onclick="jumpSection(4)" id="tab-4">☢️ Modern Physics</button>
+    <button class="sec-tab" onclick="jumpSection(5)" id="tab-5">🌊 Waves & Others</button>
+  </div>
+</div>
+
+<div class="main" id="main-area">
+  <div id="q-area">
+
+    <!-- INTRO -->
+    <div id="intro-screen">
+      <div class="intro-hero">
+        <h2>CUET 2026 Physics Mock Test</h2>
+        <p>High-probability questions based on Class 12 syllabus & 2022–2025 trend analysis with step-by-step solutions</p>
+      </div>
+      <div class="intro-grid">
+        <div class="info-box"><div class="info-icon">❓</div><div><div class="info-label">Questions</div><div class="info-val">50 MCQs</div></div></div>
+        <div class="info-box"><div class="info-icon">⏱</div><div><div class="info-label">Duration</div><div class="info-val">60 Minutes</div></div></div>
+        <div class="info-box"><div class="info-icon">✅</div><div><div class="info-label">Correct</div><div class="info-val">+5 Marks</div></div></div>
+        <div class="info-box"><div class="info-icon">❌</div><div><div class="info-label">Wrong</div><div class="info-val">−1 Mark</div></div></div>
+        <div class="info-box"><div class="info-icon">🏆</div><div><div class="info-label">Total</div><div class="info-val">250 Marks</div></div></div>
+        <div class="info-box"><div class="info-icon">📅</div><div><div class="info-label">CUET 2026</div><div class="info-val">May 11–31</div></div></div>
+      </div>
+      <div class="pattern-analysis">
+        <div class="pa-title">📊 Chapter-wise Weightage: 2022–2025 Analysis</div>
+        <div class="pa-grid">
+          <div class="pa-item"><div class="pa-topic">⚡ Electrostatics & Capacitors</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:80%"></div></div><div class="pa-pct">~18% (9 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">🔋 Current Electricity</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:70%"></div></div><div class="pa-pct">~14% (7 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">🧲 Magnetism & EMI</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:65%"></div></div><div class="pa-pct">~16% (8 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">💡 Ray & Wave Optics</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:60%"></div></div><div class="pa-pct">~18% (9 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">☢️ Modern Physics</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:55%"></div></div><div class="pa-pct">~16% (8 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">🌊 Waves, SHM, Thermodynamics</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:40%"></div></div><div class="pa-pct">~18% (9 Q)</div></div>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startTest()">🚀 Start Physics Mock Test</button>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result-screen">
+      <div class="result-ring">
+        <svg width="148" height="148" viewBox="0 0 148 148">
+          <circle class="ring-bg" cx="74" cy="74" r="60"/>
+          <circle class="ring-fill" id="ring-fill" cx="74" cy="74" r="60"/>
+        </svg>
+        <div class="ring-text">
+          <div class="ring-pct" id="res-pct">0%</div>
+          <div class="ring-lbl">Score</div>
+        </div>
+      </div>
+      <div class="result-title">Test Completed! 🎉</div>
+      <div class="result-sub" id="res-grade"></div>
+      <div class="result-grid">
+        <div class="result-stat"><div class="rs-num c" id="r-correct">0</div><div class="rs-lbl">✅ Correct</div></div>
+        <div class="result-stat"><div class="rs-num w" id="r-wrong">0</div><div class="rs-lbl">❌ Wrong</div></div>
+        <div class="result-stat"><div class="rs-num s" id="r-skip">0</div><div class="rs-lbl">⏭ Skipped</div></div>
+        <div class="result-stat"><div class="rs-num sc" id="r-score">0</div><div class="rs-lbl">🏆 Score / 250</div></div>
+      </div>
+      <button class="btn btn-submit" style="margin:0 auto;display:block;" onclick="reviewAnswers()">📝 Review All Answers</button>
+    </div>
+
+    <!-- Q CARD -->
+    <div id="q-card-wrap" style="display:none;">
+      <div class="q-nav-top">
+        <button class="btn btn-review" id="btn-review-mark" onclick="toggleReview()">🔖 Mark for Review</button>
+        <button class="btn btn-check" id="btn-check" onclick="checkAnswer()">💡 Show Solution</button>
+      </div>
+      <div class="q-card" id="q-card">
+        <div class="q-meta">
+          <div class="q-num-badge" id="q-badge">Q 1 / 50</div>
+          <div class="q-type-badge" id="q-type-badge">Conceptual</div>
+          <div class="q-chapter-badge" id="q-chapter-badge">Electrostatics</div>
+          <div class="q-marks">Correct: <span>+5</span> &nbsp; Wrong: <span class="neg">−1</span></div>
+        </div>
+        <div id="q-given"></div>
+        <div class="q-text" id="q-text"></div>
+        <div class="options" id="q-options"></div>
+        <div class="solution-box" id="q-solution">
+          <div class="sol-head">✅ Solution</div>
+          <div class="sol-text" id="sol-text-inner"></div>
+          <div class="sol-tip" id="sol-tip"></div>
+        </div>
+      </div>
+      <div class="q-nav">
+        <button class="btn btn-prev" onclick="prevQ()" id="btn-prev">◀ Previous</button>
+        <button class="btn btn-next" onclick="nextQ()" id="btn-next">Next ▶</button>
+        <button class="btn btn-submit" onclick="submitTest()" id="btn-submit" style="display:none;">Submit Test ✅</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar" style="display:none;">
+    <div class="side-card">
+      <div class="side-title">📊 Progress</div>
+      <div class="stats-row">
+        <div class="stat-item att"><div class="stat-num" id="s-att">0</div><div class="stat-lbl">Attempted</div></div>
+        <div class="stat-item skip"><div class="stat-num" id="s-skip">50</div><div class="stat-lbl">Remaining</div></div>
+        <div class="stat-item rev"><div class="stat-num" id="s-rev">0</div><div class="stat-lbl">Review</div></div>
+      </div>
+    </div>
+    <div class="side-card">
+      <div class="side-title">🗂 Question Palette</div>
+      <div class="q-palette" id="q-palette"></div>
+      <div class="legend">
+        <div class="leg"><div class="leg-dot nv"></div>Not Visited</div>
+        <div class="leg"><div class="leg-dot curr"></div>Current</div>
+        <div class="leg"><div class="leg-dot att"></div>Attempted</div>
+        <div class="leg"><div class="leg-dot rev"></div>For Review</div>
+      </div>
+    </div>
+    <div class="side-card">
+      <div class="side-title">📋 Chapter Map</div>
+      <div class="pattern-row"><span class="p-type">⚡ Electrostatics</span><span class="p-count">Q 1–9</span></div>
+      <div class="pattern-row"><span class="p-type">🔋 Current Electricity</span><span class="p-count">Q 10–16</span></div>
+      <div class="pattern-row"><span class="p-type">🧲 Magnetism & EMI</span><span class="p-count">Q 17–24</span></div>
+      <div class="pattern-row"><span class="p-type">💡 Optics</span><span class="p-count">Q 25–33</span></div>
+      <div class="pattern-row"><span class="p-type">☢️ Modern Physics</span><span class="p-count">Q 34–41</span></div>
+      <div class="pattern-row"><span class="p-type">🌊 Waves & Others</span><span class="p-count">Q 42–50</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 50 HIGH-PROBABILITY CUET PHYSICS QUESTIONS 2026
+// Based on 2022–2025 Pattern Analysis
+// ============================================================
+const questions = [
+
+  // ===== SECTION A: ELECTROSTATICS (Q1–9) =====
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "Coulomb's law states that the electrostatic force between two point charges is:",
+    opts: ["Directly proportional to the product of charges and inversely proportional to the square of distance between them",
+           "Directly proportional to both charges and directly proportional to distance",
+           "Inversely proportional to the product of charges",
+           "Independent of the medium between the charges"],
+    ans: 0,
+    sol: "Coulomb's Law: F = kq₁q₂/r²\n• Force is directly proportional to product of charges (q₁q₂)\n• Force is inversely proportional to square of distance (r²)\n• k = 1/4πε₀ = 9×10⁹ Nm²/C²\n• Also depends on medium (through εᵣ)",
+    tip: "📌 CUET 2022 & 2023: Coulomb's Law ke baare mein direct & inverse proportionality MUST know hai."
+  },
+  {
+    sec:0, type:"Numerical", chapter:"Electrostatics",
+    given: "Two charges of +4μC and +9μC are placed 30 cm apart in vacuum.",
+    q: "What is the electrostatic force between them? (k = 9×10⁹ Nm²/C²)",
+    opts: ["3.6 N", "4.0 N", "3.2 N", "2.4 N"],
+    ans: 0,
+    sol: "F = kq₁q₂/r²\n= (9×10⁹ × 4×10⁻⁶ × 9×10⁻⁶) / (0.30)²\n= (9×10⁹ × 36×10⁻¹²) / 0.09\n= 324×10⁻³ / 0.09\n= 3.6 N",
+    tip: "📌 Tip: Always convert μC → C (×10⁻⁶) and cm → m before substituting. This is a standard numerical type."
+  },
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "The electric field inside a hollow charged conducting sphere is:",
+    opts: ["Equal to the field at the surface", "Zero everywhere inside", "Maximum at the centre", "Non-uniform inside"],
+    ans: 1,
+    sol: "Inside a hollow charged conductor, the electric field is ZERO everywhere. This is because all charges reside on the outer surface. By Gauss's law: E×A = Q_enclosed/ε₀. Inside, Q_enclosed = 0, so E = 0.",
+    tip: "📌 One of the MOST repeated CUET concepts. E = 0 inside conductor. Remember: charge resides on surface only."
+  },
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "Capacitance of a parallel plate capacitor increases when:",
+    opts: ["Distance between plates is increased", "Area of plates is decreased", "A dielectric material is inserted between plates", "Charge on the plates is decreased"],
+    ans: 2,
+    sol: "C = ε₀εᵣA/d\n• Increasing εᵣ (dielectric constant) → C increases ✓\n• Increasing area A → C increases\n• Increasing distance d → C decreases\nInserting dielectric increases εᵣ, hence capacitance increases.",
+    tip: "📌 Capacitance formula C = ε₀A/d (no dielectric) and C = ε₀εᵣA/d (with dielectric) — asked every year!"
+  },
+  {
+    sec:0, type:"Numerical", chapter:"Capacitors",
+    given: "Two capacitors C₁ = 4μF and C₂ = 6μF are connected in series.",
+    q: "What is the equivalent capacitance?",
+    opts: ["10 μF", "2.4 μF", "1.5 μF", "5 μF"],
+    ans: 1,
+    sol: "Series: 1/Ceq = 1/C₁ + 1/C₂ = 1/4 + 1/6 = 3/12 + 2/12 = 5/12\nCeq = 12/5 = 2.4 μF",
+    tip: "📌 Series → 1/Ceq = 1/C₁ + 1/C₂ (Ceq < smallest C). Parallel → Ceq = C₁+C₂. This numerial appears EVERY year."
+  },
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "Electric potential at a point is defined as:",
+    opts: ["Work done per unit charge in bringing a positive test charge from infinity to that point",
+           "Force experienced by a unit charge at that point",
+           "Energy stored per unit volume in an electric field",
+           "Charge per unit area on a conductor surface"],
+    ans: 0,
+    sol: "Electric Potential V = W/q₀\nwhere W = work done in bringing a unit positive charge from infinity to that point against the electric field.\nUnit: Volt (V) = Joule/Coulomb\nV = kQ/r for a point charge",
+    tip: "📌 Potential vs Field — V = W/q (scalar), E = F/q (vector). Definition questions appear 2–3 times per paper."
+  },
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "The SI unit of electric flux is:",
+    opts: ["N/C", "N·m²/C", "C/m²", "V/m"],
+    ans: 1,
+    sol: "Electric Flux φ = E·A·cosθ\nUnit = [E]×[A] = (N/C)×m² = N·m²/C\nAlso written as V·m (since 1 V/m = 1 N/C)\nGauss's law: φ = Q/ε₀",
+    tip: "📌 Unit of electric flux = N·m²/C or V·m. Don't confuse with electric field unit (N/C or V/m)."
+  },
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "Energy stored in a capacitor of capacitance C charged to potential V is:",
+    opts: ["CV", "½CV²", "CV²", "2CV²"],
+    ans: 1,
+    sol: "Energy stored in capacitor:\nU = ½CV² = Q²/2C = QV/2\nAll three forms are equivalent. The factor ½ comes from the fact that average voltage during charging is V/2.",
+    tip: "📌 Energy of capacitor = ½CV² — asked in CUET 2022, 2023, 2024. Remember all 3 equivalent forms!"
+  },
+  {
+    sec:0, type:"Conceptual", chapter:"Electrostatics",
+    given: null,
+    q: "Gauss's Law states that total electric flux through any closed surface equals:",
+    opts: ["Total charge enclosed divided by ε₀", "Total charge on the surface multiplied by ε₀", "Electric field times the area", "Charge density times volume"],
+    ans: 0,
+    sol: "Gauss's Law: φ = ∮E·dA = Q_enclosed / ε₀\nwhere Q_enclosed = total charge inside the closed surface (Gaussian surface)\nε₀ = 8.85×10⁻¹² C²/Nm² (permittivity of free space)\nThis law is used to find E for symmetric charge distributions.",
+    tip: "📌 Gauss's Law is fundamental. Statement + formula both asked frequently. φ = Q_enc/ε₀."
+  },
+
+  // ===== SECTION B: CURRENT ELECTRICITY (Q10–16) =====
+  {
+    sec:1, type:"Conceptual", chapter:"Current Electricity",
+    given: null,
+    q: "Ohm's Law states that (at constant temperature):",
+    opts: ["Current is proportional to resistance", "Voltage is proportional to current", "Resistance varies with voltage", "Power is constant for all voltages"],
+    ans: 1,
+    sol: "Ohm's Law: V = IR\nAt constant temperature, the current (I) through a conductor is directly proportional to the potential difference (V) across it.\nV/I = R = constant (for ohmic conductors)\nSlope of V-I graph = Resistance R",
+    tip: "📌 Ohm's Law V=IR — basic but asked as conceptual + numerical. Also know: non-ohmic devices (diodes, thermistors)."
+  },
+  {
+    sec:1, type:"Numerical", chapter:"Current Electricity",
+    given: "A wire has resistance 6Ω. Three such wires are connected in parallel.",
+    q: "What is the equivalent resistance?",
+    opts: ["18 Ω", "2 Ω", "3 Ω", "6 Ω"],
+    ans: 1,
+    sol: "Parallel: 1/Req = 1/R₁ + 1/R₂ + 1/R₃ = 1/6 + 1/6 + 1/6 = 3/6 = 1/2\nReq = 2 Ω\nShortcut: For n identical resistors in parallel: Req = R/n = 6/3 = 2 Ω",
+    tip: "📌 Parallel combination Req = R/n for identical resistors. Series Req = nR. Both are tested in CUET numericals."
+  },
+  {
+    sec:1, type:"Conceptual", chapter:"Current Electricity",
+    given: null,
+    q: "Which of the following is the correct statement about Kirchhoff's laws?",
+    opts: ["KVL: Sum of currents at a junction = 0; KCL: Sum of EMF = Sum of voltage drops",
+           "KCL: Sum of currents at a junction = 0; KVL: Sum of EMF = Sum of voltage drops in a closed loop",
+           "Both KVL and KCL deal with currents only",
+           "KVL is based on conservation of charge"],
+    ans: 1,
+    sol: "Kirchhoff's Laws:\n• KCL (Junction Rule): ΣI = 0 at any junction — based on conservation of CHARGE\n• KVL (Loop Rule): ΣE = ΣIR in any closed loop — based on conservation of ENERGY\nThese are used to analyze complex circuits.",
+    tip: "📌 KCL = conservation of charge (junction). KVL = conservation of energy (loop). This exact MCQ appeared in CUET 2023."
+  },
+  {
+    sec:1, type:"Numerical", chapter:"Current Electricity",
+    given: "A bulb of 60W is connected to 220V supply.",
+    q: "What is the resistance of the bulb?",
+    opts: ["880/3 Ω", "806.67 Ω", "220 Ω", "3.67 Ω"],
+    ans: 1,
+    sol: "P = V²/R → R = V²/P = (220)²/60 = 48400/60 = 806.67 Ω\nAlternatively: I = P/V = 60/220 = 3/11 A\nR = V/I = 220/(3/11) = 220×11/3 = 806.67 Ω",
+    tip: "📌 Power formulas: P=VI, P=I²R, P=V²/R. All three used in CUET numericals. Memorize all!"
+  },
+  {
+    sec:1, type:"Conceptual", chapter:"Current Electricity",
+    given: null,
+    q: "The internal resistance of an ideal voltmeter is:",
+    opts: ["Zero", "Infinity", "Very small (few ohms)", "Equal to external resistance"],
+    ans: 1,
+    sol: "An ideal voltmeter has INFINITE resistance so that it draws no current from the circuit when connected in parallel. If it drew current, it would disturb the circuit being measured.\nAn ideal ammeter has ZERO resistance (connected in series).",
+    tip: "📌 Ideal Voltmeter = infinite resistance (parallel). Ideal Ammeter = zero resistance (series). Asked every year!"
+  },
+  {
+    sec:1, type:"Conceptual", chapter:"Current Electricity",
+    given: null,
+    q: "In Wheatstone bridge, the bridge is said to be balanced when:",
+    opts: ["P/Q = R/S", "P×R = Q×S", "P+R = Q+S", "P/Q = S/R"],
+    ans: 0,
+    sol: "Wheatstone Bridge Balance Condition: P/Q = R/S\nAt balance, no current flows through the galvanometer (Ig = 0).\nThis is used to find unknown resistance.\nIf P,Q,R are known and S is unknown: S = QR/P",
+    tip: "📌 Wheatstone Bridge: P/Q = R/S at balance. This is very frequently tested in CUET and boards."
+  },
+  {
+    sec:1, type:"Conceptual", chapter:"Current Electricity",
+    given: null,
+    q: "The drift velocity of electrons in a conductor is of the order of:",
+    opts: ["10⁸ m/s", "10³ m/s", "10⁻⁴ m/s", "1 m/s"],
+    ans: 2,
+    sol: "Drift velocity vd ≈ 10⁻⁴ m/s (very small!)\nRelation: I = nAevd\nwhere n = number density of electrons, A = area, e = electron charge\nNote: Free electrons have random velocities ~10⁵–10⁶ m/s, but drift velocity (net directed motion) is very small.",
+    tip: "📌 Drift velocity ~10⁻⁴ m/s. Random thermal velocity ~10⁶ m/s. The distinction appears in CUET conceptual questions."
+  },
+
+  // ===== SECTION C: MAGNETISM & EMI (Q17–24) =====
+  {
+    sec:2, type:"Conceptual", chapter:"Magnetic Effects",
+    given: null,
+    q: "The force on a current-carrying conductor in a magnetic field is given by:",
+    opts: ["F = qvB sinθ", "F = BIL sinθ", "F = B²IL", "F = IL/B"],
+    ans: 1,
+    sol: "Force on current-carrying conductor: F = BIL sinθ\nwhere B = magnetic field, I = current, L = length of conductor, θ = angle between conductor and B\nFor maximum force: θ = 90° → F = BIL\nFor minimum force: θ = 0° → F = 0",
+    tip: "📌 F = BIL sinθ for conductor. F = qvB sinθ for moving charge. Both are tested — don't confuse them!"
+  },
+  {
+    sec:2, type:"Conceptual", chapter:"Magnetic Effects",
+    given: null,
+    q: "A proton and an electron move with the same velocity in a uniform magnetic field. The ratio of radii of their circular paths (r_proton/r_electron) is:",
+    opts: ["1:1", "m_p/m_e ≈ 1836:1", "m_e/m_p", "Depends on B"],
+    ans: 1,
+    sol: "Radius in magnetic field: r = mv/(qB)\nFor same v, B and same charge magnitude:\nr ∝ m\nrₚ/rₑ = mₚ/mₑ ≈ 1836\nProton is heavier so moves in a larger radius circle.",
+    tip: "📌 r = mv/qB — radius proportional to mass (same speed and charge). Proton's radius >> electron's radius."
+  },
+  {
+    sec:2, type:"Conceptual", chapter:"Electromagnetic Induction",
+    given: null,
+    q: "Faraday's Law of electromagnetic induction states that induced EMF is:",
+    opts: ["Proportional to the rate of change of current", "Equal to the negative rate of change of magnetic flux",
+           "Proportional to the magnetic field strength", "Independent of time"],
+    ans: 1,
+    sol: "Faraday's Law: ε = -dΦ/dt\nwhere Φ = magnetic flux = B·A·cosθ\nThe negative sign represents Lenz's Law (induced EMF opposes the cause).\nε = -N·dΦ/dt for N turns of coil",
+    tip: "📌 ε = -dΦ/dt (Faraday's Law). Negative sign = Lenz's Law. BOTH are asked together in CUET."
+  },
+  {
+    sec:2, type:"Conceptual", chapter:"Electromagnetic Induction",
+    given: null,
+    q: "Lenz's law is based on the conservation of:",
+    opts: ["Charge", "Energy", "Mass", "Momentum"],
+    ans: 1,
+    sol: "Lenz's law states that induced current opposes the change in flux that caused it. This is a consequence of conservation of ENERGY. If induced current aided the flux change, it would create energy from nothing — violating energy conservation.",
+    tip: "📌 Lenz's Law = Conservation of Energy. This conceptual question appeared in CUET 2024!"
+  },
+  {
+    sec:2, type:"Conceptual", chapter:"AC Circuits",
+    given: null,
+    q: "In an AC circuit with only a capacitor, the current:",
+    opts: ["Lags voltage by 90°", "Leads voltage by 90°", "Is in phase with voltage", "Lags voltage by 45°"],
+    ans: 1,
+    sol: "In a purely capacitive AC circuit:\n• Current LEADS voltage by 90° (π/2)\nMemory trick: 'CIVIL' — In Capacitor (C), I leads V\nIn Inductor (L), V leads I\nPhase difference = 90° = π/2 radians",
+    tip: "📌 CIVIL trick: C-I leads V in L. Capacitor → current leads. Inductor → voltage leads. Tested every year!"
+  },
+  {
+    sec:2, type:"Numerical", chapter:"AC Circuits",
+    given: "An AC circuit has resistance R=3Ω and inductive reactance XL=4Ω.",
+    q: "What is the impedance of the circuit?",
+    opts: ["7 Ω", "5 Ω", "1 Ω", "12 Ω"],
+    ans: 1,
+    sol: "Impedance Z = √(R² + XL²) = √(3² + 4²) = √(9+16) = √25 = 5 Ω\nThis is a classic 3-4-5 Pythagorean triplet!\nPower factor: cosφ = R/Z = 3/5 = 0.6",
+    tip: "📌 Z = √(R²+XL²) for R-L circuit. Z = √(R²+(XL-XC)²) for RLC. The 3-4-5 triplet is a favourite CUET numerical."
+  },
+  {
+    sec:2, type:"Conceptual", chapter:"Magnetism",
+    given: null,
+    q: "The SI unit of magnetic flux is:",
+    opts: ["Tesla (T)", "Weber (Wb)", "Henry (H)", "Ampere-meter (A·m)"],
+    ans: 1,
+    sol: "Magnetic Flux Φ = B·A·cosθ\nSI Unit = Weber (Wb) = Tesla·m²\n1 Wb = 1 T·m²\nNote: Tesla is unit of magnetic field (B), not flux.\nHenry is unit of inductance.",
+    tip: "📌 Flux → Weber (Wb). Magnetic field B → Tesla (T). Inductance → Henry (H). Units asked directly in CUET!"
+  },
+  {
+    sec:2, type:"Conceptual", chapter:"Magnetism",
+    given: null,
+    q: "A transformer works on the principle of:",
+    opts: ["Self-induction", "Mutual induction", "Magnetic resonance", "Eddy currents"],
+    ans: 1,
+    sol: "A transformer works on MUTUAL INDUCTION — when AC flows in primary coil, it creates a changing magnetic flux which induces EMF in the secondary coil.\nVs/Vp = Ns/Np = Ip/Is\nIdeal transformer: Input power = Output power",
+    tip: "📌 Transformer = Mutual Induction. Ratio: Vs/Vp = Ns/Np. Step-up/step-down based on turns ratio."
+  },
+
+  // ===== SECTION D: OPTICS (Q25–33) =====
+  {
+    sec:3, type:"Conceptual", chapter:"Ray Optics",
+    given: null,
+    q: "The refractive index of a medium is defined as:",
+    opts: ["Speed of light in medium / speed of light in vacuum",
+           "Speed of light in vacuum / speed of light in medium",
+           "Wavelength in vacuum / wavelength in medium × angle",
+           "Frequency × wavelength in medium"],
+    ans: 1,
+    sol: "Refractive index n = c/v\nwhere c = speed of light in vacuum = 3×10⁸ m/s\nv = speed of light in that medium\nSince v < c always, n > 1 (for all real media)\nAlso: n = sin(i)/sin(r) (Snell's Law form)",
+    tip: "📌 n = c/v — definition. Higher n = denser medium = slower light. This definition is asked EVERY year."
+  },
+  {
+    sec:3, type:"Numerical", chapter:"Ray Optics",
+    given: "A concave mirror has focal length 15 cm. An object is placed 45 cm in front of it.",
+    q: "Where is the image formed? (Use mirror formula: 1/v + 1/u = 1/f)",
+    opts: ["22.5 cm in front of mirror", "−22.5 cm", "30 cm behind mirror", "90 cm in front"],
+    ans: 0,
+    sol: "Sign convention: distances measured from pole.\nu = −45 cm, f = −15 cm (concave mirror)\n1/v + 1/u = 1/f\n1/v = 1/f − 1/u = 1/(−15) − 1/(−45)\n= −1/15 + 1/45 = −3/45 + 1/45 = −2/45\nv = −45/2 = −22.5 cm\nMagnitude: 22.5 cm in front of mirror (real image)",
+    tip: "📌 Mirror formula 1/v+1/u=1/f. Sign convention: incident ray direction = positive. Real image = negative v."
+  },
+  {
+    sec:3, type:"Conceptual", chapter:"Ray Optics",
+    given: null,
+    q: "Total Internal Reflection occurs when:",
+    opts: ["Light goes from rarer to denser medium at any angle",
+           "Light goes from denser to rarer medium at an angle greater than critical angle",
+           "Light is incident normally on a surface",
+           "The frequency of light changes at the interface"],
+    ans: 1,
+    sol: "Total Internal Reflection (TIR) conditions:\n1. Light must travel from denser → rarer medium\n2. Angle of incidence must exceed the critical angle (θc)\nCritical angle: sin(θc) = 1/n (n = refractive index of denser medium)\nApplications: optical fibers, diamonds, mirages",
+    tip: "📌 TIR = denser to rarer + angle > critical angle. Critical angle sin(θc) = 1/n. Optical fiber works on TIR!"
+  },
+  {
+    sec:3, type:"Numerical", chapter:"Ray Optics",
+    given: "A convex lens has focal length 20 cm. An object is placed 60 cm from the lens.",
+    q: "Find the image distance.",
+    opts: ["30 cm", "40 cm", "−30 cm", "60 cm"],
+    ans: 0,
+    sol: "Lens formula: 1/v − 1/u = 1/f\nu = −60 cm, f = +20 cm (convex lens)\n1/v = 1/f + 1/u = 1/20 + 1/(−60)\n= 1/20 − 1/60 = 3/60 − 1/60 = 2/60 = 1/30\nv = +30 cm (real image, on other side)",
+    tip: "📌 Lens formula: 1/v − 1/u = 1/f. Note: lens formula uses minus sign (unlike mirror formula which uses plus)."
+  },
+  {
+    sec:3, type:"Conceptual", chapter:"Wave Optics",
+    given: null,
+    q: "In Young's Double Slit Experiment, if the distance between slits is halved and distance to screen is doubled, fringe width becomes:",
+    opts: ["Same", "4 times", "Half", "Double"],
+    ans: 1,
+    sol: "Fringe width β = λD/d\nNew d' = d/2, New D' = 2D\nβ' = λ(2D)/(d/2) = λ × 2D × 2/d = 4λD/d = 4β\nFringe width becomes 4 times!",
+    tip: "📌 β = λD/d is THE most important YDSE formula. β ∝ D and β ∝ 1/d. This calculation appeared in CUET 2023!"
+  },
+  {
+    sec:3, type:"Conceptual", chapter:"Wave Optics",
+    given: null,
+    q: "Which phenomenon confirms the wave nature of light?",
+    opts: ["Photoelectric effect", "Compton effect", "Interference and diffraction", "Pair production"],
+    ans: 2,
+    sol: "Wave nature of light: Interference, Diffraction, Polarization\nParticle (photon) nature of light: Photoelectric effect, Compton effect, Pair production\nLight shows DUAL NATURE (wave-particle duality)\nYDSE and diffraction confirm wave nature.",
+    tip: "📌 Wave nature → Interference/Diffraction. Particle nature → Photoelectric effect. Dual nature is a key CUET concept."
+  },
+  {
+    sec:3, type:"Conceptual", chapter:"Ray Optics",
+    given: null,
+    q: "The power of a lens of focal length 50 cm is:",
+    opts: ["2 D", "0.5 D", "50 D", "5 D"],
+    ans: 0,
+    sol: "Power P = 1/f (f in metres)\nf = 50 cm = 0.5 m\nP = 1/0.5 = 2 Dioptre (D)\nPositive power = converging (convex) lens\nNegative power = diverging (concave) lens",
+    tip: "📌 P = 1/f (in metres). MUST convert cm to m! P in Dioptre (D). Combined lenses: P = P₁+P₂."
+  },
+  {
+    sec:3, type:"Conceptual", chapter:"Wave Optics",
+    given: null,
+    q: "Polarisation of light proves that light is a:",
+    opts: ["Longitudinal wave", "Transverse wave", "Matter wave", "Mechanical wave"],
+    ans: 1,
+    sol: "Polarisation is possible ONLY in transverse waves (not longitudinal waves like sound). Light can be polarised using polaroids. This proves light is a transverse electromagnetic wave.\nSound waves cannot be polarised.",
+    tip: "📌 Polarisation → Transverse wave nature. Sound = longitudinal (cannot be polarised). Asked conceptually in CUET."
+  },
+  {
+    sec:3, type:"Conceptual", chapter:"Ray Optics",
+    given: null,
+    q: "A person is using a convex lens as a magnifying glass. For maximum magnification, the image should be at:",
+    opts: ["Infinity", "The near point (25 cm)", "The far point", "The focal point"],
+    ans: 1,
+    sol: "For simple microscope (magnifying glass):\nMagnification m = 1 + D/f (image at near point, D = 25 cm)\nor m = D/f (image at infinity)\nMaximum magnification occurs when image is at near point (D = 25 cm).\nm = 1 + D/f > D/f",
+    tip: "📌 Magnifying glass: m = 1+D/f (near point, max magnification). m = D/f (infinity). Standard formula for CUET."
+  },
+
+  // ===== SECTION E: MODERN PHYSICS (Q34–41) =====
+  {
+    sec:4, type:"Conceptual", chapter:"Photoelectric Effect",
+    given: null,
+    q: "The photoelectric effect proves the quantum (particle) nature of light because:",
+    opts: ["It shows light has high frequency",
+           "The maximum kinetic energy of photoelectrons depends on frequency, not intensity of light",
+           "It demonstrates diffraction of light",
+           "It shows light travels in straight lines"],
+    ans: 1,
+    sol: "Einstein's Photoelectric Equation: KE_max = hν − φ\n• KE depends on FREQUENCY (ν), NOT intensity — proves photon nature\n• Wave theory predicted intensity should determine energy — contradicted by experiment\n• If ν < threshold frequency (ν₀), no emission regardless of intensity\nThis proves light consists of photons (quanta).",
+    tip: "📌 Photoelectric effect: KE = hν − φ. Key: intensity increases current (not KE). Frequency determines KE."
+  },
+  {
+    sec:4, type:"Numerical", chapter:"Photoelectric Effect",
+    given: "Work function of a metal = 2 eV. Light of frequency 8×10¹⁴ Hz falls on it.",
+    q: "Find maximum KE of emitted electrons. (h = 6.6×10⁻³⁴ Js, 1eV = 1.6×10⁻¹⁹ J)",
+    opts: ["1.3 eV", "0.3 eV", "2 eV", "5.3 eV"],
+    ans: 0,
+    sol: "hν = 6.6×10⁻³⁴ × 8×10¹⁴ = 52.8×10⁻²⁰ J\n= 52.8×10⁻²⁰ / 1.6×10⁻¹⁹ eV = 3.3 eV\nKE = hν − φ = 3.3 − 2 = 1.3 eV",
+    tip: "📌 KE_max = hν − φ. Convert J to eV by dividing by 1.6×10⁻¹⁹. Standard numerical type in CUET."
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Atomic Structure",
+    given: null,
+    q: "According to Bohr's model of hydrogen atom, the energy of electron in nth orbit is proportional to:",
+    opts: ["n²", "n", "1/n", "1/n²"],
+    ans: 3,
+    sol: "Bohr's Model Energy: Eₙ = −13.6/n² eV\nSo |Eₙ| ∝ 1/n²\nFor n=1 (ground state): E₁ = −13.6 eV\nFor n=2: E₂ = −13.6/4 = −3.4 eV\nFor n=∞: E = 0 (ionization)\nEnergy becomes LESS NEGATIVE as n increases.",
+    tip: "📌 Eₙ = −13.6/n² eV. Ground state n=1, E=−13.6 eV. Energy ∝ 1/n². This formula is asked every CUET."
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Atomic Structure",
+    given: null,
+    q: "De Broglie wavelength of a particle is given by λ = h/mv. If the velocity of an electron is doubled, its de Broglie wavelength becomes:",
+    opts: ["Doubled", "Halved", "4 times", "Unchanged"],
+    ans: 1,
+    sol: "λ = h/mv\nIf v → 2v: λ' = h/m(2v) = (h/mv)/2 = λ/2\nWavelength is HALVED.\nλ ∝ 1/v (for same mass)\nDe Broglie wavelength associated with particles confirms wave-particle duality.",
+    tip: "📌 λ = h/mv (de Broglie). λ ∝ 1/v. If velocity doubles → wavelength halves. Tested conceptually and numerically."
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Nuclear Physics",
+    given: null,
+    q: "In radioactive decay, α-particle emission causes the mass number to decrease by:",
+    opts: ["2", "4", "1", "0"],
+    ans: 1,
+    sol: "Alpha (α) decay: ²₂He nucleus is emitted\nMass number A decreases by 4\nAtomic number Z decreases by 2\nExample: ²³⁸₉₂U → ²³⁴₉₀Th + ⁴₂He\nβ decay: A unchanged, Z increases/decreases by 1\nγ decay: No change in A or Z",
+    tip: "📌 α decay: A−4, Z−2. β⁻ decay: A same, Z+1. β⁺ decay: A same, Z−1. γ decay: no change. High-frequency CUET question!"
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Nuclear Physics",
+    given: null,
+    q: "Nuclear fission is the process in which:",
+    opts: ["Two light nuclei combine to form a heavy nucleus",
+           "A heavy nucleus splits into two lighter nuclei with release of energy",
+           "Electrons are emitted from the nucleus",
+           "Protons are converted to neutrons"],
+    ans: 1,
+    sol: "Nuclear FISSION: Heavy nucleus (e.g., U-235) splits into two lighter nuclei + neutrons + energy\nExample: ²³⁵U + n → ¹⁴¹Ba + ⁹²Kr + 3n + Energy\nNuclear FUSION: Two light nuclei combine (e.g., H + H → He) — occurs in Sun\nFission is used in nuclear reactors and atom bombs.",
+    tip: "📌 Fission = splitting (heavy→light). Fusion = combining (light→heavy). Sun runs on FUSION. Reactors use FISSION."
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Semiconductor",
+    given: null,
+    q: "In a p-type semiconductor, the majority charge carriers are:",
+    opts: ["Electrons", "Holes", "Protons", "Neutrons"],
+    ans: 1,
+    sol: "p-type semiconductor: Formed by doping with trivalent impurity (B, Al, In)\n• Creates electron deficiency → HOLES\n• Majority carriers: HOLES\n• Minority carriers: Electrons\nn-type semiconductor: Doped with pentavalent impurity (As, P, Sb)\n• Majority carriers: Electrons",
+    tip: "📌 p-type → majority = holes (positive). n-type → majority = electrons (negative). Tested in EVERY CUET paper."
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Semiconductor",
+    given: null,
+    q: "A p-n junction diode in forward bias:",
+    opts: ["Does not conduct", "Has high resistance", "Allows current to flow easily (low resistance)", "Acts as a capacitor"],
+    ans: 2,
+    sol: "Forward Bias: p-side connected to +ve terminal, n-side to −ve terminal\n• Potential barrier reduced → current flows easily\n• Low resistance (~few ohms)\nReverse Bias: p-side to −ve terminal\n• Potential barrier increased → very small leakage current\n• Very high resistance\nApplications: Rectifier, LED, Solar cell",
+    tip: "📌 Forward bias → conducts (low resistance). Reverse bias → blocks (high resistance). Diode as rectifier is also tested."
+  },
+  {
+    sec:4, type:"Conceptual", chapter:"Semiconductor",
+    given: null,
+    q: "Logic gate that gives output 1 only when all inputs are 1 is:",
+    opts: ["OR gate", "AND gate", "NOT gate", "NAND gate"],
+    ans: 1,
+    sol: "AND gate: Output = 1 ONLY when ALL inputs are 1\nTruth table: 0·0=0, 0·1=0, 1·0=0, 1·1=1\nOR gate: Output=1 when ANY input is 1\nNOT gate: Inverts input (1→0, 0→1)\nNAND = NOT+AND (universal gate)\nNOR = NOT+OR (universal gate)",
+    tip: "📌 Logic gates are HIGH FREQUENCY in CUET. Know truth tables for AND, OR, NOT, NAND, NOR, XOR."
+  },
+
+  // ===== SECTION F: WAVES, SHM, THERMODYNAMICS & OTHERS (Q42–50) =====
+  {
+    sec:5, type:"Conceptual", chapter:"Thermodynamics",
+    given: null,
+    q: "First Law of Thermodynamics states that:",
+    opts: ["Heat cannot flow from cold body to hot body spontaneously",
+           "Total energy is conserved: ΔU = Q − W",
+           "Entropy of universe always decreases",
+           "An ideal engine has 100% efficiency"],
+    ans: 1,
+    sol: "First Law of Thermodynamics: ΔU = Q − W\nwhere ΔU = change in internal energy, Q = heat added, W = work done by system\nIt is the law of conservation of energy applied to thermodynamic systems.\nSecond Law: Heat cannot spontaneously flow from cold to hot (entropy increases).",
+    tip: "📌 1st Law = Energy conservation (ΔU = Q−W). 2nd Law = Entropy increases. 3rd Law = Entropy→0 at 0K."
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Waves",
+    given: null,
+    q: "The speed of sound in air at room temperature is approximately:",
+    opts: ["3×10⁸ m/s", "340 m/s", "1500 m/s", "100 m/s"],
+    ans: 1,
+    sol: "Speed of sound in air at 20°C ≈ 343 m/s ≈ 340 m/s\nSpeed of sound depends on: medium, temperature\nv = √(γP/ρ) (Newton's formula with Laplace correction)\nSpeed of light = 3×10⁸ m/s\nSpeed of sound in water ≈ 1500 m/s (higher than air)",
+    tip: "📌 Sound in air ≈ 340 m/s. Light = 3×10⁸ m/s. Sound in water > air > (not vacuum — sound needs medium)."
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Simple Harmonic Motion",
+    given: null,
+    q: "Time period of a simple pendulum depends on:",
+    opts: ["Mass of bob and length of string", "Only the length of string and g", "Amplitude and mass", "Frequency of oscillation only"],
+    ans: 1,
+    sol: "Time period of simple pendulum:\nT = 2π√(L/g)\nwhere L = length of pendulum, g = acceleration due to gravity\nNOTE: T does NOT depend on:\n• Mass of bob\n• Amplitude (for small oscillations)\n• Material of bob",
+    tip: "📌 T = 2π√(L/g) — most important SHM formula. T does NOT depend on mass or amplitude. Tested every year!"
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Waves",
+    given: null,
+    q: "Doppler effect in sound: When a source of sound moves TOWARDS a stationary observer, the observed frequency is:",
+    opts: ["Less than actual frequency", "Equal to actual frequency", "Greater than actual frequency", "Zero"],
+    ans: 2,
+    sol: "Doppler Effect formula: f' = f[(v+v₀)/(v−vs)]\nWhen source moves TOWARD observer:\n• vs is positive in denominator → denominator decreases → f' > f\nThe observer hears a HIGHER pitch.\nWhen source moves away: observer hears lower pitch.",
+    tip: "📌 Source approaches → frequency increases (higher pitch). Source recedes → frequency decreases (lower pitch). CUET loves this!"
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Thermodynamics",
+    given: null,
+    q: "In an adiabatic process:",
+    opts: ["Temperature remains constant", "No heat exchange occurs (Q = 0)", "Pressure remains constant", "Volume remains constant"],
+    ans: 1,
+    sol: "Types of processes:\n• Isothermal: T = constant (ΔT = 0)\n• Isobaric: P = constant\n• Isochoric: V = constant\n• ADIABATIC: Q = 0 (no heat exchange)\nIn adiabatic: ΔU = −W (work done at expense of internal energy)\nPVᵞ = constant (adiabatic relation)",
+    tip: "📌 Adiabatic = no heat (Q=0). Isothermal = constant T. Isobaric = constant P. Isochoric = constant V."
+  },
+  {
+    sec:5, type:"Numerical", chapter:"Gravitation",
+    given: "Acceleration due to gravity on Earth's surface is g. At a height equal to Earth's radius R from the surface:",
+    q: "The value of g becomes:",
+    opts: ["g/4", "g/2", "g/3", "g"],
+    ans: 0,
+    sol: "g at height h: g' = g(R/(R+h))²\nAt h = R: g' = g(R/(R+R))² = g(R/2R)² = g(1/2)² = g/4\nAt height equal to R, gravity becomes g/4.",
+    tip: "📌 g' = g(R/(R+h))². At h=R, g'=g/4. At centre of earth, g=0. Variation of g with height = CUET favourite!"
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Electromagnetic Waves",
+    given: null,
+    q: "Which electromagnetic wave has the highest frequency?",
+    opts: ["Radio waves", "X-rays", "Gamma rays", "Infrared rays"],
+    ans: 2,
+    sol: "Electromagnetic spectrum (increasing frequency):\nRadio < Microwave < Infrared < Visible < UV < X-rays < GAMMA RAYS\nGamma rays have highest frequency and maximum energy.\nGamma rays have shortest wavelength.\nRadio waves have lowest frequency and longest wavelength.",
+    tip: "📌 EM spectrum order (low→high freq): Radio, Micro, IR, Visible, UV, X-ray, Gamma. Gamma = highest frequency!"
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Kinetic Theory",
+    given: null,
+    q: "According to the Kinetic Theory of Gases, the temperature of a gas is a measure of:",
+    opts: ["Total potential energy of molecules", "Average kinetic energy of molecules", "Number of molecules per unit volume", "Total work done by gas molecules"],
+    ans: 1,
+    sol: "Kinetic Theory: Temperature ∝ Average Kinetic Energy\nKE_avg = (3/2)kT per molecule\nwhere k = Boltzmann constant = 1.38×10⁻²³ J/K, T = temperature in Kelvin\nAt absolute zero (0 K), average KE = 0 (molecules at rest in ideal gas)",
+    tip: "📌 KE_avg = (3/2)kT. Temperature = measure of average KE. At T=0K, KE=0. Very important CUET concept."
+  },
+  {
+    sec:5, type:"Conceptual", chapter:"Communication Systems",
+    given: null,
+    q: "In amplitude modulation (AM), what is modulated?",
+    opts: ["Frequency of carrier wave", "Amplitude of carrier wave", "Phase of carrier wave", "Wavelength of signal"],
+    ans: 1,
+    sol: "Amplitude Modulation (AM):\n• Amplitude of HIGH-frequency carrier wave is varied according to the low-frequency message signal\n• Frequency and phase of carrier remain constant\nFrequency Modulation (FM): Frequency of carrier varies\nAM bandwidth = 2 × highest message frequency\nFM has better quality but larger bandwidth",
+    tip: "📌 AM = amplitude varies. FM = frequency varies. PM = phase varies. Communication systems is a CUET 2024-2025 favourite!"
+  }
+];
+
+// ===== STATE =====
+let cur = 0;
+const answers = new Array(50).fill(-1);
+const reviewed = new Array(50).fill(false);
+const checked = new Array(50).fill(false);
+let timeLeft = 3600;
+let timerInt = null;
+let submitted = false;
+
+const SEC_STARTS = [0,9,16,24,33,41];
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('q-card-wrap').style.display = 'block';
+  document.getElementById('sidebar').style.display = 'flex';
+  document.getElementById('sec-tabs').style.display = 'block';
+  buildPalette();
+  loadQ(0);
+  startTimer();
+}
+
+function startTimer() {
+  timerInt = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) { clearInterval(timerInt); submitTest(); return; }
+    const m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+    const s = String(timeLeft%60).padStart(2,'0');
+    const el = document.getElementById('timer-val');
+    el.textContent = `${m}:${s}`;
+    el.className = 'timer-val' + (timeLeft<=300?' danger':timeLeft<=600?' warning':'');
+  }, 1000);
+}
+
+function loadQ(idx) {
+  cur = idx;
+  const q = questions[idx];
+  document.getElementById('q-badge').textContent = `Q ${idx+1} / 50`;
+  document.getElementById('q-type-badge').textContent = q.type;
+  document.getElementById('q-chapter-badge').textContent = q.chapter;
+
+  // Given data
+  const gEl = document.getElementById('q-given');
+  gEl.innerHTML = q.given
+    ? `<div class="given-box"><strong>📋 Given</strong>${q.given}</div>`
+    : '';
+
+  document.getElementById('q-text').textContent = q.q;
+
+  // Options
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  ['A','B','C','D'].forEach((k,i) => {
+    const d = document.createElement('div');
+    let cls = 'opt';
+    if (submitted) {
+      if (i === q.ans) cls += ' correct';
+      else if (answers[idx] === i) cls += ' wrong';
+    } else if (answers[idx] === i) cls += ' selected';
+    d.className = cls;
+    d.innerHTML = `<div class="opt-key">${k}</div><div>${q.opts[i]}</div>`;
+    if (!submitted) d.onclick = () => selectAns(i);
+    optsEl.appendChild(d);
+  });
+
+  // Solution
+  const solBox = document.getElementById('q-solution');
+  solBox.className = 'solution-box' + ((checked[idx]||submitted)?' show':'');
+  const solText = q.sol.split('\n').map(l => l.trim().startsWith('•') || l.includes('=') || l.includes('→')
+    ? `<div class="sol-step">${l}</div>` : `<span>${l}</span><br>`).join('');
+  document.getElementById('sol-text-inner').innerHTML = solText;
+  document.getElementById('sol-tip').innerHTML = q.tip;
+
+  // Buttons
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').style.display = idx < 49 ? 'flex' : 'none';
+  document.getElementById('btn-submit').style.display = idx === 49 ? 'flex' : 'none';
+  document.getElementById('btn-check').style.display = submitted ? 'none' : 'flex';
+  document.getElementById('btn-review-mark').style.display = submitted ? 'none' : 'flex';
+  const rBtn = document.getElementById('btn-review-mark');
+  rBtn.className = 'btn btn-review' + (reviewed[idx]?' marked':'');
+  rBtn.textContent = reviewed[idx] ? '🔖 Marked' : '🔖 Mark for Review';
+
+  updatePalette();
+  updateStats();
+  updateTabs();
+
+  // Re-render math
+  if (window.renderMathInElement) {
+    setTimeout(() => renderMathInElement(document.getElementById('q-card'), {
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]
+    }), 50);
+  }
+}
+
+function selectAns(i) {
+  if (submitted) return;
+  answers[cur] = i;
+  checked[cur] = false;
+  document.getElementById('q-solution').className = 'solution-box';
+  loadQ(cur);
+}
+
+function checkAnswer() {
+  if (answers[cur] === -1) { alert('Please select an answer first!'); return; }
+  checked[cur] = true;
+  loadQ(cur);
+}
+
+function toggleReview() {
+  reviewed[cur] = !reviewed[cur];
+  loadQ(cur);
+}
+
+function nextQ() { if (cur < 49) loadQ(cur+1); }
+function prevQ() { if (cur > 0) loadQ(cur-1); }
+function jumpSection(i) { loadQ(SEC_STARTS[i]); }
+
+function buildPalette() {
+  const pal = document.getElementById('q-palette');
+  pal.innerHTML = '';
+  for (let i = 0; i < 50; i++) {
+    const b = document.createElement('button');
+    b.className = 'pal-btn';
+    b.textContent = i+1;
+    b.id = 'pb'+i;
+    b.onclick = () => loadQ(i);
+    pal.appendChild(b);
+  }
+}
+
+function updatePalette() {
+  for (let i = 0; i < 50; i++) {
+    const b = document.getElementById('pb'+i);
+    if (!b) continue;
+    b.className = 'pal-btn';
+    if (i === cur) b.classList.add('current');
+    else if (submitted && answers[i] !== -1 && answers[i] !== questions[i].ans) b.classList.add('wrong-att');
+    else if (answers[i] !== -1) b.classList.add('attempted');
+    else if (reviewed[i]) b.classList.add('reviewed');
+  }
+}
+
+function updateStats() {
+  const att = answers.filter(a => a !== -1).length;
+  const rev = reviewed.filter(r => r).length;
+  document.getElementById('s-att').textContent = att;
+  document.getElementById('s-skip').textContent = 50 - att;
+  document.getElementById('s-rev').textContent = rev;
+}
+
+function updateTabs() {
+  SEC_STARTS.forEach((s,i) => {
+    const t = document.getElementById('tab-'+i);
+    if (t) t.className = 'sec-tab' + (cur >= s && (i===5 || cur < SEC_STARTS[i+1]) ? ' active' : '');
+  });
+}
+
+function submitTest() {
+  if (timerInt) clearInterval(timerInt);
+  submitted = true;
+  let correct=0, wrong=0, skip=0;
+  answers.forEach((a,i) => {
+    if (a===-1) skip++;
+    else if (a === questions[i].ans) correct++;
+    else wrong++;
+  });
+  const score = correct*5 - wrong;
+  const pct = Math.max(0, Math.round((score/250)*100));
+
+  document.getElementById('q-card-wrap').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skip;
+  document.getElementById('r-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct+'%';
+
+  // Animate ring
+  const offset = 376 * (1 - pct/100);
+  document.getElementById('ring-fill').style.strokeDashoffset = offset;
+
+  const grades = [[90,'🏆 Outstanding! You are CUET ready!'],[75,'🌟 Excellent! Very strong performance.'],[60,'👍 Good work! Fine-tune weak chapters.'],[40,'📚 Average. Revise formulas & concepts.'],[0,'💪 Keep going! More practice needed.']];
+  document.getElementById('res-grade').textContent = grades.find(([min]) => pct >= min)[1];
+
+  updatePalette();
+  updateStats();
+}
+
+function reviewAnswers() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('q-card-wrap').style.display = 'block';
+  loadQ(0);
+}
+</script>
+</body>
+</html>

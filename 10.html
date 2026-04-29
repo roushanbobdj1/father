@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 English Mock Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #e8f4fd;
+    --sky2: #d0eaf8;
+    --blue: #2563eb;
+    --blue-soft: #3b82f6;
+    --blue-light: #bfdbfe;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --yellow: #f59e0b;
+    --yellow-light: #fef3c7;
+    --gray: #64748b;
+    --gray-light: #f1f5f9;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text2: #475569;
+    --shadow: 0 4px 24px rgba(37,99,235,0.10);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #e8f4fd 0%, #f0f7ff 60%, #fafcff 100%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+    color: #fff;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(37,99,235,0.18);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .header-title { display: flex; align-items: center; gap: 12px; }
+  .logo { font-size: 2rem; }
+  .header-text h1 { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; }
+  .header-text p { font-size: 0.78rem; opacity: 0.88; }
+  .timer-box {
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.38);
+    border-radius: 12px;
+    padding: 8px 18px;
+    text-align: center;
+    min-width: 110px;
+  }
+  .timer-label { font-size: 0.68rem; opacity: 0.85; letter-spacing: 1px; text-transform: uppercase; }
+  .timer-val { font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; }
+  .timer-val.warning { color: #fde68a; }
+  .timer-val.danger { color: #fca5a5; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  /* ---- TABS (sections) ---- */
+  .section-tabs {
+    background: #fff;
+    border-bottom: 2px solid var(--blue-light);
+    position: sticky;
+    top: 64px;
+    z-index: 90;
+  }
+  .section-tabs-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    padding: 0 12px;
+    scrollbar-width: none;
+  }
+  .section-tabs-inner::-webkit-scrollbar { display: none; }
+  .sec-tab {
+    padding: 10px 18px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--gray);
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .sec-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .sec-tab:hover { color: var(--blue-soft); }
+
+  /* ---- MAIN LAYOUT ---- */
+  .main {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 16px 40px;
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 22px;
+    align-items: start;
+  }
+  @media(max-width:768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+    .section-tabs { top: 56px; }
+  }
+
+  /* ---- QUESTION CARD ---- */
+  .q-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 28px 22px;
+    border: 1.5px solid #e0eeff;
+    animation: fadeUp 0.35s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .q-num-badge {
+    background: var(--blue);
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .q-type-badge {
+    background: var(--sky2);
+    color: var(--blue);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .q-marks {
+    margin-left: auto;
+    font-size: 0.78rem;
+    color: var(--gray);
+    font-weight: 600;
+  }
+  .q-marks span { color: var(--green); font-weight: 700; }
+  .q-marks span.neg { color: var(--red); }
+
+  .passage-box {
+    background: linear-gradient(135deg, #f0f7ff, #e8f4fd);
+    border-left: 4px solid var(--blue-soft);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    font-size: 0.91rem;
+    line-height: 1.72;
+    color: var(--text2);
+  }
+  .passage-title {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .q-text em { color: var(--blue); font-style: normal; font-weight: 700; }
+
+  .options { display: grid; gap: 10px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 0.93rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.18s;
+    background: #fafcff;
+    line-height: 1.5;
+  }
+  .opt:hover { border-color: var(--blue-soft); background: var(--sky); }
+  .opt.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); font-weight: 700; }
+  .opt.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 700; }
+  .opt.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
+  .opt-key {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .opt.selected .opt-key { background: var(--blue); color: #fff; }
+  .opt.correct .opt-key { background: var(--green); color: #fff; }
+  .opt.wrong .opt-key { background: var(--red); color: #fff; }
+
+  /* solution box */
+  .solution-box {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border: 1.5px solid #86efac;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .solution-box.show { display: block; animation: fadeUp 0.3s ease; }
+  .sol-head { font-weight: 800; color: var(--green); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .sol-text { color: #166534; line-height: 1.6; }
+  .sol-tip {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--yellow-light);
+    border-radius: 8px;
+    border-left: 3px solid var(--yellow);
+    font-size: 0.82rem;
+    color: #92400e;
+    font-weight: 600;
+  }
+
+  /* nav buttons */
+  .q-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 22px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .btn {
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .btn-prev { background: var(--gray-light); color: var(--gray); }
+  .btn-prev:hover { background: #e2e8f0; }
+  .btn-next { background: var(--blue); color: #fff; }
+  .btn-next:hover { background: #1d4ed8; }
+  .btn-check { background: var(--yellow-light); color: #92400e; border: 1.5px solid var(--yellow); }
+  .btn-check:hover { background: #fde68a; }
+  .btn-submit { background: var(--green); color: #fff; }
+  .btn-submit:hover { background: #15803d; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* ---- SIDEBAR ---- */
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+  .side-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px;
+    border: 1.5px solid #e0eeff;
+  }
+  .side-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .q-palette {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+  .pal-btn {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 7px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text2);
+  }
+  .pal-btn.current { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+  .pal-btn.attempted { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .pal-btn.wrong-att { background: var(--red-light); border-color: var(--red); color: var(--red); }
+  .pal-btn.reviewed { background: var(--yellow-light); border-color: var(--yellow); color: #92400e; }
+
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 0.73rem; color: var(--gray); font-weight: 600; }
+  .leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .leg-dot.not-visited { background: #f8fafc; border: 1.5px solid #e2e8f0; }
+  .leg-dot.att { background: var(--green-light); border: 1.5px solid var(--green); }
+  .leg-dot.curr { background: var(--blue-light); border: 1.5px solid var(--blue); }
+  .leg-dot.rev { background: var(--yellow-light); border: 1.5px solid var(--yellow); }
+
+  /* stats */
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .stat-item { text-align: center; padding: 10px 6px; border-radius: 10px; }
+  .stat-item.att { background: var(--green-light); }
+  .stat-item.skip { background: var(--gray-light); }
+  .stat-item.rev { background: var(--yellow-light); }
+  .stat-num { font-size: 1.4rem; font-weight: 800; }
+  .stat-item.att .stat-num { color: var(--green); }
+  .stat-item.skip .stat-num { color: var(--gray); }
+  .stat-item.rev .stat-num { color: var(--yellow); }
+  .stat-lbl { font-size: 0.68rem; font-weight: 700; color: var(--gray); margin-top: 2px; }
+
+  /* pattern analysis card */
+  .pattern-card {
+    background: linear-gradient(135deg, #f0f7ff, #e8f4fd);
+    border: 1.5px solid var(--blue-light);
+  }
+  .pattern-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #e0eeff;
+    font-size: 0.8rem;
+  }
+  .pattern-row:last-child { border-bottom: none; }
+  .p-type { color: var(--text2); font-weight: 600; }
+  .p-count {
+    font-weight: 800;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 2px 9px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+  }
+
+  /* result screen */
+  #result-screen {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .result-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: conic-gradient(var(--blue) 0%, var(--blue) var(--pct), #e0eeff var(--pct), #e0eeff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .result-inner {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .result-pct { font-size: 1.6rem; font-weight: 800; color: var(--blue); }
+  .result-lbl { font-size: 0.72rem; color: var(--gray); font-weight: 700; }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text); margin-bottom: 6px; }
+  .result-sub { color: var(--gray); font-size: 0.88rem; margin-bottom: 24px; }
+  .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 360px; margin: 0 auto 24px; }
+  .result-stat {
+    background: #fff;
+    border-radius: 12px;
+    border: 1.5px solid #e0eeff;
+    padding: 14px 10px;
+    box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+  }
+  .rs-num { font-size: 1.5rem; font-weight: 800; }
+  .rs-lbl { font-size: 0.75rem; color: var(--gray); font-weight: 600; margin-top: 2px; }
+  .rs-num.c { color: var(--green); }
+  .rs-num.w { color: var(--red); }
+  .rs-num.s { color: var(--gray); }
+  .rs-num.sc { color: var(--blue); }
+
+  /* section header */
+  .sec-header {
+    background: linear-gradient(90deg, var(--blue) 0%, var(--blue-soft) 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sec-header-title { font-weight: 800; font-size: 1rem; }
+  .sec-header-info { font-size: 0.78rem; opacity: 0.88; }
+
+  /* intro screen */
+  #intro-screen { padding: 20px 0; }
+  .intro-hero {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    border-radius: var(--radius);
+    color: #fff;
+    padding: 32px 28px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .intro-hero h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 8px; }
+  .intro-hero p { font-size: 0.9rem; opacity: 0.88; max-width: 420px; margin: 0 auto; }
+  .intro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .info-box {
+    background: #fff;
+    border: 1.5px solid #e0eeff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .info-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .info-label { font-size: 0.72rem; color: var(--gray); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-val { font-size: 1rem; font-weight: 800; color: var(--text); }
+  .pattern-analysis {
+    background: #fff;
+    border: 1.5px solid #e0eeff;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .pa-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .pa-item {
+    background: var(--sky);
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--blue-light);
+  }
+  .pa-topic { font-size: 0.78rem; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  .pa-bar-wrap { background: var(--blue-light); border-radius: 4px; height: 6px; margin-bottom: 4px; }
+  .pa-bar { background: var(--blue); border-radius: 4px; height: 6px; }
+  .pa-pct { font-size: 0.72rem; color: var(--gray); font-weight: 600; }
+  .start-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+  }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.35); }
+
+  /* Mark for review btn */
+  .btn-review { background: var(--yellow-light); color: #92400e; border: 1.5px solid var(--yellow); font-size: 0.8rem; padding: 8px 14px; }
+  .btn-review:hover { background: #fde68a; }
+  .btn-review.marked { background: var(--yellow); color: #fff; }
+
+  .q-nav-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  @media(max-width:500px) {
+    .q-card { padding: 18px 14px; }
+    .header-text h1 { font-size: 1.1rem; }
+    .q-text { font-size: 0.93rem; }
+    .opt { font-size: 0.87rem; padding: 11px 12px; }
+    .q-palette { grid-template-columns: repeat(7, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-title">
+      <div class="logo">📘</div>
+      <div class="header-text">
+        <h1>CUET 2026 English Mock Test</h1>
+        <p>50 Questions · Based on 2022–2025 Pattern Analysis</p>
+      </div>
+    </div>
+    <div class="timer-box" id="timer-box">
+      <div class="timer-label">⏱ Time Left</div>
+      <div class="timer-val" id="timer-val">60:00</div>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION TABS -->
+<div class="section-tabs" id="sec-tabs" style="display:none;">
+  <div class="section-tabs-inner">
+    <button class="sec-tab active" onclick="jumpSection(0)" id="tab-0">📖 Reading Comprehension</button>
+    <button class="sec-tab" onclick="jumpSection(1)" id="tab-1">✏️ Grammar</button>
+    <button class="sec-tab" onclick="jumpSection(2)" id="tab-2">📝 Vocabulary</button>
+    <button class="sec-tab" onclick="jumpSection(3)" id="tab-3">🔤 Rearrangement</button>
+    <button class="sec-tab" onclick="jumpSection(4)" id="tab-4">💬 Cloze Test</button>
+  </div>
+</div>
+
+<div class="main" id="main-area">
+  <!-- LEFT: Question -->
+  <div id="q-area">
+
+    <!-- INTRO SCREEN -->
+    <div id="intro-screen">
+      <div class="intro-hero">
+        <h2>CUET 2026 English Mock Test</h2>
+        <p>Full-length professional mock based on 2022–2025 pattern analysis with detailed solutions</p>
+      </div>
+      <div class="intro-grid">
+        <div class="info-box"><div class="info-icon">❓</div><div><div class="info-label">Total Questions</div><div class="info-val">50 MCQs</div></div></div>
+        <div class="info-box"><div class="info-icon">⏱</div><div><div class="info-label">Duration</div><div class="info-val">60 Minutes</div></div></div>
+        <div class="info-box"><div class="info-icon">✅</div><div><div class="info-label">Correct Marks</div><div class="info-val">+5 Each</div></div></div>
+        <div class="info-box"><div class="info-icon">❌</div><div><div class="info-label">Negative Marks</div><div class="info-val">−1 Each</div></div></div>
+        <div class="info-box"><div class="info-icon">🏆</div><div><div class="info-label">Total Marks</div><div class="info-val">250 Marks</div></div></div>
+        <div class="info-box"><div class="info-icon">📱</div><div><div class="info-label">Mode</div><div class="info-val">CBT (Online)</div></div></div>
+      </div>
+      <div class="pattern-analysis">
+        <div class="pa-title">📊 Pattern Analysis: 2022–2025 Topic-wise Weightage</div>
+        <div class="pa-grid">
+          <div class="pa-item"><div class="pa-topic">Reading Comprehension</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:70%"></div></div><div class="pa-pct">~35% (17–18 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">Grammar & Usage</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:50%"></div></div><div class="pa-pct">~25% (12–13 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">Vocabulary</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:36%"></div></div><div class="pa-pct">~18% (9 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">Cloze Test</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:30%"></div></div><div class="pa-pct">~15% (7–8 Q)</div></div>
+          <div class="pa-item"><div class="pa-topic">Rearrangement/Para</div><div class="pa-bar-wrap"><div class="pa-bar" style="width:24%"></div></div><div class="pa-pct">~12% (6 Q)</div></div>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startTest()">🚀 Start Mock Test Now</button>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-screen">
+      <div class="result-circle" id="result-circle">
+        <div class="result-inner">
+          <div class="result-pct" id="res-pct">0%</div>
+          <div class="result-lbl">Score</div>
+        </div>
+      </div>
+      <div class="result-title">Test Completed! 🎉</div>
+      <div class="result-sub" id="res-grade"></div>
+      <div class="result-grid">
+        <div class="result-stat"><div class="rs-num c" id="r-correct">0</div><div class="rs-lbl">✅ Correct</div></div>
+        <div class="result-stat"><div class="rs-num w" id="r-wrong">0</div><div class="rs-lbl">❌ Wrong</div></div>
+        <div class="result-stat"><div class="rs-num s" id="r-skip">0</div><div class="rs-lbl">⏭ Skipped</div></div>
+        <div class="result-stat"><div class="rs-num sc" id="r-score">0</div><div class="rs-lbl">🏆 Score / 250</div></div>
+      </div>
+      <button class="btn btn-submit" onclick="reviewAnswers()" style="margin:0 auto;display:block;">📝 Review All Answers</button>
+    </div>
+
+    <!-- QUESTION CARD -->
+    <div id="q-card-wrap" style="display:none;">
+      <div class="q-nav-top">
+        <button class="btn btn-review" id="btn-review-mark" onclick="toggleReview()">🔖 Mark for Review</button>
+        <button class="btn btn-check" onclick="checkAnswer()" id="btn-check">💡 Check Answer</button>
+      </div>
+      <div class="q-card" id="q-card">
+        <div class="q-meta">
+          <div class="q-num-badge" id="q-badge">Q 1 / 50</div>
+          <div class="q-type-badge" id="q-type-badge">Reading Comprehension</div>
+          <div class="q-marks">Correct: <span>+5</span> &nbsp; Wrong: <span class="neg">−1</span></div>
+        </div>
+        <div id="q-passage"></div>
+        <div class="q-text" id="q-text"></div>
+        <div class="options" id="q-options"></div>
+        <div class="solution-box" id="q-solution">
+          <div class="sol-head">✅ Correct Answer & Solution</div>
+          <div class="sol-text" id="sol-text-inner"></div>
+          <div class="sol-tip" id="sol-tip"></div>
+        </div>
+      </div>
+      <div class="q-nav">
+        <button class="btn btn-prev" onclick="prevQ()" id="btn-prev">◀ Previous</button>
+        <button class="btn btn-next" onclick="nextQ()" id="btn-next">Next ▶</button>
+        <button class="btn btn-submit" onclick="submitTest()" id="btn-submit" style="display:none;">Submit Test ✅</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar" style="display:none;">
+    <div class="side-card">
+      <div class="side-title">📊 Progress</div>
+      <div class="stats-row">
+        <div class="stat-item att"><div class="stat-num" id="s-att">0</div><div class="stat-lbl">Attempted</div></div>
+        <div class="stat-item skip"><div class="stat-num" id="s-skip">50</div><div class="stat-lbl">Remaining</div></div>
+        <div class="stat-item rev"><div class="stat-num" id="s-rev">0</div><div class="stat-lbl">Review</div></div>
+      </div>
+    </div>
+    <div class="side-card">
+      <div class="side-title">🗂 Question Palette</div>
+      <div class="q-palette" id="q-palette"></div>
+      <div class="legend">
+        <div class="leg"><div class="leg-dot not-visited"></div>Not Visited</div>
+        <div class="leg"><div class="leg-dot curr"></div>Current</div>
+        <div class="leg"><div class="leg-dot att"></div>Attempted</div>
+        <div class="leg"><div class="leg-dot rev"></div>For Review</div>
+      </div>
+    </div>
+    <div class="side-card pattern-card">
+      <div class="side-title">📋 Section Breakdown</div>
+      <div class="pattern-row"><span class="p-type">📖 Reading Comp.</span><span class="p-count">Q 1–18</span></div>
+      <div class="pattern-row"><span class="p-type">✏️ Grammar</span><span class="p-count">Q 19–31</span></div>
+      <div class="pattern-row"><span class="p-type">📝 Vocabulary</span><span class="p-count">Q 32–40</span></div>
+      <div class="pattern-row"><span class="p-type">🔤 Rearrangement</span><span class="p-count">Q 41–46</span></div>
+      <div class="pattern-row"><span class="p-type">💬 Cloze Test</span><span class="p-count">Q 47–50</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// QUESTION DATA — 50 Questions (2022–2025 High Probability)
+// ============================================================
+const PASSAGE1 = `The ocean covers more than 70 percent of Earth's surface and plays a vital role in regulating the planet's climate. It absorbs vast amounts of carbon dioxide and heat, acting as a giant buffer against rapid climate change. Phytoplankton, microscopic marine organisms, produce nearly half of the world's oxygen through photosynthesis, making the ocean essential for life on land as well. However, rising temperatures and increased carbon absorption are causing ocean acidification, which threatens coral reefs and marine biodiversity. Scientists warn that without urgent action to reduce greenhouse gas emissions, these irreversible changes could disrupt food chains and coastal communities worldwide.`;
+
+const PASSAGE2 = `Artificial intelligence is rapidly transforming the modern workplace. From automating repetitive tasks to powering complex decision-making systems, AI is reshaping industries ranging from healthcare to finance. While AI creates new opportunities and increases efficiency, it also raises concerns about job displacement. A recent study found that nearly 40% of jobs in developed economies could be affected by automation in the next two decades. Experts argue that while some jobs will disappear, new roles requiring human creativity, emotional intelligence, and critical thinking will emerge. The key lies in reskilling and lifelong learning to adapt to an evolving job landscape.`;
+
+const PASSAGE3 = `The concept of sustainable development emerged in the 1980s as a response to growing environmental concerns. Defined as development that meets the needs of the present without compromising the ability of future generations to meet their own needs, it became a guiding principle for global policy. Today, the United Nations' Sustainable Development Goals (SDGs) provide a comprehensive framework covering poverty, health, education, and climate action. Despite progress, significant challenges remain, particularly in developing nations where economic pressures often conflict with environmental goals. Achieving true sustainability requires international cooperation, innovative technology, and a fundamental shift in consumption patterns.`;
+
+const questions = [
+  // ===== SECTION A: READING COMPREHENSION (Q1–18) =====
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE1,
+    passageLabel: "Passage 1: The Ocean & Climate",
+    q: "According to the passage, what percentage of Earth's surface is covered by the ocean?",
+    opts: ["More than 60%", "More than 70%", "More than 80%", "Exactly 75%"],
+    ans: 1,
+    solution: "The passage clearly states: 'The ocean covers more than 70 percent of Earth's surface.' This is a direct factual question.",
+    tip: "📌 Tip: For direct factual RC questions, scan the passage for specific numbers/data mentioned in the question."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE1,
+    passageLabel: "Passage 1: The Ocean & Climate",
+    q: "What role do phytoplankton play according to the passage?",
+    opts: ["They absorb carbon dioxide from the atmosphere", "They produce nearly half of the world's oxygen", "They regulate ocean temperature", "They prevent ocean acidification"],
+    ans: 1,
+    solution: "The passage states: 'Phytoplankton, microscopic marine organisms, produce nearly half of the world's oxygen through photosynthesis.' Option B is directly stated.",
+    tip: "📌 Tip: Phytoplankton + oxygen production is a high-frequency CUET fact-based RC question type."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE1,
+    passageLabel: "Passage 1: The Ocean & Climate",
+    q: "Ocean acidification, as mentioned in the passage, is caused by:",
+    opts: ["Pollution from coastal industries", "Rising temperatures and increased carbon absorption", "Overfishing and marine biodiversity loss", "Depletion of phytoplankton"],
+    ans: 1,
+    solution: "The passage says: 'rising temperatures and increased carbon absorption are causing ocean acidification.' Option B matches this.",
+    tip: "📌 Tip: 'Caused by' questions test inference + direct recall. Always re-read the relevant sentence."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE1,
+    passageLabel: "Passage 1: The Ocean & Climate",
+    q: "The word 'buffer' in the passage most nearly means:",
+    opts: ["Barrier", "Absorber/Cushion", "Amplifier", "Destroyer"],
+    ans: 1,
+    solution: "'Buffer' means something that absorbs shocks or reduces the effect of something. In context, the ocean acts as a cushion against rapid climate change. 'Absorber/Cushion' is the correct meaning.",
+    tip: "📌 Tip: Vocabulary-in-context from RC passages is very common in CUET. Always find the word's meaning from context, not memory."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE1,
+    passageLabel: "Passage 1: The Ocean & Climate",
+    q: "What does the passage suggest is needed to prevent irreversible ocean changes?",
+    opts: ["Increased marine biodiversity programmes", "Urgent reduction of greenhouse gas emissions", "Better scientific research funding", "Protection of coral reefs only"],
+    ans: 1,
+    solution: "The passage ends with: 'without urgent action to reduce greenhouse gas emissions, these irreversible changes could disrupt food chains.' Reducing greenhouse gas emissions is the solution implied.",
+    tip: "📌 Tip: 'What does the author suggest' = Inference question. Look for the tone and conclusion of the passage."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE1,
+    passageLabel: "Passage 1: The Ocean & Climate",
+    q: "The main purpose of the first passage is to:",
+    opts: ["Describe the beauty of ocean ecosystems", "Explain why oceans are important and warn about threats to them", "Argue for more marine research funding", "Discuss historical changes in ocean temperature"],
+    ans: 1,
+    solution: "The passage explains the ocean's role (oxygen, climate regulation) and warns about threats (acidification, climate change). Option B captures the dual purpose accurately.",
+    tip: "📌 Tip: 'Main purpose/theme' questions require reading the ENTIRE passage before answering."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE2,
+    passageLabel: "Passage 2: AI & Future of Work",
+    q: "According to the passage, what percentage of jobs in developed economies could be affected by automation?",
+    opts: ["About 20%", "Nearly 40%", "More than 60%", "Around 30%"],
+    ans: 1,
+    solution: "The passage states: 'A recent study found that nearly 40% of jobs in developed economies could be affected by automation in the next two decades.'",
+    tip: "📌 Tip: Percentages and statistics in passages are high-probability questions in CUET RC."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE2,
+    passageLabel: "Passage 2: AI & Future of Work",
+    q: "According to experts mentioned in the passage, what skills will be most valued in the AI era?",
+    opts: ["Technical coding and data analysis", "Human creativity, emotional intelligence, and critical thinking", "Manufacturing and mechanical skills", "Financial and legal knowledge"],
+    ans: 1,
+    solution: "The passage says 'new roles requiring human creativity, emotional intelligence, and critical thinking will emerge.' These are the skills experts highlight.",
+    tip: "📌 Tip: 'According to experts' signals that you need to find what specific people/sources said in the passage."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE2,
+    passageLabel: "Passage 2: AI & Future of Work",
+    q: "The word 'displacement' as used in the passage means:",
+    opts: ["Replacement of workers by machines", "Movement of workers to other cities", "Promotion of workers in their jobs", "Training of workers for new skills"],
+    ans: 0,
+    solution: "Job displacement means workers being replaced by machines/automation. The context 'concerns about job displacement' confirms this meaning.",
+    tip: "📌 Tip: 'Displacement' = removal from a position. In a job context, it always means being replaced or removed."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE2,
+    passageLabel: "Passage 2: AI & Future of Work",
+    q: "What solution does the passage offer for dealing with AI's impact on jobs?",
+    opts: ["Banning AI in the workplace", "Reskilling and lifelong learning", "Reducing work hours globally", "Increasing government regulation of AI"],
+    ans: 1,
+    solution: "'The key lies in reskilling and lifelong learning to adapt to an evolving job landscape.' This is explicitly stated as the solution.",
+    tip: "📌 Tip: Solution/remedy questions — look for key phrases like 'the answer is', 'the key lies in', 'the solution is'."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "When did the concept of sustainable development emerge, according to the passage?",
+    opts: ["1970s", "1980s", "1990s", "2000s"],
+    ans: 1,
+    solution: "The passage clearly states: 'The concept of sustainable development emerged in the 1980s as a response to growing environmental concerns.'",
+    tip: "📌 Tip: Time/date questions are straightforward — directly scan passage for decades or years."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "Sustainable development is defined in the passage as development that:",
+    opts: ["Focuses only on economic growth", "Meets present needs without compromising future generations' ability to meet theirs", "Eliminates poverty within a decade", "Prioritises environmental protection over economic needs"],
+    ans: 1,
+    solution: "The passage gives the exact definition: 'development that meets the needs of the present without compromising the ability of future generations to meet their own needs.'",
+    tip: "📌 Tip: Definition questions → quote from passage. Never paraphrase; find the closest match."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "According to the passage, where do significant challenges in achieving SDGs remain?",
+    opts: ["Developed nations", "Developing nations", "Island countries", "All countries equally"],
+    ans: 1,
+    solution: "The passage says: 'significant challenges remain, particularly in developing nations where economic pressures often conflict with environmental goals.'",
+    tip: "📌 Tip: 'Particularly/especially' in passages often marks the answer to 'where/who' questions."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "What does 'consumption patterns' refer to in the context of the passage?",
+    opts: ["How nations produce goods", "How people and societies use resources and products", "How governments manage budgets", "How technology is developed"],
+    ans: 1,
+    solution: "Consumption patterns refer to how individuals and societies consume/use resources, goods, and services. In the sustainability context, changing these patterns means using fewer resources.",
+    tip: "📌 Tip: Vocabulary in context — use passage's theme (sustainability, environment) to narrow down meaning."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "The author's tone in Passage 3 can best be described as:",
+    opts: ["Pessimistic and hopeless", "Balanced and cautiously optimistic", "Biased and one-sided", "Satirical and humorous"],
+    ans: 1,
+    solution: "The passage acknowledges both progress ('Despite progress') and challenges, and suggests solutions ('international cooperation, innovative technology'). This is a balanced, cautiously optimistic tone.",
+    tip: "📌 Tip: Tone questions — look at the author's language choices: critical words vs. positive ones. Balance = neutral/cautiously optimistic."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "Which of the following is NOT mentioned as a requirement for achieving sustainability?",
+    opts: ["International cooperation", "Innovative technology", "Individual lifestyle changes", "Shift in consumption patterns"],
+    ans: 2,
+    solution: "The passage mentions 'international cooperation, innovative technology, and a fundamental shift in consumption patterns.' Individual lifestyle changes is NOT explicitly mentioned.",
+    tip: "📌 Tip: NOT/EXCEPT questions — eliminate all options that ARE mentioned. The leftover is your answer."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE3,
+    passageLabel: "Passage 3: Sustainable Development",
+    q: "What does SDGs stand for as used in the passage?",
+    opts: ["Sustainable Design Goals", "Sustainable Development Goals", "Strategic Development Guidelines", "Social Development Groups"],
+    ans: 1,
+    solution: "The passage explicitly states: 'the United Nations' Sustainable Development Goals (SDGs)'. The full form is given in the passage itself.",
+    tip: "📌 Tip: Abbreviation questions — always find the expansion in the passage; it's usually given in brackets the first time."
+  },
+  {
+    section: 0,
+    type: "Reading Comprehension",
+    passage: PASSAGE2,
+    passageLabel: "Passage 2: AI & Future of Work",
+    q: "The passage suggests AI is transforming industries from healthcare to:",
+    opts: ["Technology", "Finance", "Agriculture", "Education"],
+    ans: 1,
+    solution: "The passage states: 'industries ranging from healthcare to finance.' Finance is the correct answer.",
+    tip: "📌 Tip: Listing/range questions — find the exact words in passage. 'from X to Y' patterns appear frequently."
+  },
+
+  // ===== SECTION B: GRAMMAR (Q19–31) =====
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Choose the correct form: 'She ______ to the market every Sunday.'",
+    opts: ["go", "goes", "going", "gone"],
+    ans: 1,
+    solution: "'She' is a third person singular subject. In Simple Present Tense, we add 's/es' to the verb. So 'goes' is correct. Rule: Subject (He/She/It) + Verb+s/es.",
+    tip: "📌 CUET Grammar Tip: Subject-Verb Agreement is tested EVERY year. She/He/It → always add -s/-es to the verb."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Identify the correct sentence:",
+    opts: ["Neither of the boys have done their homework.", "Neither of the boys has done his homework.", "Neither of the boys are doing their homework.", "Neither of the boys were doing his homework."],
+    ans: 1,
+    solution: "'Neither' is singular and takes a singular verb ('has'). Also, 'neither of the boys' refers to a singular subject, so 'his' is used. Correct: 'Neither of the boys has done his homework.'",
+    tip: "📌 Tip: Neither/Either → always singular verb. This is one of the most repeated grammar questions in CUET 2022–2025."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Fill in the blank with the correct tense: 'By the time he arrived, she ______ the letter.'",
+    opts: ["wrote", "has written", "had written", "was writing"],
+    ans: 2,
+    solution: "When two past actions are mentioned ('arrived' and 'written'), the action that happened first uses Past Perfect (had + V3). 'She had written the letter' happened before 'he arrived'.",
+    tip: "📌 Tip: Past Perfect = action completed BEFORE another past action. 'By the time' is a key signal phrase for Past Perfect."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Cowards die many times ______ their death. (Fill in the blank)",
+    opts: ["before", "after", "beyond", "beside"],
+    ans: 0,
+    solution: "This is a famous Shakespeare quote: 'Cowards die many times before their death.' The preposition 'before' is logically and contextually correct here.",
+    tip: "📌 Tip: This exact sentence appeared in CUET 2022! Shakespeare and literary quotes appear in grammar/fill-in-the-blank sections."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Choose the correctly punctuated sentence:",
+    opts: ["Its a beautiful day, isnt it.", "It's a beautiful day, isn't it?", "Its' a beautiful day isn't it?", "It's a beautiful day isnt it."],
+    ans: 1,
+    solution: "'It's' = It is (apostrophe for contraction). 'Isn't' = is not (apostrophe for contraction). The sentence ends with a question tag, so a question mark is required. Option B is correctly punctuated.",
+    tip: "📌 Tip: Apostrophes tested heavily — It's (it is) vs Its (possessive). Never confuse these!"
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Identify the tense: 'We have been waiting for them for two hours.'",
+    opts: ["Simple Present", "Present Perfect", "Present Perfect Continuous", "Past Continuous"],
+    ans: 2,
+    solution: "'Have been waiting' = Present Perfect Continuous tense. Structure: have/has + been + V-ing. It shows an action that started in the past and is continuing. 'For two hours' is the time indicator.",
+    tip: "📌 Tip: This exact sentence appeared in CUET 2022 papers! Present Perfect Continuous = have/has been + V-ing + duration."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Change to Passive Voice: 'The teacher is teaching the students.'",
+    opts: ["The students are being taught by the teacher.", "The students were being taught by the teacher.", "The students have been taught by the teacher.", "The students are taught by the teacher."],
+    ans: 0,
+    solution: "Active: Subject + is/am/are + V-ing + Object. Passive of Present Continuous: Object + is/am/are + being + V3 + by + Subject. So: 'The students are being taught by the teacher.'",
+    tip: "📌 Tip: Passive Voice of Present Continuous = is/am/are + being + past participle. Tested every year in CUET!"
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Choose the correct reported speech: She said, 'I am happy.'",
+    opts: ["She said that she was happy.", "She said that she is happy.", "She said that she were happy.", "She said that I am happy."],
+    ans: 0,
+    solution: "In Reported Speech, when the reporting verb is in past tense ('said'), the verb in the reported clause shifts back: 'am' → 'was'. Also, 'I' → 'she' (pronoun change). Correct: 'She said that she was happy.'",
+    tip: "📌 Tip: Reported Speech rules — am/is → was, are → were, will → would. Pronoun changes are essential!"
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Identify the error: 'He is one of those students who works very hard.'",
+    opts: ["He is", "one of those students", "who works", "very hard"],
+    ans: 2,
+    solution: "The relative pronoun 'who' refers to 'those students' (plural), so the verb should be 'work' not 'works'. Correct: 'He is one of those students who work very hard.'",
+    tip: "📌 Tip: 'One of those + plural noun + who/that' → use PLURAL verb. Classic agreement error tested in CUET."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Choose the correct preposition: 'She has been suffering ______ fever since Monday.'",
+    opts: ["with", "from", "of", "by"],
+    ans: 1,
+    solution: "The correct preposition with 'suffering' + illness is 'from'. We say 'suffering from a disease/fever'. 'Suffering from fever' is the standard usage.",
+    tip: "📌 Tip: Preposition + illness: 'suffer FROM cold/fever/disease'. This is a high-frequency CUET preposition question."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Select the correct form of the verb: 'The committee ______ in agreement on the new policy.'",
+    opts: ["were", "are", "was", "have been"],
+    ans: 2,
+    solution: "'Committee' is a collective noun that takes a singular verb when acting as a unit. 'The committee was in agreement' — acting as one body. So 'was' is correct.",
+    tip: "📌 Tip: Collective nouns (committee, team, jury, class) → singular verb when acting as ONE unit."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Fill in the blank with the correct article: 'She is ______ best student in the class.'",
+    opts: ["a", "an", "the", "No article"],
+    ans: 2,
+    solution: "'The' is used with superlatives ('best'). When we say 'the best student,' we mean a specific person who is best among all. 'The' is the definite article for unique/superlative references.",
+    tip: "📌 Tip: Superlatives (best, worst, tallest) ALWAYS take 'the'. This is tested almost every year in CUET."
+  },
+  {
+    section: 1,
+    type: "Grammar",
+    passage: null,
+    q: "Which sentence uses the conditional correctly?",
+    opts: ["If it will rain, I will stay home.", "If it rains, I will stay home.", "If it rains, I would stay home.", "If it rained, I will stay home."],
+    ans: 1,
+    solution: "First Conditional (real/possible condition): If + Simple Present, will + V1. Correct: 'If it rains, I will stay home.' Option A uses 'will' in the if-clause (wrong). Option C is Second Conditional. Option D mixes types.",
+    tip: "📌 Tip: Conditionals are HIGH PRIORITY. 1st: if + present → will. 2nd: if + past → would. 3rd: if + past perfect → would have."
+  },
+
+  // ===== SECTION C: VOCABULARY (Q32–40) =====
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the SYNONYM of 'BENEVOLENT':",
+    opts: ["Cruel", "Generous", "Indifferent", "Greedy"],
+    ans: 1,
+    solution: "Benevolent means well-meaning, kind, charitable. Its synonym is 'Generous'. Antonym would be 'Malevolent' (wishing harm).",
+    tip: "📌 Tip: BENE = good (Latin prefix). Benefit, benefactor, benevolent — all relate to 'good/kind'. Remember prefixes!"
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the ANTONYM of 'VERBOSE':",
+    opts: ["Talkative", "Wordy", "Concise", "Eloquent"],
+    ans: 2,
+    solution: "Verbose means using more words than needed (wordy/talkative). Its antonym is 'Concise' — brief and to the point. Never confuse verbose with 'articulate' or 'eloquent'.",
+    tip: "📌 Tip: Verbose = wordy; Concise = brief. Antonym pairs: verbose/concise, loquacious/taciturn are CUET favourites."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the correct meaning of the idiom: 'To burn the midnight oil'",
+    opts: ["To waste resources carelessly", "To work or study late into the night", "To cause a fire accidentally", "To be very angry"],
+    ans: 1,
+    solution: "'Burn the midnight oil' means to work or study very late at night (staying up past midnight). It comes from the practice of using oil lamps to work through the night.",
+    tip: "📌 Tip: Idioms appear in EVERY CUET English paper. Learn top 50 idioms: 'burning midnight oil', 'bite the bullet', 'break a leg' etc."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the SYNONYM of 'AMBIGUOUS':",
+    opts: ["Clear", "Vague", "Determined", "Specific"],
+    ans: 1,
+    solution: "Ambiguous means unclear, having more than one possible meaning — so its synonym is 'Vague'. Antonym is 'Clear' or 'Unambiguous'.",
+    tip: "📌 Tip: Ambi = both (Latin). Ambiguous = can mean either thing. Ambidextrous = can use both hands."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the word which is correctly spelt:",
+    opts: ["Acommodation", "Accommodation", "Accomodation", "Accommodasion"],
+    ans: 1,
+    solution: "Correct spelling is 'Accommodation' — double 'c', double 'm'. Common mistake: people often write 'accomodation' (single m) or 'acommodation' (single c).",
+    tip: "📌 Tip: Spelling questions appear in CUET. Tricky words: Accommodation, Occurrence, Necessary (1 c, 2 s), Embarrassment (2 r, 2 s)."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the correct meaning of 'EPHEMERAL':",
+    opts: ["Permanent and lasting", "Short-lived or temporary", "Very large and impressive", "Deep and meaningful"],
+    ans: 1,
+    solution: "Ephemeral means lasting for a very short time. Example: 'The beauty of cherry blossoms is ephemeral.' Opposite: permanent, everlasting.",
+    tip: "📌 Tip: Ephemeral, Transient, Fleeting, Transitory all mean SHORT-LIVED. These are high-frequency CUET vocabulary words."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "The phrase 'once in a blue moon' means:",
+    opts: ["Very frequently", "On a full moon night", "Very rarely", "During bad weather"],
+    ans: 2,
+    solution: "'Once in a blue moon' means something that happens very rarely or infrequently. A 'blue moon' is the second full moon in a calendar month, which is rare.",
+    tip: "📌 Tip: This exact idiom has appeared in CUET 2022 sample questions. Know all frequency-related idioms."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the ANTONYM of 'FRUGAL':",
+    opts: ["Thrifty", "Economical", "Extravagant", "Careful"],
+    ans: 2,
+    solution: "Frugal means careful with money, thrifty, not wasteful. Its antonym is 'Extravagant' — spending money freely and excessively.",
+    tip: "📌 Tip: Frugal/Thrifty/Economical are synonyms. Their antonyms: Extravagant/Lavish/Prodigal. A common CUET antonym set."
+  },
+  {
+    section: 2,
+    type: "Vocabulary",
+    passage: null,
+    q: "Choose the one-word substitution for: 'A person who walks in sleep'",
+    opts: ["Insomniac", "Somniloquist", "Somnambulist", "Narcissist"],
+    ans: 2,
+    solution: "A 'Somnambulist' is a person who walks while asleep (sleepwalker). From Latin: 'somnus' = sleep, 'ambulare' = to walk. Insomniac = cannot sleep. Somniloquist = talks in sleep.",
+    tip: "📌 Tip: One-word substitutions appear 3-4 times in CUET. Key ones: Somnambulist, Misanthrope, Omnivore, Bibliophile, Egoist."
+  },
+
+  // ===== SECTION D: REARRANGEMENT (Q41–46) =====
+  {
+    section: 3,
+    type: "Sentence Rearrangement",
+    passage: null,
+    q: "Arrange the sentences in correct order:\nP: However, reading also improves focus and concentration.\nQ: In today's digital age, many people prefer videos to books.\nR: Therefore, reading remains a valuable habit despite digital distractions.\nS: Moreover, it enhances vocabulary and critical thinking.",
+    opts: ["QPSR", "QPRS", "PQRS", "RQPS"],
+    ans: 0,
+    solution: "Logical order: Q (introduces digital preference → contrast setup), P (however, reading has benefits), S (moreover, adds another benefit), R (therefore, conclusion). QPSR is correct.",
+    tip: "📌 Tip: Look for transition words: 'However' = contrast, 'Moreover' = addition, 'Therefore' = conclusion. These signal logical sequence."
+  },
+  {
+    section: 3,
+    type: "Sentence Rearrangement",
+    passage: null,
+    q: "Arrange sentences to form a coherent paragraph:\nP: This helps nations achieve their development goals sustainably.\nQ: Renewable energy sources like solar and wind are becoming more affordable.\nR: As a result, many countries are investing heavily in clean energy infrastructure.\nS: This shift reduces dependence on fossil fuels significantly.",
+    opts: ["QRSP", "QSRP", "RQSP", "PQRS"],
+    ans: 0,
+    solution: "Q introduces renewable energy (topic). R shows result (investment). S shows what this shift does. P shows the final outcome. Correct: QRSP.",
+    tip: "📌 Tip: Para-jumbles: Start with the sentence that introduces the main topic (no pronoun reference at start). End with the conclusion."
+  },
+  {
+    section: 3,
+    type: "Sentence Rearrangement",
+    passage: null,
+    q: "Choose the correct sequence:\n1. The cat sat on the mat.\n2. It had been raining heavily outside.\n3. She decided to stay indoors.\n4. The cat looked out of the window.",
+    opts: ["2-3-4-1", "1-4-2-3", "2-3-1-4", "4-1-2-3"],
+    ans: 0,
+    solution: "Logical flow: 2 (it was raining) → 3 (she decided to stay indoors) → 4 (cat looked outside) → 1 (cat sat on mat). This creates a coherent narrative. Correct: 2-3-4-1.",
+    tip: "📌 Tip: For story-type rearrangements, find the cause first, then effects. Time and cause-effect linkages build the order."
+  },
+  {
+    section: 3,
+    type: "Para-Jumbles",
+    passage: null,
+    q: "Which sentence should come FIRST in a paragraph about pollution?\nA: Therefore, immediate action is required from governments worldwide.\nB: Air pollution has reached dangerous levels in many cities.\nC: This affects millions of people suffering from respiratory diseases.\nD: Vehicle emissions and industrial waste are the primary causes.",
+    opts: ["A", "B", "C", "D"],
+    ans: 1,
+    solution: "B introduces the topic (air pollution at dangerous levels) — this is the opening statement. D explains causes, C shows effects, A gives conclusion/call to action. B must come first.",
+    tip: "📌 Tip: Opening sentence = introduces the MAIN TOPIC, no pronouns referring to previous text, sets context."
+  },
+  {
+    section: 3,
+    type: "Para-Jumbles",
+    passage: null,
+    q: "Choose the CONCLUDING sentence for this paragraph: 'Exercise has numerous benefits for physical health. It strengthens muscles and improves cardiovascular fitness. Regular physical activity also helps maintain a healthy weight...'",
+    opts: ["Exercise was invented in ancient Greece.", "Hence, incorporating exercise into daily life is essential for overall wellbeing.", "Some people prefer swimming over running.", "Gyms are becoming increasingly popular."],
+    ans: 1,
+    solution: "The concluding sentence should summarise the paragraph and provide a logical ending. Option B ('Hence, incorporating exercise into daily life is essential for overall wellbeing') is the perfect conclusion — it uses 'Hence' (conclusion signal) and restates the main message.",
+    tip: "📌 Tip: Concluding sentences use signal words: Hence, Therefore, Thus, In conclusion, Overall. They summarise the paragraph."
+  },
+  {
+    section: 3,
+    type: "Sentence Completion",
+    passage: null,
+    q: "Choose the most logical sentence to fill the blank: 'Honesty is the best policy. _______. A person who lies may gain short-term benefits, but ultimately loses trust.'",
+    opts: ["Money is more important than truth.", "This age-old proverb holds true even today.", "Lying is sometimes acceptable.", "People rarely care about honesty nowadays."],
+    ans: 1,
+    solution: "'This age-old proverb holds true even today' connects the first sentence (proverb) to the elaboration that follows. It bridges the topic logically and maintains the paragraph's positive stance on honesty.",
+    tip: "📌 Tip: Sentence insertion questions — the new sentence must connect BOTH the sentence before AND after it logically."
+  },
+
+  // ===== SECTION E: CLOZE TEST (Q47–50) =====
+  {
+    section: 4,
+    type: "Cloze Test",
+    passage: "Education is the (47) ______ weapon which you can use to change the world. It empowers individuals to think (48) ______ and solve problems creatively. A nation that invests in education invests in its (49) ______. However, education must be accessible to (50) ______ sections of society for it to bring meaningful change.",
+    passageLabel: "Cloze Test Passage — Fill in the blanks (47–50)",
+    q: "Q47: Education is the ______ weapon which you can use to change the world.",
+    opts: ["deadliest", "most powerful", "largest", "sharpest"],
+    ans: 1,
+    solution: "This is a famous Nelson Mandela quote: 'Education is the most powerful weapon which you can use to change the world.' The context calls for something positive and impactful.",
+    tip: "📌 Tip: Famous quotes often appear in CUET cloze tests. Learn quotes from leaders like Mandela, Gandhi, APJ Abdul Kalam."
+  },
+  {
+    section: 4,
+    type: "Cloze Test",
+    passage: null,
+    passageLabel: "Cloze Test Passage — Fill in the blanks (47–50)",
+    q: "Q48: It empowers individuals to think ______ and solve problems creatively.",
+    opts: ["blindly", "critically", "quickly", "slowly"],
+    ans: 1,
+    solution: "'Think critically' is the standard collocation in the context of education and problem-solving. Critical thinking is a key educational outcome. 'Critically' fits perfectly with 'solve problems creatively'.",
+    tip: "📌 Tip: Cloze test tip — always read the FULL passage first, then fill blanks based on context and collocations."
+  },
+  {
+    section: 4,
+    type: "Cloze Test",
+    passage: null,
+    passageLabel: "Cloze Test Passage — Fill in the blanks (47–50)",
+    q: "Q49: A nation that invests in education invests in its ______.",
+    opts: ["present", "past", "future", "resources"],
+    ans: 2,
+    solution: "'Invests in education invests in its future' — this is a standard expression. Education creates long-term benefits for a nation's future, not just its present resources.",
+    tip: "📌 Tip: Standard collocations and fixed expressions appear in cloze tests. 'Invest in the future' is a common one."
+  },
+  {
+    section: 4,
+    type: "Cloze Test",
+    passage: null,
+    passageLabel: "Cloze Test Passage — Fill in the blanks (47–50)",
+    q: "Q50: Education must be accessible to ______ sections of society for it to bring meaningful change.",
+    opts: ["wealthy", "elite", "all", "urban"],
+    ans: 2,
+    solution: "The passage emphasises bringing 'meaningful change', which requires universal access. 'All sections of society' makes the most logical and contextual sense — supporting the theme of inclusive education.",
+    tip: "📌 Tip: Cloze test closing blank usually carries the theme of the passage. Match it to the overall message: here, inclusion/equality."
+  }
+];
+
+// ============ STATE ============
+let currentQ = 0;
+let answers = new Array(50).fill(-1);   // -1 = not attempted
+let reviewed = new Array(50).fill(false);
+let checked = new Array(50).fill(false);
+let timerInterval = null;
+let timeLeft = 3600; // 60 min
+let testStarted = false;
+let testSubmitted = false;
+
+const SECTION_STARTS = [0, 18, 31, 40, 46];
+const SECTION_NAMES = ["Reading Comprehension", "Grammar", "Vocabulary", "Rearrangement", "Cloze Test"];
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('q-card-wrap').style.display = 'block';
+  document.getElementById('sidebar').style.display = 'flex';
+  document.getElementById('sec-tabs').style.display = 'block';
+  testStarted = true;
+  buildPalette();
+  loadQuestion(0);
+  startTimer();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      submitTest();
+      return;
+    }
+    const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const s = (timeLeft % 60).toString().padStart(2, '0');
+    const el = document.getElementById('timer-val');
+    el.textContent = m + ':' + s;
+    el.className = 'timer-val';
+    if (timeLeft <= 300) el.classList.add('danger');
+    else if (timeLeft <= 600) el.classList.add('warning');
+  }, 1000);
+}
+
+function loadQuestion(idx) {
+  const q = questions[idx];
+  currentQ = idx;
+
+  document.getElementById('q-badge').textContent = `Q ${idx + 1} / 50`;
+  document.getElementById('q-type-badge').textContent = q.type;
+
+  // Passage
+  const passEl = document.getElementById('q-passage');
+  if (q.passage) {
+    passEl.innerHTML = `<div class="passage-box"><div class="passage-title">📖 ${q.passageLabel}</div>${q.passage}</div>`;
+  } else if (q.passageLabel && !q.passage) {
+    passEl.innerHTML = `<div class="passage-box"><div class="passage-title">📝 ${q.passageLabel}</div>${q.type === 'Cloze Test' ? questions[46].passage || '' : ''}</div>`;
+  } else {
+    passEl.innerHTML = '';
+  }
+
+  document.getElementById('q-text').innerHTML = q.q.replace(/\n/g, '<br>');
+
+  // Options
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  const keys = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt' +
+      (testSubmitted && i === q.ans ? ' correct' : '') +
+      (testSubmitted && answers[idx] === i && i !== q.ans ? ' wrong' : '') +
+      (!testSubmitted && answers[idx] === i ? ' selected' : '');
+    div.innerHTML = `<div class="opt-key">${keys[i]}</div><div>${opt}</div>`;
+    if (!testSubmitted) {
+      div.onclick = () => selectAnswer(i);
+    }
+    optsEl.appendChild(div);
+  });
+
+  // Solution
+  const solBox = document.getElementById('q-solution');
+  solBox.className = 'solution-box' + (checked[idx] || testSubmitted ? ' show' : '');
+  document.getElementById('sol-text-inner').innerHTML = q.solution;
+  document.getElementById('sol-tip').innerHTML = q.tip;
+
+  // Nav buttons
+  document.getElementById('btn-prev').disabled = idx === 0;
+  const isLast = idx === 49;
+  document.getElementById('btn-next').style.display = isLast ? 'none' : 'flex';
+  document.getElementById('btn-submit').style.display = isLast ? 'flex' : 'none';
+  document.getElementById('btn-check').style.display = testSubmitted ? 'none' : 'flex';
+  document.getElementById('btn-review-mark').style.display = testSubmitted ? 'none' : 'flex';
+
+  // Review mark btn
+  const rBtn = document.getElementById('btn-review-mark');
+  rBtn.className = 'btn btn-review' + (reviewed[idx] ? ' marked' : '');
+  rBtn.textContent = reviewed[idx] ? '🔖 Marked for Review' : '🔖 Mark for Review';
+
+  // Update palette
+  updatePalette();
+  updateStats();
+  updateTabs();
+}
+
+function selectAnswer(optIdx) {
+  if (testSubmitted) return;
+  answers[currentQ] = optIdx;
+  checked[currentQ] = false;
+  document.getElementById('q-solution').className = 'solution-box';
+  loadQuestion(currentQ);
+}
+
+function checkAnswer() {
+  if (answers[currentQ] === -1) {
+    alert('Please select an answer first!');
+    return;
+  }
+  checked[currentQ] = true;
+  loadQuestion(currentQ);
+}
+
+function toggleReview() {
+  reviewed[currentQ] = !reviewed[currentQ];
+  loadQuestion(currentQ);
+}
+
+function nextQ() {
+  if (currentQ < 49) loadQuestion(currentQ + 1);
+}
+
+function prevQ() {
+  if (currentQ > 0) loadQuestion(currentQ - 1);
+}
+
+function jumpSection(secIdx) {
+  loadQuestion(SECTION_STARTS[secIdx]);
+}
+
+function buildPalette() {
+  const pal = document.getElementById('q-palette');
+  pal.innerHTML = '';
+  for (let i = 0; i < 50; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'pal-btn';
+    btn.textContent = i + 1;
+    btn.id = 'pal-' + i;
+    btn.onclick = () => loadQuestion(i);
+    pal.appendChild(btn);
+  }
+}
+
+function updatePalette() {
+  for (let i = 0; i < 50; i++) {
+    const btn = document.getElementById('pal-' + i);
+    if (!btn) continue;
+    btn.className = 'pal-btn';
+    if (i === currentQ) btn.classList.add('current');
+    else if (testSubmitted && answers[i] !== -1 && answers[i] !== questions[i].ans) btn.classList.add('wrong-att');
+    else if (answers[i] !== -1) btn.classList.add('attempted');
+    else if (reviewed[i]) btn.classList.add('reviewed');
+  }
+}
+
+function updateStats() {
+  const att = answers.filter(a => a !== -1).length;
+  const rev = reviewed.filter(r => r).length;
+  document.getElementById('s-att').textContent = att;
+  document.getElementById('s-skip').textContent = 50 - att;
+  document.getElementById('s-rev').textContent = rev;
+}
+
+function updateTabs() {
+  SECTION_STARTS.forEach((start, i) => {
+    const tab = document.getElementById('tab-' + i);
+    if (tab) tab.className = 'sec-tab' + (currentQ >= start && (i === 4 || currentQ < SECTION_STARTS[i + 1]) ? ' active' : '');
+  });
+}
+
+function submitTest() {
+  if (timerInterval) clearInterval(timerInterval);
+  testSubmitted = true;
+
+  let correct = 0, wrong = 0, skip = 0;
+  answers.forEach((a, i) => {
+    if (a === -1) skip++;
+    else if (a === questions[i].ans) correct++;
+    else wrong++;
+  });
+  const score = correct * 5 - wrong * 1;
+  const pct = Math.round((score / 250) * 100);
+
+  document.getElementById('q-card-wrap').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skip;
+  document.getElementById('r-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+
+  const circle = document.getElementById('result-circle');
+  circle.style.setProperty('--pct', pct + '%');
+
+  let grade = '';
+  if (pct >= 90) grade = '🏆 Excellent! Outstanding performance!';
+  else if (pct >= 75) grade = '🌟 Very Good! Keep it up!';
+  else if (pct >= 60) grade = '👍 Good performance. Review weak areas.';
+  else if (pct >= 40) grade = '📚 Average. More practice needed!';
+  else grade = '💪 Keep practicing! You can do better!';
+  document.getElementById('res-grade').textContent = grade;
+
+  updatePalette();
+  updateStats();
+}
+
+function reviewAnswers() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('q-card-wrap').style.display = 'block';
+  loadQuestion(0);
+}
+
+// Init
+window.onload = () => {};
+</script>
+</body>
+</html>

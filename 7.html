@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 · CS Master Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   TOKENS
+============================ */
+:root {
+  --bg:       #080B14;
+  --bg1:      #0D1120;
+  --bg2:      #111627;
+  --bg3:      #161D30;
+  --card:     #131928;
+  --card2:    #18203A;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.13);
+  --text:     #E8ECFF;
+  --text2:    #8892C0;
+  --text3:    #4A5278;
+  --blue:     #4F6EF7;
+  --blue2:    #7B96FF;
+  --blue-a:   rgba(79,110,247,0.18);
+  --indigo:   #6C63FF;
+  --violet:   #9B87FF;
+  --cyan:     #20D4D4;
+  --cyan-a:   rgba(32,212,212,0.12);
+  --green:    #10C98A;
+  --green-a:  rgba(16,201,138,0.12);
+  --amber:    #F0A500;
+  --amber-a:  rgba(240,165,0,0.12);
+  --rose:     #F04F6E;
+  --rose-a:   rgba(240,79,110,0.12);
+  --gold:     #FFD166;
+  --shadow:   0 2px 20px rgba(0,0,0,0.5);
+  --r:        12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  font-family:'DM Sans','Noto Sans Devanagari',sans-serif;
+  color:var(--text);
+  line-height:1.6;
+  min-height:100vh;
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg1)}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+
+/* ============================
+   TOPBAR
+============================ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  height:58px;
+  background:rgba(8,11,20,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;gap:12px;
+}
+.tb-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.tb-logo{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:0.72rem;color:#fff;
+  box-shadow:0 4px 14px rgba(79,110,247,0.35);
+  letter-spacing:-0.5px;
+}
+.tb-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.88rem}
+.tb-sub{font-size:0.68rem;color:var(--text3)}
+.tb-tabs{display:flex;gap:2px;flex:1;justify-content:center}
+.tb-tab{
+  padding:6px 14px;border-radius:8px;border:none;
+  background:transparent;color:var(--text3);
+  font-size:0.76rem;font-weight:600;cursor:pointer;
+  transition:all 0.18s;font-family:'DM Sans',sans-serif;
+  white-space:nowrap;
+}
+.tb-tab:hover{color:var(--text2);background:var(--bg3)}
+.tb-tab.on{background:var(--blue-a);color:var(--blue2);border:1px solid rgba(79,110,247,0.3)}
+.tb-search{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:0.9rem;color:var(--text3);
+  transition:all 0.18s;flex-shrink:0;
+}
+.tb-search:hover{border-color:var(--blue);color:var(--blue2)}
+
+/* ============================
+   SEARCH
+============================ */
+.search-mask{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);
+  display:none;padding-top:80px;
+  align-items:flex-start;justify-content:center;
+}
+.search-mask.open{display:flex}
+.search-box{
+  width:min(540px,94vw);
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:14px;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,0.7);
+}
+.search-input{
+  width:100%;padding:14px 18px;
+  background:transparent;border:none;border-bottom:1px solid var(--border);
+  outline:none;color:var(--text);font-size:0.93rem;
+  font-family:'DM Sans',sans-serif;
+}
+.search-results{max-height:320px;overflow-y:auto}
+.sr-item{
+  padding:11px 18px;cursor:pointer;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+  transition:background 0.12s;
+}
+.sr-item:hover{background:var(--card2)}
+.sr-item:last-child{border-bottom:none}
+.sr-main{font-size:0.82rem;color:var(--text)}
+.sr-sub{font-size:0.7rem;color:var(--text3);margin-top:1px}
+
+/* ============================
+   HERO
+============================ */
+.hero{
+  padding:88px 20px 48px;
+  background:var(--bg);
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(79,110,247,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,110,247,0.035) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+.hero-blob{
+  position:absolute;top:-80px;right:-80px;
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,110,247,0.1),transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{max-width:1060px;margin:0 auto;position:relative;z-index:1}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--blue-a);border:1px solid rgba(79,110,247,0.28);
+  color:var(--blue2);font-size:0.68rem;font-weight:700;
+  padding:4px 12px;border-radius:20px;margin-bottom:16px;
+  letter-spacing:0.8px;text-transform:uppercase;
+  font-family:'Outfit',sans-serif;
+}
+.hero h1{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(1.9rem,5vw,3rem);font-weight:800;
+  line-height:1.1;margin-bottom:10px;
+}
+.hero h1 span{color:var(--blue2)}
+.hero-desc{font-size:0.88rem;color:var(--text2);max-width:480px;margin-bottom:22px;line-height:1.75}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px}
+.h-chip{
+  display:flex;align-items:center;gap:7px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:9px;padding:8px 14px;
+  font-size:0.78rem;font-weight:500;color:var(--text2);
+}
+.h-dot{width:7px;height:7px;border-radius:50%}
+
+/* ============================
+   TAB BAR (page)
+============================ */
+.tabbar{
+  background:var(--bg1);
+  border-bottom:1px solid var(--border);
+  display:flex;gap:0;padding:0 20px;
+  position:sticky;top:58px;z-index:200;
+  overflow-x:auto;
+}
+.tabbar::-webkit-scrollbar{display:none}
+.tab-btn{
+  padding:13px 18px;border:none;background:transparent;
+  color:var(--text3);font-size:0.8rem;font-weight:600;
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:all 0.18s;white-space:nowrap;
+  font-family:'DM Sans',sans-serif;
+  display:flex;align-items:center;gap:6px;
+}
+.tab-btn:hover{color:var(--text2)}
+.tab-btn.on{color:var(--blue2);border-bottom-color:var(--blue)}
+
+/* ============================
+   PANELS
+============================ */
+.wrap{max-width:1060px;margin:0 auto;padding:28px 20px 80px}
+.panel{display:none}
+.panel.on{display:block}
+
+/* ============================
+   SECTION CARDS
+============================ */
+.sc{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);margin-bottom:14px;overflow:hidden;
+}
+.sc-hd{
+  display:flex;align-items:center;gap:11px;
+  padding:14px 18px;cursor:pointer;
+  border-bottom:1px solid var(--border);
+  transition:background 0.14s;user-select:none;
+}
+.sc-hd:hover{background:var(--card2)}
+.sc-ico{
+  width:36px;height:36px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.ic-b{background:var(--blue-a)}
+.ic-c{background:var(--cyan-a)}
+.ic-g{background:var(--green-a)}
+.ic-a{background:var(--amber-a)}
+.ic-r{background:var(--rose-a)}
+.ic-v{background:rgba(155,135,255,0.12)}
+.ic-gold{background:rgba(255,209,102,0.1)}
+
+.sc-ttl{font-family:'Outfit',sans-serif;font-size:0.92rem;font-weight:700;flex:1}
+.sc-badge{
+  font-size:0.64rem;font-weight:700;padding:2px 9px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;
+}
+.sb-red{background:var(--rose-a);color:var(--rose)}
+.sb-blue{background:var(--blue-a);color:var(--blue2)}
+.sb-green{background:var(--green-a);color:var(--green)}
+.sc-arr{color:var(--text3);font-size:0.78rem;transition:transform 0.22s;margin-left:4px}
+.sc-arr.open{transform:rotate(180deg)}
+.sc-bd{padding:18px}
+.sc-bd.hide{display:none}
+
+/* ============================
+   GRIDS & MINI CARDS
+============================ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:12px}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}}
+
+.mc{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:13px 14px;
+  transition:border-color 0.15s;
+}
+.mc:hover{border-color:rgba(79,110,247,0.35)}
+.mc h4{
+  font-size:0.82rem;font-weight:700;color:var(--text);
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.mc ul{list-style:none}
+.mc ul li{
+  font-size:0.77rem;color:var(--text2);padding:2px 0;
+  display:flex;gap:6px;align-items:flex-start;line-height:1.5;
+}
+.mc ul li::before{content:'›';color:var(--blue2);flex-shrink:0;font-weight:700;margin-top:1px}
+
+/* ============================
+   TAGS
+============================ */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.tag{
+  font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid;
+}
+.t-b{background:var(--blue-a);color:var(--blue2);border-color:rgba(79,110,247,0.3)}
+.t-g{background:var(--green-a);color:var(--green);border-color:rgba(16,201,138,0.3)}
+.t-a{background:var(--amber-a);color:var(--amber);border-color:rgba(240,165,0,0.3)}
+.t-r{background:var(--rose-a);color:var(--rose);border-color:rgba(240,79,110,0.3)}
+.t-c{background:var(--cyan-a);color:var(--cyan);border-color:rgba(32,212,212,0.3)}
+.t-v{background:rgba(155,135,255,0.1);color:var(--violet);border-color:rgba(155,135,255,0.3)}
+
+/* ============================
+   CODE
+============================ */
+.code{
+  background:#060812;border:1px solid rgba(79,110,247,0.2);
+  border-radius:9px;padding:13px 15px;
+  font-family:'JetBrains Mono',monospace;font-size:0.77rem;
+  color:#C0C8F0;margin:11px 0;overflow-x:auto;line-height:1.85;
+  position:relative;
+}
+.code-lang{
+  position:absolute;top:9px;right:11px;
+  font-size:0.6rem;color:var(--text3);font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;
+  font-family:'Outfit',sans-serif;
+}
+.kw{color:#9B87FF}
+.fn{color:#60A5FA}
+.cm{color:#374563;font-style:italic}
+.st{color:#34D399}
+.nm{color:#FFD166}
+
+/* ============================
+   INFO BOXES
+============================ */
+.ib{
+  border-radius:9px;padding:12px 14px;margin:11px 0;
+  font-size:0.81rem;line-height:1.65;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.ib-b{background:var(--blue-a);border:1px solid rgba(79,110,247,0.22);color:var(--blue2)}
+.ib-g{background:var(--green-a);border:1px solid rgba(16,201,138,0.22);color:#34D399}
+.ib-a{background:var(--amber-a);border:1px solid rgba(240,165,0,0.22);color:var(--amber)}
+.ib-r{background:var(--rose-a);border:1px solid rgba(240,79,110,0.22);color:#FDA4AF}
+.ib-gold{background:rgba(255,209,102,0.07);border:1px solid rgba(255,209,102,0.25);color:var(--gold)}
+.ib i{font-style:normal;font-size:1.05rem;flex-shrink:0}
+.ib strong{color:var(--text);font-weight:700}
+
+/* ============================
+   TABLES
+============================ */
+.tbl{width:100%;border-collapse:collapse;font-size:0.79rem;margin:11px 0;border-radius:9px;overflow:hidden}
+.tbl thead tr{background:var(--bg3)}
+.tbl th{padding:9px 13px;text-align:left;font-weight:700;color:var(--text3);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.8px}
+.tbl td{padding:8px 13px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:var(--card2)}
+.tbl td:first-child{color:var(--text);font-weight:600}
+
+/* ============================
+   WEIGHT BARS
+============================ */
+.wb{display:flex;align-items:center;gap:11px;margin:6px 0}
+.wb-lbl{font-size:0.77rem;color:var(--text2);width:180px;flex-shrink:0}
+.wb-tr{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.wb-fl{height:5px;border-radius:3px}
+.wb-pct{font-size:0.7rem;font-weight:700;color:var(--blue2);width:34px;text-align:right}
+
+/* ============================
+   PYQ
+============================ */
+.pyq{
+  background:var(--card2);
+  border:1px solid rgba(79,110,247,0.18);
+  border-left:3px solid var(--blue);
+  border-radius:9px;padding:13px 15px;margin:9px 0;
+}
+.pyq-yr{font-size:0.63rem;font-weight:800;color:var(--blue2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;font-family:'Outfit',sans-serif}
+.pyq-q{font-size:0.82rem;color:var(--text);line-height:1.55;font-weight:500}
+.pyq-q code{background:var(--blue-a);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--blue2)}
+.pyq-a{font-size:0.77rem;color:var(--green);font-weight:600;margin-top:7px;padding-top:7px;border-top:1px solid var(--border)}
+
+/* ============================
+   DIVIDER
+============================ */
+.div{display:flex;align-items:center;gap:10px;margin:18px 0 13px}
+.div-line{flex:1;height:1px;background:var(--border)}
+.div-txt{font-family:'Outfit',sans-serif;font-size:0.67rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;white-space:nowrap}
+
+/* ============================
+   STEPS
+============================ */
+.steps{counter-reset:st}
+.step{display:flex;gap:11px;margin-bottom:11px}
+.step::before{
+  counter-increment:st;content:counter(st);
+  width:24px;height:24px;border-radius:7px;flex-shrink:0;margin-top:2px;
+  background:linear-gradient(135deg,var(--blue),var(--indigo));
+  color:#fff;font-size:0.7rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+.step p{font-size:0.81rem;color:var(--text2);line-height:1.6}
+.step strong{color:var(--text)}
+
+/* ============================
+   PREDICTION CARDS
+============================ */
+.pred{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:11px;padding:15px;
+  position:relative;overflow:hidden;
+}
+.pred::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.pred-hot::before{background:linear-gradient(90deg,var(--rose),var(--amber))}
+.pred-med::before{background:linear-gradient(90deg,var(--blue),var(--violet))}
+.pred-sure::before{background:linear-gradient(90deg,var(--green),var(--cyan))}
+
+.pred-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.63rem;font-weight:800;padding:3px 9px;border-radius:20px;
+  margin-bottom:9px;text-transform:uppercase;letter-spacing:0.8px;
+  font-family:'Outfit',sans-serif;border:1px solid;
+}
+.pb-hot{background:var(--rose-a);color:var(--rose);border-color:rgba(240,79,110,0.3)}
+.pb-med{background:var(--blue-a);color:var(--blue2);border-color:rgba(79,110,247,0.3)}
+.pb-sure{background:var(--green-a);color:var(--green);border-color:rgba(16,201,138,0.3)}
+
+.pred-ttl{font-family:'Outfit',sans-serif;font-size:0.86rem;font-weight:700;color:var(--text);margin-bottom:7px}
+.pred-list{list-style:none}
+.pred-list li{font-size:0.77rem;color:var(--text2);padding:2px 0;display:flex;gap:7px}
+.pred-list li::before{content:'◆';font-size:0.48rem;color:var(--blue2);flex-shrink:0;margin-top:5px}
+.pred-prob{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.prob-tr{flex:1;height:3px;background:var(--bg3);border-radius:2px}
+.prob-fl{height:3px;border-radius:2px}
+.pf-hot{background:linear-gradient(90deg,var(--rose),var(--amber))}
+.pf-med{background:linear-gradient(90deg,var(--blue),var(--violet))}
+.pf-sure{background:linear-gradient(90deg,var(--green),var(--cyan))}
+.prob-pct{font-size:0.7rem;font-weight:700;color:var(--text2)}
+
+/* ============================
+   QUIZ
+============================ */
+.quiz-wrap{max-width:680px;margin:0 auto}
+.quiz-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.quiz-h1{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800}
+.quiz-h2{font-size:0.78rem;color:var(--text3);margin-top:2px}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.flt{
+  padding:5px 13px;border-radius:20px;border:1px solid var(--border);
+  background:var(--card2);color:var(--text3);
+  font-size:0.74rem;font-weight:600;cursor:pointer;transition:all 0.16s;
+  font-family:'DM Sans',sans-serif;
+}
+.flt:hover{border-color:var(--blue);color:var(--blue2)}
+.flt.on{background:var(--blue-a);border-color:rgba(79,110,247,0.4);color:var(--blue2)}
+
+.score-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.sc-chip{
+  padding:4px 12px;border-radius:20px;font-size:0.73rem;font-weight:700;border:1px solid;
+}
+.sc-t{background:var(--blue-a);color:var(--blue2);border-color:rgba(79,110,247,0.3)}
+.sc-c{background:var(--green-a);color:var(--green);border-color:rgba(16,201,138,0.3)}
+.sc-w{background:var(--rose-a);color:var(--rose);border-color:rgba(240,79,110,0.3)}
+.sc-s{background:var(--amber-a);color:var(--amber);border-color:rgba(240,165,0,0.3)}
+
+.q-prog-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.q-prog-tr{flex:1;height:3px;background:var(--bg3);border-radius:2px}
+.q-prog-fl{height:3px;background:linear-gradient(90deg,var(--blue),var(--violet));border-radius:2px;transition:width 0.35s ease}
+.q-cnt{font-size:0.73rem;color:var(--text3);font-weight:600;white-space:nowrap}
+
+.q-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:22px;box-shadow:var(--shadow);
+}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.q-num{font-family:'Outfit',sans-serif;font-size:0.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.q-topic-tag{font-size:0.68rem;font-weight:700;padding:2px 9px;border-radius:10px}
+.q-diff{font-size:0.68rem;font-weight:700;padding:2px 9px;border-radius:10px;margin-left:auto}
+.d-easy{background:var(--green-a);color:var(--green)}
+.d-med{background:var(--amber-a);color:var(--amber)}
+.d-hard{background:var(--rose-a);color:var(--rose)}
+
+.q-text{font-size:0.93rem;font-weight:500;color:var(--text);line-height:1.62;margin-bottom:16px}
+.q-code-blk{
+  background:#060812;border:1px solid rgba(79,110,247,0.2);
+  border-radius:8px;padding:11px 13px;margin-bottom:16px;
+  font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+  color:#B8C0E8;line-height:1.8;overflow-x:auto;white-space:pre;
+}
+.opts{display:grid;gap:9px}
+.opt{
+  width:100%;text-align:left;padding:12px 15px;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:9px;color:var(--text2);
+  font-size:0.84rem;font-weight:500;cursor:pointer;
+  transition:all 0.16s;display:flex;align-items:center;gap:11px;
+  font-family:'DM Sans',sans-serif;
+}
+.opt:hover:not(:disabled){border-color:rgba(79,110,247,0.4);color:var(--text);background:rgba(79,110,247,0.06)}
+.opt.sel{border-color:var(--blue);background:var(--blue-a);color:var(--text)}
+.opt.ok{border-color:var(--green);background:var(--green-a);color:var(--green)}
+.opt.ng{border-color:var(--rose);background:var(--rose-a);color:var(--rose)}
+.opt-lbl{
+  width:23px;height:23px;border-radius:6px;flex-shrink:0;
+  background:var(--bg3);display:flex;align-items:center;justify-content:center;
+  font-size:0.68rem;font-weight:800;color:var(--text3);
+  font-family:'Outfit',sans-serif;
+}
+.opt.ok .opt-lbl{background:var(--green);color:#fff}
+.opt.ng .opt-lbl{background:var(--rose);color:#fff}
+.opt.sel .opt-lbl{background:var(--blue);color:#fff}
+
+.q-exp{
+  margin-top:14px;padding:12px 14px;
+  background:var(--green-a);border:1px solid rgba(16,201,138,0.2);
+  border-radius:9px;font-size:0.8rem;color:#34D399;line-height:1.65;display:none;
+}
+.q-exp.show{display:block}
+.q-exp strong{color:var(--text)}
+
+.q-acts{display:flex;gap:9px;margin-top:18px;justify-content:flex-end}
+
+/* ============================
+   BUTTONS
+============================ */
+.btn{
+  padding:9px 18px;border-radius:9px;border:none;
+  font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.81rem;
+  cursor:pointer;transition:all 0.18s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-p{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(79,110,247,0.3)}
+.btn-p:hover{background:var(--blue2);transform:translateY(-1px)}
+.btn-s{background:var(--card2);color:var(--text2);border:1px solid var(--border)}
+.btn-s:hover{border-color:var(--blue);color:var(--blue2)}
+
+/* ============================
+   RESULT
+============================ */
+.result{
+  text-align:center;padding:40px 20px;display:none;
+}
+.result.show{display:block}
+.result-ico{font-size:3.5rem;margin-bottom:14px}
+.result-ttl{font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:6px}
+.result-sub{font-size:0.87rem;color:var(--text2);margin-bottom:24px}
+.result-stats{display:flex;justify-content:center;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+.rs{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:14px 20px;text-align:center}
+.rs-v{font-family:'Outfit',sans-serif;font-size:1.7rem;font-weight:800}
+.rs-l{font-size:0.69rem;color:var(--text3);margin-top:3px}
+
+/* ============================
+   FLASHCARDS
+============================ */
+.fc-wrap{max-width:580px;margin:0 auto}
+.fc-desc{font-size:0.78rem;color:var(--text3);margin-bottom:14px}
+.fc-nav{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.fc-ctr{flex:1;text-align:center;font-size:0.8rem;color:var(--text3)}
+.fc{
+  width:100%;aspect-ratio:5/3;cursor:pointer;
+  perspective:1200px;margin-bottom:14px;
+  user-select:none;
+}
+.fc-in{
+  width:100%;height:100%;position:relative;
+  transform-style:preserve-3d;transition:transform 0.55s ease;
+}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.fc-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:28px 24px;text-align:center;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;box-shadow:var(--shadow);
+}
+.fc-front{border-top:3px solid var(--blue)}
+.fc-back{transform:rotateY(180deg);border-top:3px solid var(--green)}
+.fc-lbl{font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;font-family:'Outfit',sans-serif}
+.fc-front .fc-lbl{color:var(--text3)}
+.fc-back .fc-lbl{color:var(--green)}
+.fc-q{font-size:0.97rem;font-weight:600;color:var(--text);line-height:1.55}
+.fc-a{font-size:0.9rem;color:var(--green);line-height:1.6}
+.fc-hint{font-size:0.69rem;color:var(--text3);margin-top:18px}
+.fc-acts{display:flex;gap:9px;justify-content:center}
+
+/* ============================
+   FOOTER
+============================ */
+footer{
+  background:var(--bg1);border-top:1px solid var(--border);
+  text-align:center;padding:20px;
+  font-size:0.73rem;color:var(--text3);line-height:1.8;
+}
+footer strong{color:var(--text2)}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media(max-width:640px){
+  .tb-tabs{display:none}
+  .hero{padding:78px 16px 36px}
+  .wrap{padding:20px 14px 60px}
+  .tabbar{padding:0 10px}
+  .tab-btn{padding:11px 10px;font-size:0.73rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ TOPBAR ══════════ -->
+<nav class="topbar">
+  <div class="tb-brand">
+    <div class="tb-logo">CS</div>
+    <div>
+      <div class="tb-title">CUET 2026 · CS</div>
+      <div class="tb-sub">Master Notes</div>
+    </div>
+  </div>
+  <div class="tb-tabs">
+    <button class="tb-tab on" onclick="setTab('notes',this)">📖 Notes</button>
+    <button class="tb-tab" onclick="setTab('predict',this)">🔮 2026 Predictions</button>
+    <button class="tb-tab" onclick="setTab('quiz',this)">🎯 Practice Quiz</button>
+    <button class="tb-tab" onclick="setTab('flash',this)">⚡ Flashcards</button>
+  </div>
+  <div class="tb-search" onclick="openSearch()" title="Search">🔍</div>
+</nav>
+
+<!-- ══════════ SEARCH ══════════ -->
+<div class="search-mask" id="searchMask" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <input class="search-input" id="searchIn" placeholder="Search topics… (OSI, Stack, SQL, Python)" oninput="doSearch(this.value)" autocomplete="off">
+    <div class="search-results" id="searchOut"></div>
+  </div>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-inner">
+    <div class="hero-pill">📘 NTA Official Syllabus · CUET UG 2026</div>
+    <h1>Computer Science<br><span>Advanced Notes</span></h1>
+    <p class="hero-desc">PYQ 2022-2025 analysis + 2026 predictions + interactive quiz + flashcards. Hinglish mein samjhao, exam mein top karo! 🚀</p>
+    <div class="hero-chips">
+      <div class="h-chip"><div class="h-dot" style="background:var(--blue)"></div>50 Questions · 60 Min</div>
+      <div class="h-chip"><div class="h-dot" style="background:var(--green)"></div>+5 Correct / −1 Wrong</div>
+      <div class="h-chip"><div class="h-dot" style="background:var(--amber)"></div>Class 12 NCERT Based</div>
+      <div class="h-chip"><div class="h-dot" style="background:var(--rose)"></div>40+ Practice MCQs</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE TAB BAR ══════════ -->
+<div class="tabbar">
+  <button class="tab-btn on" id="ptab-notes" onclick="setTab('notes',null)">📖 Notes</button>
+  <button class="tab-btn" id="ptab-predict" onclick="setTab('predict',null)">🔮 2026 Predictions</button>
+  <button class="tab-btn" id="ptab-quiz" onclick="setTab('quiz',null)">🎯 Practice Quiz</button>
+  <button class="tab-btn" id="ptab-flash" onclick="setTab('flash',null)">⚡ Flashcards</button>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════
+     PANEL: NOTES
+════════════════════════════ -->
+<div class="panel on" id="panel-notes">
+
+  <!-- WEIGHTAGE -->
+  <div class="sc">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-b">📊</div>
+      <div class="sc-ttl">Topic-wise Weightage (2022–2025 PYQ Analysis)</div>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="ib ib-b"><i>💡</i><div>Ye weightage 4 saal ke CUET CS papers ka analysis hai. <strong>Python aur DSA milake ~55% hain — inhe sabse zyada time do!</strong></div></div>
+      <div class="wb"><span class="wb-lbl">🐍 Python Programming</span><div class="wb-tr"><div class="wb-fl" style="width:30%;background:linear-gradient(90deg,var(--blue),var(--violet))"></div></div><span class="wb-pct">~30%</span></div>
+      <div class="wb"><span class="wb-lbl">🏗️ DSA (Stack/Queue/Tree)</span><div class="wb-tr"><div class="wb-fl" style="width:25%;background:linear-gradient(90deg,var(--cyan),var(--blue))"></div></div><span class="wb-pct">~25%</span></div>
+      <div class="wb"><span class="wb-lbl">🗄️ DBMS &amp; SQL</span><div class="wb-tr"><div class="wb-fl" style="width:20%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div><span class="wb-pct">~20%</span></div>
+      <div class="wb"><span class="wb-lbl">🌐 Computer Networks</span><div class="wb-tr"><div class="wb-fl" style="width:15%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div><span class="wb-pct">~15%</span></div>
+      <div class="wb"><span class="wb-lbl">🌍 Society &amp; Ethics</span><div class="wb-tr"><div class="wb-fl" style="width:6%;background:linear-gradient(90deg,var(--rose),var(--amber))"></div></div><span class="wb-pct">~6%</span></div>
+      <div class="wb"><span class="wb-lbl">⚙️ OS Concepts</span><div class="wb-tr"><div class="wb-fl" style="width:4%;background:var(--rose)"></div></div><span class="wb-pct">~4%</span></div>
+    </div>
+  </div>
+
+  <!-- UNIT 1: PYTHON -->
+  <div class="sc" id="unit1">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-v">🐍</div>
+      <div class="sc-ttl">Unit 1 · Python Programming</div>
+      <span class="sc-badge sb-red">~30% · Most Important</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="g2">
+        <div class="mc"><h4>🔢 Data Types &amp; Variables</h4><ul>
+          <li>int, float, bool, str, complex, None</li>
+          <li>Type conversion: int(), str(), float(), bool()</li>
+          <li>Mutable: list, dict, set</li>
+          <li>Immutable: str, tuple, int, float, bool</li>
+          <li>id() se memory address check karo</li>
+        </ul></div>
+        <div class="mc"><h4>🔄 Control Structures</h4><ul>
+          <li>if / elif / else nesting</li>
+          <li>for loop — range(start, stop, step)</li>
+          <li>while loop + break, continue, pass</li>
+          <li>else clause in loops</li>
+          <li>Nested loops ka output trace karna</li>
+        </ul></div>
+        <div class="mc"><h4>📋 Collections (Exam Favourite)</h4><ul>
+          <li>List: append, pop, sort, reverse, extend, insert, remove, index, count</li>
+          <li>Tuple: immutable, packing/unpacking</li>
+          <li>Dict: keys(), values(), items(), get(), update(), pop()</li>
+          <li>Set: union(|), intersection(&amp;), difference(-)</li>
+          <li>Slicing: lst[start:stop:step] — negative index bhi!</li>
+        </ul></div>
+        <div class="mc"><h4>🔧 Functions</h4><ul>
+          <li>def, return, default args, *args, **kwargs</li>
+          <li>Lambda: <code style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--blue2)">f = lambda x: x*2</code></li>
+          <li>Recursion: base case zaroor chahiye</li>
+          <li>LEGB scope rule: Local, Enclosing, Global, Built-in</li>
+          <li>global aur nonlocal keywords</li>
+        </ul></div>
+        <div class="mc"><h4>📁 File Handling</h4><ul>
+          <li>open(file, mode) — with statement best practice</li>
+          <li>Modes: 'r', 'w', 'a', 'r+', 'rb', 'wb'</li>
+          <li>read(), readline(), readlines()</li>
+          <li>write(), writelines()</li>
+          <li>CSV: import csv → csv.reader(), csv.writer()</li>
+        </ul></div>
+        <div class="mc"><h4>⚠️ Exception Handling</h4><ul>
+          <li>try → except → else → finally</li>
+          <li>ZeroDivisionError, TypeError, ValueError</li>
+          <li>IndexError, KeyError, FileNotFoundError, NameError</li>
+          <li>raise CustomError("message")</li>
+          <li>Multiple except blocks allowed</li>
+        </ul></div>
+      </div>
+      <div class="ib ib-a"><i>📌</i><div><strong>CUET mein sabse zyada aane wale Python topics:</strong> Code output trace (list/string ops), function return values, string slicing, dictionary operations. Roz 10 snippets mentally trace karo!</div></div>
+      <div class="div"><div class="div-line"></div><div class="div-txt">Code Examples</div><div class="div-line"></div></div>
+      <div class="code"><span class="code-lang">PYTHON</span><span class="cm"># Slicing — CUET ka no.1 topic</span>
+x = [1, 2, 3, 4, 5, 6]
+print(x[1:5:2])    <span class="cm"># [2, 4]</span>
+print(x[::-1])     <span class="cm"># [6,5,4,3,2,1] reverse</span>
+print(x[-3:])      <span class="cm"># [4,5,6] last 3</span>
+
+<span class="cm"># List Comprehension</span>
+evens = [n*2 <span class="kw">for</span> n <span class="kw">in</span> x <span class="kw">if</span> n%2==0]
+print(evens)       <span class="cm"># [4, 8, 12]</span>
+
+<span class="cm"># Dict update trace</span>
+d = {<span class="st">"a"</span>:1, <span class="st">"b"</span>:2}
+d.update({<span class="st">"b"</span>:9, <span class="st">"c"</span>:3})
+print(len(d))      <span class="cm"># 3</span></div>
+      <div class="tags">
+        <span class="tag t-b">upper()/lower()</span>
+        <span class="tag t-b">strip()/split()/join()</span>
+        <span class="tag t-b">find()/replace()</span>
+        <span class="tag t-b">startswith()/endswith()</span>
+        <span class="tag t-g">isdigit()/isalpha()</span>
+        <span class="tag t-v">count()/index()</span>
+        <span class="tag t-a">format()/f-strings</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIT 2: DSA -->
+  <div class="sc" id="unit2">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-c">🏗️</div>
+      <div class="sc-ttl">Unit 2 · Data Structures &amp; Algorithms</div>
+      <span class="sc-badge sb-red">~25% · High Priority</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="g2">
+        <div class="mc"><h4>📚 Stack (LIFO)</h4><ul>
+          <li>Push → append(), Pop → pop(), Peek → stack[-1]</li>
+          <li>isEmpty() → len(stack)==0</li>
+          <li>Applications: Undo/Redo, Browser Back, Balanced Brackets, Infix→Postfix</li>
+          <li>Time: O(1) for push/pop</li>
+        </ul></div>
+        <div class="mc"><h4>🚶 Queue (FIFO)</h4><ul>
+          <li>Enqueue → append() rear, Dequeue → pop(0) front</li>
+          <li>Better: collections.deque se O(1) dequeue</li>
+          <li>Circular Queue, Priority Queue, Deque</li>
+          <li>Applications: CPU Scheduling, BFS, Print Spooler</li>
+        </ul></div>
+        <div class="mc"><h4>🔗 Linked List</h4><ul>
+          <li>Node = data + next pointer</li>
+          <li>Singly → Doubly → Circular LL</li>
+          <li>No random access (O(n) traversal)</li>
+          <li>Dynamic size — array se better for insert/delete at beginning</li>
+        </ul></div>
+        <div class="mc"><h4>🌳 Trees</h4><ul>
+          <li>Binary Tree: max 2 children per node</li>
+          <li>BST: Left &lt; Root &lt; Right</li>
+          <li>Inorder=LNR (sorted!), Preorder=NLR, Postorder=LRN</li>
+          <li>Level Order=BFS, Height = longest root-to-leaf path</li>
+          <li>n nodes wale BST mein max height = n-1</li>
+        </ul></div>
+        <div class="mc"><h4>🔍 Searching</h4><ul>
+          <li>Linear Search: O(n), works on unsorted array</li>
+          <li>Binary Search: O(log n), SORTED array only</li>
+          <li>Binary Search: mid = (low+high)//2</li>
+          <li>Number of comparisons = log₂(n)+1 (worst case)</li>
+        </ul></div>
+        <div class="mc"><h4>🔃 Sorting</h4><ul>
+          <li>Bubble: adjacent swap, O(n²), stable</li>
+          <li>Selection: min select karo, O(n²), not stable</li>
+          <li>Insertion: sorted part mein insert, O(n²), stable</li>
+          <li>Merge Sort: O(n log n) always, O(n) space, stable</li>
+          <li>Quick Sort: avg O(n log n), worst O(n²) pivot pe depend</li>
+        </ul></div>
+      </div>
+      <div class="ib ib-g"><i>✅</i><div><strong>Golden Rule:</strong> BST ka Inorder Traversal hamesha ascending sorted order deta hai. Ye CUET mein guarantee aata hai! Also: Stable sort = Bubble, Insertion, Merge. Unstable = Selection, Quick.</div></div>
+      <div class="div"><div class="div-line"></div><div class="div-txt">Complexity Reference</div><div class="div-line"></div></div>
+      <table class="tbl">
+        <thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th></tr></thead>
+        <tbody>
+          <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr>
+          <tr><td>Selection Sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr>
+          <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr>
+          <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>✅</td></tr>
+          <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>❌</td></tr>
+          <tr><td>Binary Search</td><td>O(1)</td><td>O(log n)</td><td>O(log n)</td><td>O(1)</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="code"><span class="code-lang">STACK TRACE</span><span class="cm"># Stack operations dry run</span>
+stack = []
+stack.append(10)  <span class="cm"># [10]</span>
+stack.append(20)  <span class="cm"># [10, 20]</span>
+stack.append(30)  <span class="cm"># [10, 20, 30]</span>
+stack.pop()       <span class="cm"># returns 30  →  [10, 20]</span>
+stack.append(40)  <span class="cm"># [10, 20, 40]</span>
+print(stack[-1])  <span class="cm"># Peek = 40 (Top)</span>
+print(len(stack)) <span class="cm"># 3</span></div>
+    </div>
+  </div>
+
+  <!-- UNIT 3: DBMS -->
+  <div class="sc" id="unit3">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-g">🗄️</div>
+      <div class="sc-ttl">Unit 3 · DBMS &amp; SQL</div>
+      <span class="sc-badge sb-blue">~20%</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="g2">
+        <div class="mc"><h4>📐 Concepts &amp; Keys</h4><ul>
+          <li>Primary Key: Unique + NOT NULL, ek table mein ek hi PK</li>
+          <li>Foreign Key: Dusre table ka PK — referential integrity</li>
+          <li>Candidate Key: Sab possible unique identifiers</li>
+          <li>Super Key: Candidate key + extra attributes</li>
+          <li>Degree = columns | Cardinality = rows</li>
+        </ul></div>
+        <div class="mc"><h4>🔎 SQL Query Types</h4><ul>
+          <li>DDL: CREATE, ALTER, DROP, TRUNCATE</li>
+          <li>DML: INSERT, UPDATE, DELETE, SELECT</li>
+          <li>DCL: GRANT, REVOKE</li>
+          <li>TCL: COMMIT, ROLLBACK, SAVEPOINT</li>
+          <li>DISTINCT, ORDER BY ASC/DESC</li>
+        </ul></div>
+        <div class="mc"><h4>🔢 Aggregate Functions</h4><ul>
+          <li>COUNT(*), SUM(col), AVG(col), MAX(col), MIN(col)</li>
+          <li>GROUP BY col HAVING condition</li>
+          <li>WHERE: rows filter (GROUP BY se PEHLE)</li>
+          <li>HAVING: groups filter (GROUP BY ke BAAD)</li>
+          <li>Aggregate functions WHERE mein nahi chalte!</li>
+        </ul></div>
+        <div class="mc"><h4>🔀 Joins</h4><ul>
+          <li>INNER JOIN: Sirf matching rows dono tables se</li>
+          <li>LEFT JOIN: Sab left + matched right (NULL if no match)</li>
+          <li>RIGHT JOIN: Sab right + matched left</li>
+          <li>CROSS JOIN: Cartesian product (m × n rows)</li>
+          <li>Subquery: WHERE ke andar SELECT</li>
+        </ul></div>
+      </div>
+      <div class="ib ib-b"><i>💡</i><div><strong>Key difference yaad karo:</strong> WHERE individual rows filter karta hai, HAVING groups filter karta hai. Aggregate functions sirf HAVING mein allowed hain, WHERE mein nahi.</div></div>
+      <div class="code"><span class="code-lang">SQL</span><span class="cm">-- CUET favourite query pattern</span>
+<span class="kw">SELECT</span> Department, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> Total, <span class="fn">AVG</span>(Salary) <span class="kw">AS</span> AvgSal
+<span class="kw">FROM</span> Employee
+<span class="kw">WHERE</span> Salary &gt; 30000
+<span class="kw">GROUP BY</span> Department
+<span class="kw">HAVING COUNT</span>(*) &gt;= 3
+<span class="kw">ORDER BY</span> AvgSal <span class="kw">DESC</span>;</div>
+      <div class="div"><div class="div-line"></div><div class="div-txt">Normalization</div><div class="div-line"></div></div>
+      <table class="tbl">
+        <thead><tr><th>Normal Form</th><th>Condition</th><th>Eliminates</th></tr></thead>
+        <tbody>
+          <tr><td>1NF</td><td>Atomic values, no repeating groups</td><td>Multi-valued attributes</td></tr>
+          <tr><td>2NF</td><td>1NF + No partial dependency</td><td>Partial dependencies on composite PK</td></tr>
+          <tr><td>3NF</td><td>2NF + No transitive dependency</td><td>Transitive dependencies (X→Y→Z)</td></tr>
+          <tr><td>BCNF</td><td>Every determinant is a candidate key</td><td>All anomalies</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- UNIT 4: NETWORKING -->
+  <div class="sc" id="unit4">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-b">🌐</div>
+      <div class="sc-ttl">Unit 4 · Computer Networks</div>
+      <span class="sc-badge sb-blue">~15%</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="g2">
+        <div class="mc"><h4>📦 OSI Model — 7 Layers</h4><ul>
+          <li>Trick: <strong>All People Seem To Need Data Processing</strong></li>
+          <li>7. Application: HTTP(80), HTTPS(443), FTP(21), SMTP(25), DNS</li>
+          <li>6. Presentation: Encryption, Compression, Format</li>
+          <li>5. Session: Session establish/manage/terminate</li>
+          <li>4. Transport: TCP (reliable), UDP (fast), Port numbers</li>
+          <li>3. Network: IP, Routing — Router is here (Layer 3)</li>
+          <li>2. Data Link: MAC Address, Frames — Switch is here (Layer 2)</li>
+          <li>1. Physical: Bits, Cables — Hub/Repeater here (Layer 1)</li>
+        </ul></div>
+        <div class="mc"><h4>🌍 IP Addressing</h4><ul>
+          <li>IPv4: 32-bit, 4 octets (e.g. 192.168.1.1)</li>
+          <li>IPv6: 128-bit, hexadecimal — address exhaustion solve</li>
+          <li>Class A: 0-127 | B: 128-191 | C: 192-223</li>
+          <li>Private: 10.x.x.x, 172.16-31.x.x, 192.168.x.x</li>
+          <li>DHCP: Auto IP assign | DNS: Domain → IP translate</li>
+          <li>TCP/IP Model = 4 layers (vs OSI = 7 layers)</li>
+        </ul></div>
+        <div class="mc"><h4>🔌 Network Devices</h4><ul>
+          <li>Hub (L1): Broadcast to all — no intelligence, obsolete</li>
+          <li>Switch (L2): MAC table — smart selective forwarding</li>
+          <li>Router (L3): IP routing between different networks</li>
+          <li>Bridge (L2): 2 LAN segments connect karta hai</li>
+          <li>Repeater (L1): Signal regenerate/amplify karta hai</li>
+          <li>Gateway: Protocol translation (all layers)</li>
+        </ul></div>
+        <div class="mc"><h4>🔐 Cybersecurity</h4><ul>
+          <li>Virus: Self-replicates, files infect karta hai</li>
+          <li>Worm: Network se spread, no host file needed</li>
+          <li>Trojan: Useful dikhta hai but harmful</li>
+          <li>Ransomware: Data encrypt kare, ransom maange</li>
+          <li>Phishing: Fake site se credentials steal</li>
+          <li>DoS/DDoS: Server overwhelm karna</li>
+          <li>SSL/TLS: Encrypted communication</li>
+        </ul></div>
+      </div>
+      <div class="ib ib-r"><i>🚨</i><div><strong>TCP vs UDP (CUET mein aata hai):</strong> TCP = connection-oriented, reliable, ordered, slower (HTTP, email, FTP). UDP = connectionless, fast, no guarantee (streaming, DNS, gaming, VoIP).</div></div>
+    </div>
+  </div>
+
+  <!-- UNIT 5: OS -->
+  <div class="sc" id="unit5">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-a">⚙️</div>
+      <div class="sc-ttl">Unit 5 · Operating System Concepts</div>
+      <span class="sc-badge sb-green">~4%</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="g2">
+        <div class="mc"><h4>🖥️ Process Management</h4><ul>
+          <li>Process states: New → Ready → Running → Waiting → Terminated</li>
+          <li>PCB: Process Control Block — process info store karta hai</li>
+          <li>Thread = lightweight process (shared memory)</li>
+          <li>Context switching = CPU processes ke beech switch karna</li>
+        </ul></div>
+        <div class="mc"><h4>🔄 CPU Scheduling</h4><ul>
+          <li>FCFS: First Come First Serve — simple, convoy effect</li>
+          <li>SJF: Shortest Job First — min avg waiting time</li>
+          <li>Round Robin: Fixed time quantum — fair, preemptive</li>
+          <li>Priority: Higher priority first — starvation possible</li>
+        </ul></div>
+        <div class="mc"><h4>🧠 Memory Management</h4><ul>
+          <li>Paging: Fixed-size pages, no external fragmentation</li>
+          <li>Segmentation: Variable-size logical segments</li>
+          <li>Virtual Memory: RAM + Disk (swap space)</li>
+          <li>Thrashing: Excessive page faults — performance crashes</li>
+        </ul></div>
+        <div class="mc"><h4>📁 File System</h4><ul>
+          <li>Allocation: Contiguous, Linked, Indexed</li>
+          <li>Deadlock conditions (sab 4 ek saath): Mutual Exclusion, Hold &amp; Wait, No Preemption, Circular Wait</li>
+          <li>Cache: L1 fastest/smallest, L3 slowest/largest</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIT 6: SOCIETY -->
+  <div class="sc" id="unit6">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-r">🌍</div>
+      <div class="sc-ttl">Unit 6 · Society, Law &amp; Ethics in Technology</div>
+      <span class="sc-badge sb-green">~6%</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="g2">
+        <div class="mc"><h4>⚖️ IT Act 2000 (India)</h4><ul>
+          <li>Sec 43: Unauthorized computer access/damage</li>
+          <li>Sec 66: Hacking / computer-related offences</li>
+          <li>Sec 67: Obscene material online publish karna</li>
+          <li>Sec 72: Privacy breach / confidentiality</li>
+          <li>Digital Signature ko legal recognition</li>
+        </ul></div>
+        <div class="mc"><h4>🔒 IPR &amp; Open Source</h4><ul>
+          <li>Copyright: Creative works (auto-protect at creation)</li>
+          <li>Patent: Inventions — 20 years protection</li>
+          <li>Trademark: Brand names / logos</li>
+          <li>Open Source (FOSS): GPL, MIT, Apache licenses</li>
+          <li>Creative Commons: 6 license types</li>
+          <li>Plagiarism: Others ka kaam apna batana</li>
+        </ul></div>
+        <div class="mc"><h4>🤖 Emerging Technologies</h4><ul>
+          <li>AI Types: Narrow AI, General AI, Super AI</li>
+          <li>ML: Supervised, Unsupervised, Reinforcement</li>
+          <li>IoT: Smart devices interconnected via internet</li>
+          <li>Cloud: SaaS (apps), PaaS (platform), IaaS (infrastructure)</li>
+          <li>Big Data: 5Vs — Volume, Velocity, Variety, Veracity, Value</li>
+          <li>Blockchain: Distributed ledger, Decentralized, Immutable</li>
+        </ul></div>
+        <div class="mc"><h4>🌱 Digital Safety</h4><ul>
+          <li>Active footprint: Intentional sharing (posts, forms)</li>
+          <li>Passive footprint: Auto-collected (cookies, IP, history)</li>
+          <li>Netiquette: Online behaviour rules</li>
+          <li>E-waste: Electronic waste — toxic materials</li>
+          <li>Deep Fakes: AI se fake videos/images</li>
+          <li>AI Ethics: Bias, transparency, accountability</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PYQ -->
+  <div class="sc" id="unit7">
+    <div class="sc-hd" onclick="toggleSec(this)">
+      <div class="sc-ico ic-gold">📋</div>
+      <div class="sc-ttl">PYQ Trends &amp; Sample Questions (2022–2025)</div>
+      <span class="sc-badge" style="background:rgba(255,209,102,0.1);color:var(--gold)">MUST SOLVE</span>
+      <span class="sc-arr open">▾</span>
+    </div>
+    <div class="sc-bd">
+      <div class="pyq"><div class="pyq-yr">🗓 CUET CS 2022</div><div class="pyq-q">Q: Python mein output kya hoga? <code>x = [1,2,3,4,5]; print(x[1:4:2])</code></div><div class="pyq-a">✅ Answer: [2, 4] — Index 1 se 3 tak, step 2 → positions 1,3 → values 2 aur 4</div></div>
+      <div class="pyq"><div class="pyq-yr">🗓 CUET CS 2022</div><div class="pyq-q">Q: Primary Key ke baare mein kaunsa statement GALAT hai? (a) Ek se zyada PK ho sakti hain (b) NULL nahi hoti (c) Unique hoti hai (d) FK reference kar sakti hai</div><div class="pyq-a">✅ Answer: (a) — Ek table mein sirf EK Primary Key hoti hai (composite bhi ek counted hoti hai)</div></div>
+      <div class="pyq"><div class="pyq-yr">🗓 CUET CS 2023</div><div class="pyq-q">Q: Stack operations: Push(10), Push(20), Pop(), Push(30), Pop() ke baad stack mein kya hoga?</div><div class="pyq-a">✅ Trace: [10] → [10,20] → pop 20 → [10] → [10,30] → pop 30 → [10]. Answer: [10], Top = 10</div></div>
+      <div class="pyq"><div class="pyq-yr">🗓 CUET CS 2023</div><div class="pyq-q">Q: BST Inorder traversal: Root=8, Left subtree={3,1,6,4,7}, Right subtree={10,14,13}. Output?</div><div class="pyq-a">✅ Answer: 1,3,4,6,7,8,10,13,14 — BST Inorder hamesha ascending sorted order deta hai</div></div>
+      <div class="pyq"><div class="pyq-yr">🗓 CUET CS 2024</div><div class="pyq-q">Q: <code>SELECT COUNT(*) FROM Student WHERE Marks &gt; 75 GROUP BY Class HAVING COUNT(*) &gt;= 3</code> — Kya return karega?</div><div class="pyq-a">✅ Answer: Har Class ka count jahan Marks&gt;75 wale students 3 ya zyada hain. WHERE pehle, phir GROUP BY, phir HAVING.</div></div>
+      <div class="pyq"><div class="pyq-yr">🗓 CUET CS 2025</div><div class="pyq-q">Q: Hub aur Switch mein kya fark hai? Hub kis OSI layer pe kaam karta hai?</div><div class="pyq-a">✅ Hub → Physical Layer (L1) → Broadcast to ALL ports. Switch → Data Link Layer (L2) → MAC table use karta hai, specific port pe send karta hai.</div></div>
+
+      <div class="div"><div class="div-line"></div><div class="div-txt">Last 30 Days Strategy</div><div class="div-line"></div></div>
+      <div class="steps">
+        <div class="step"><p><strong>PYQs 2022-2025 solve karo</strong> — Original papers download karo NTA site se, trace karo. Patterns clearly aayenge.</p></div>
+        <div class="step"><p><strong>Roz 10 code snippets trace karo</strong> — Python code mentally run karo. Ye CUET ka no. 1 question type hai. Paper-pen pe likho.</p></div>
+        <div class="step"><p><strong>SQL manually practice karo</strong> — Fake table banao, SELECT/GROUP BY/HAVING/JOIN queries likhkar output check karo.</p></div>
+        <div class="step"><p><strong>DSA dry run on paper</strong> — Stack/Queue operations step-by-step. Tree traversals draw karke practice karo.</p></div>
+        <div class="step"><p><strong>Theory = easy marks</strong> — OSI layers, Networking devices, Normalization, IT Act 2000 ye ek baar poora padh lo — low effort, high marks!</p></div>
+        <div class="step"><p><strong>Mock tests daily</strong> — 60 min timer ke saath roz ek full mock test do. Score track karo, weak areas fix karo.</p></div>
+      </div>
+
+      <div class="tags">
+        <span class="tag t-c">Stack = LIFO</span><span class="tag t-c">Queue = FIFO</span>
+        <span class="tag t-g">Inorder BST = Sorted</span><span class="tag t-a">Binary Search = O(log n)</span>
+        <span class="tag t-r">Quick Sort Worst = O(n²)</span><span class="tag t-b">Primary Key = Unique + NOT NULL</span>
+        <span class="tag t-b">IPv4 = 32-bit</span><span class="tag t-b">IPv6 = 128-bit</span>
+        <span class="tag t-g">HTTP=80 HTTPS=443 FTP=21 SMTP=25</span>
+        <span class="tag t-v">Hub=L1 Switch=L2 Router=L3</span>
+        <span class="tag t-g">DDL=CREATE,ALTER,DROP</span><span class="tag t-a">DML=INSERT,UPDATE,DELETE</span>
+        <span class="tag t-c">OSI=7 layers · TCP/IP=4 layers</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /panel-notes -->
+
+<!-- ════════════════════════════
+     PANEL: 2026 PREDICTIONS
+════════════════════════════ -->
+<div class="panel" id="panel-predict">
+
+  <div class="ib ib-gold" style="margin-bottom:18px"><i>🔮</i><div><strong>2026 Predictions — Based on:</strong> PYQ 2022-2025 gap analysis, NTA syllabus updates, class 12 CS curriculum changes aur emerging tech trends. Probability-based analysis hai, 100% guarantee nahi.</div></div>
+
+  <div class="div"><div class="div-line"></div><div class="div-txt">🔥 Hot Topics — Bahut Zyada Probability</div><div class="div-line"></div></div>
+  <div class="g3" style="margin-bottom:18px">
+    <div class="pred pred-hot">
+      <span class="pred-badge pb-hot">🔥 Must Prepare</span>
+      <div class="pred-ttl">Python — List Comprehension &amp; Generators</div>
+      <ul class="pred-list"><li>Nested list comprehension output trace</li><li>map(), filter(), zip() functions</li><li>enumerate() aur its output</li><li>Generator expressions vs list</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-hot" style="width:92%"></div></div><span class="prob-pct">92%</span></div>
+    </div>
+    <div class="pred pred-hot">
+      <span class="pred-badge pb-hot">🔥 Must Prepare</span>
+      <div class="pred-ttl">SQL — Subqueries &amp; Multiple Tables</div>
+      <ul class="pred-list"><li>Correlated subquery in WHERE clause</li><li>EXISTS / NOT EXISTS operator</li><li>Multi-table joins with aliases</li><li>UNION vs UNION ALL difference</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-hot" style="width:88%"></div></div><span class="prob-pct">88%</span></div>
+    </div>
+    <div class="pred pred-hot">
+      <span class="pred-badge pb-hot">🔥 Must Prepare</span>
+      <div class="pred-ttl">AI &amp; Machine Learning Basics</div>
+      <ul class="pred-list"><li>AI types: Narrow, General, Super AI</li><li>ML: Supervised vs Unsupervised (examples)</li><li>Neural Network basic concept</li><li>Chatbots, Recommendation systems</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-hot" style="width:85%"></div></div><span class="prob-pct">85%</span></div>
+    </div>
+    <div class="pred pred-hot">
+      <span class="pred-badge pb-hot">🔥 Must Prepare</span>
+      <div class="pred-ttl">Trees — Advanced Traversal</div>
+      <ul class="pred-list"><li>Given 2 traversals se tree reconstruct karna</li><li>Preorder + Inorder se Postorder nikalna</li><li>Height aur node count problems</li><li>AVL Tree concept (self-balancing)</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-hot" style="width:82%"></div></div><span class="prob-pct">82%</span></div>
+    </div>
+    <div class="pred pred-hot">
+      <span class="pred-badge pb-hot">🔥 Must Prepare</span>
+      <div class="pred-ttl">Python OOP Basics</div>
+      <ul class="pred-list"><li>Class aur Object definition</li><li>__init__() constructor, self parameter</li><li>Inheritance: parent to child class</li><li>Method overriding concept</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-hot" style="width:78%"></div></div><span class="prob-pct">78%</span></div>
+    </div>
+    <div class="pred pred-hot">
+      <span class="pred-badge pb-hot">🔥 Must Prepare</span>
+      <div class="pred-ttl">Cybersecurity — New Attack Types</div>
+      <ul class="pred-list"><li>Ransomware — encrypt, ransom maangta hai</li><li>Zero-Day Exploit — unknown vulnerability</li><li>Two-Factor Authentication (2FA)</li><li>VPN aur its uses</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-hot" style="width:80%"></div></div><span class="prob-pct">80%</span></div>
+    </div>
+  </div>
+
+  <div class="div"><div class="div-line"></div><div class="div-txt">📊 Medium Probability — Prepare karo</div><div class="div-line"></div></div>
+  <div class="g3" style="margin-bottom:18px">
+    <div class="pred pred-med">
+      <span class="pred-badge pb-med">📊 Likely</span>
+      <div class="pred-ttl">Blockchain &amp; Web3 Concepts</div>
+      <ul class="pred-list"><li>Distributed ledger technology</li><li>Cryptocurrency basics (Bitcoin)</li><li>Smart Contracts concept</li><li>NFTs aur digital ownership</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-med" style="width:65%"></div></div><span class="prob-pct">65%</span></div>
+    </div>
+    <div class="pred pred-med">
+      <span class="pred-badge pb-med">📊 Likely</span>
+      <div class="pred-ttl">Cloud Computing — Deep Dive</div>
+      <ul class="pred-list"><li>Public vs Private vs Hybrid cloud</li><li>SaaS: Gmail, Netflix, Zoom</li><li>PaaS: Heroku, AWS Beanstalk</li><li>IaaS: AWS EC2, Azure VMs</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-med" style="width:68%"></div></div><span class="prob-pct">68%</span></div>
+    </div>
+    <div class="pred pred-med">
+      <span class="pred-badge pb-med">📊 Likely</span>
+      <div class="pred-ttl">Data Science &amp; Python Libraries</div>
+      <ul class="pred-list"><li>NumPy, Pandas, Matplotlib basics</li><li>DataFrame concept</li><li>Data cleaning aur preprocessing</li><li>Basic statistics: mean, median, mode</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-med" style="width:58%"></div></div><span class="prob-pct">58%</span></div>
+    </div>
+    <div class="pred pred-med">
+      <span class="pred-badge pb-med">📊 Likely</span>
+      <div class="pred-ttl">Graph Data Structure</div>
+      <ul class="pred-list"><li>Directed vs Undirected graphs</li><li>Adjacency Matrix vs List</li><li>BFS aur DFS traversal</li><li>Applications: Social networks, Maps</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-med" style="width:55%"></div></div><span class="prob-pct">55%</span></div>
+    </div>
+    <div class="pred pred-med">
+      <span class="pred-badge pb-med">📊 Likely</span>
+      <div class="pred-ttl">IoT — Internet of Things</div>
+      <ul class="pred-list"><li>Smart home devices examples</li><li>Sensors aur actuators</li><li>IoT architecture: Device to Cloud</li><li>Security challenges in IoT</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-med" style="width:62%"></div></div><span class="prob-pct">62%</span></div>
+    </div>
+    <div class="pred pred-med">
+      <span class="pred-badge pb-med">📊 Likely</span>
+      <div class="pred-ttl">Deep Fakes &amp; AI Ethics</div>
+      <ul class="pred-list"><li>Deepfake detection methods</li><li>Algorithmic bias examples</li><li>AI in healthcare, education</li><li>GDPR-like data privacy laws</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-med" style="width:60%"></div></div><span class="prob-pct">60%</span></div>
+    </div>
+  </div>
+
+  <div class="div"><div class="div-line"></div><div class="div-txt">✅ Sure Shot — Har Saal Aate Hain</div><div class="div-line"></div></div>
+  <div class="g3">
+    <div class="pred pred-sure">
+      <span class="pred-badge pb-sure">✅ Sure Shot</span>
+      <div class="pred-ttl">Python Code Output Trace</div>
+      <ul class="pred-list"><li>8-10 questions hamesha aate hain</li><li>List/string slicing (negative index)</li><li>Nested function calls output</li><li>Dictionary manipulation trace</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-sure" style="width:99%"></div></div><span class="prob-pct">99%</span></div>
+    </div>
+    <div class="pred pred-sure">
+      <span class="pred-badge pb-sure">✅ Sure Shot</span>
+      <div class="pred-ttl">Stack / Queue Dry Run</div>
+      <ul class="pred-list"><li>3-5 operations ke baad state poochha jaayega</li><li>Infix to Postfix conversion</li><li>Balanced brackets check</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-sure" style="width:97%"></div></div><span class="prob-pct">97%</span></div>
+    </div>
+    <div class="pred pred-sure">
+      <span class="pred-badge pb-sure">✅ Sure Shot</span>
+      <div class="pred-ttl">SQL GROUP BY + HAVING</div>
+      <ul class="pred-list"><li>COUNT, SUM, AVG, MAX, MIN</li><li>GROUP BY + HAVING combo questions</li><li>Table dekar output trace</li></ul>
+      <div class="pred-prob"><div class="prob-tr"><div class="prob-fl pf-sure" style="width:96%"></div></div><span class="prob-pct">96%</span></div>
+    </div>
+  </div>
+</div><!-- /panel-predict -->
+
+<!-- ════════════════════════════
+     PANEL: QUIZ
+════════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="quiz-wrap">
+    <div class="quiz-head">
+      <div><div class="quiz-h1">🎯 Practice Quiz</div><div class="quiz-h2">CUET-style MCQs — Correct +5, Wrong -1, Skip 0</div></div>
+      <button class="btn btn-s" onclick="quizReset()">🔄 Restart</button>
+    </div>
+
+    <div class="filters" id="qFilters">
+      <button class="flt on" onclick="quizFilter('all',this)">All Topics</button>
+      <button class="flt" onclick="quizFilter('python',this)">🐍 Python</button>
+      <button class="flt" onclick="quizFilter('dsa',this)">🏗️ DSA</button>
+      <button class="flt" onclick="quizFilter('sql',this)">🗄️ SQL</button>
+      <button class="flt" onclick="quizFilter('network',this)">🌐 Network</button>
+      <button class="flt" onclick="quizFilter('os',this)">⚙️ OS</button>
+    </div>
+
+    <div class="score-row">
+      <span class="sc-chip sc-t">Attempted: <span id="q-att">0</span></span>
+      <span class="sc-chip sc-c">Correct: <span id="q-cor">0</span></span>
+      <span class="sc-chip sc-w">Wrong: <span id="q-wrg">0</span></span>
+      <span class="sc-chip sc-s">Score: <span id="q-scr">0</span></span>
+    </div>
+
+    <div class="q-prog-row">
+      <div class="q-prog-tr"><div class="q-prog-fl" id="qProg" style="width:0%"></div></div>
+      <span class="q-cnt" id="qCnt">Q 1 / 40</span>
+    </div>
+
+    <div id="qArea"></div>
+
+    <div class="result" id="qResult">
+      <div class="result-ico" id="rIco">🎉</div>
+      <div class="result-ttl" id="rTtl">Quiz Complete!</div>
+      <div class="result-sub" id="rSub">Aage practice karte raho!</div>
+      <div class="result-stats">
+        <div class="rs"><div class="rs-v" id="rScore" style="color:var(--blue2)">0</div><div class="rs-l">CUET Score</div></div>
+        <div class="rs"><div class="rs-v" id="rCor" style="color:var(--green)">0</div><div class="rs-l">Correct</div></div>
+        <div class="rs"><div class="rs-v" id="rWrg" style="color:var(--rose)">0</div><div class="rs-l">Wrong</div></div>
+        <div class="rs"><div class="rs-v" id="rAcc" style="color:var(--amber)">0%</div><div class="rs-l">Accuracy</div></div>
+      </div>
+      <button class="btn btn-p" onclick="quizReset()">🔄 Phir Khelein</button>
+    </div>
+  </div>
+</div><!-- /panel-quiz -->
+
+<!-- ════════════════════════════
+     PANEL: FLASHCARDS
+════════════════════════════ -->
+<div class="panel" id="panel-flash">
+  <div class="fc-wrap">
+    <div style="margin-bottom:14px">
+      <div style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px">⚡ Flashcards</div>
+      <div class="fc-desc">Card pe click karo flip karne ke liye. Arrows se navigate karo.</div>
+    </div>
+
+    <div class="filters" id="fcFilters">
+      <button class="flt on" onclick="fcFilter('all',this)">All</button>
+      <button class="flt" onclick="fcFilter('python',this)">🐍 Python</button>
+      <button class="flt" onclick="fcFilter('dsa',this)">🏗️ DSA</button>
+      <button class="flt" onclick="fcFilter('sql',this)">🗄️ SQL</button>
+      <button class="flt" onclick="fcFilter('network',this)">🌐 Network</button>
+      <button class="flt" onclick="fcFilter('fact',this)">📌 Quick Facts</button>
+    </div>
+
+    <div class="fc-nav">
+      <button class="btn btn-s" onclick="fcPrev()">← Prev</button>
+      <span class="fc-ctr" id="fcCtr">1 / 35</span>
+      <button class="btn btn-p" onclick="fcNext()">Next →</button>
+    </div>
+
+    <div class="fc" id="fcCard" onclick="fcFlip()">
+      <div class="fc-in" id="fcIn">
+        <div class="fc-face fc-front">
+          <div class="fc-lbl">Question — Tap to flip</div>
+          <div class="fc-q" id="fcQ">Loading...</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-lbl">Answer</div>
+          <div class="fc-a" id="fcA">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-acts">
+      <button class="btn btn-s" onclick="fcShuffle()">🔀 Shuffle</button>
+      <button class="btn btn-s" onclick="fcFlip()">↩ Flip</button>
+    </div>
+  </div>
+</div><!-- /panel-flash -->
+
+</div><!-- /wrap -->
+
+<footer>
+  CUET 2026 · Computer Science Master Notes · NTA Official Syllabus + 2022-2025 PYQ Analysis<br>
+  <strong>Official Website:</strong> cuet.nta.nic.in · Ye notes study aid hain — official notification jaroor padhen.
+</footer>
+
+<script>
+// ============================================================
+// ALL DATA — double quotes to avoid any apostrophe issues
+// ============================================================
+
+var QUESTIONS = [
+  // ── PYTHON ──
+  {t:"python", d:"easy",
+   q:"Python mein following code ka output kya hoga?",
+   code:"x = [1, 2, 3, 4, 5]\nprint(x[1:4:2])",
+   opts:["[2, 4]","[1, 3, 5]","[2, 3, 4]","[1, 2]"],
+   ans:0, exp:"x[1:4:2] means index 1 se 3 tak (4 exclusive), step 2. Positions 1 aur 3 select honge, values 2 aur 4. Output: [2, 4]"},
+
+  {t:"python", d:"medium",
+   q:"Kaunsa Python data type IMMUTABLE hai?",
+   code:"",
+   opts:["List","Dictionary","Tuple","Set"],
+   ans:2, exp:"Tuple immutable hota hai — ek baar banane ke baad modify nahi ho sakta. List, Dict, Set sab mutable hain aur in-place change possible hai."},
+
+  {t:"python", d:"easy",
+   q:"Python mein None kya represent karta hai?",
+   code:"",
+   opts:["0 (zero)","Empty string \"\"","Absence of value / null","False boolean"],
+   ans:2, exp:"None Python ka special constant hai jo value ki absence represent karta hai. Java ke null jaisa. Type check: type(None) returns NoneType."},
+
+  {t:"python", d:"medium",
+   q:"Following code ka output kya hoga?",
+   code:"def func(x, y=5):\n    return x + y\nprint(func(3))",
+   opts:["3","5","8","Error"],
+   ans:2, exp:"func(3) call mein x=3, y=5 (default value use hogi). Return 3+5=8."},
+
+  {t:"python", d:"hard",
+   q:"Following code ka output kya hoga?",
+   code:"a = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)",
+   opts:["[1, 2, 3]","[1, 2, 3, 4]","[4]","Error"],
+   ans:1, exp:"b = a se dono same list object ko point karte hain (reference copy, not value copy). b.append(4) original list 'a' ko bhi affect karta hai. Output: [1, 2, 3, 4]"},
+
+  {t:"python", d:"medium",
+   q:"*args ka use function mein kya hai?",
+   code:"",
+   opts:["Named keyword arguments ke liye","Variable number of positional arguments","Default argument set karna","Module import karna"],
+   ans:1, exp:"*args function ko arbitrary number of positional arguments accept karne deta hai. Ye function ke andar tuple ki tarah available hota hai."},
+
+  {t:"python", d:"easy",
+   q:"\"HELLO\".lower() ka output kya hoga?",
+   code:"",
+   opts:["hello","HELLO","Hello","hElLo"],
+   ans:0, exp:"lower() method string ke sab characters ko lowercase mein convert karta hai. Output: \"hello\""},
+
+  {t:"python", d:"medium",
+   q:"Following code ka output kya hoga?",
+   code:"d = {\"a\":1, \"b\":2}\nd.update({\"b\":9, \"c\":3})\nprint(len(d))",
+   opts:["2","3","4","Error"],
+   ans:1, exp:"update() existing key \"b\" ko 9 se update karta hai aur nayi key \"c\":3 add karta hai. Final dict: {\"a\":1,\"b\":9,\"c\":3} — 3 entries. len = 3"},
+
+  {t:"python", d:"medium",
+   q:"try-except-else-finally mein \"else\" block kab execute hota hai?",
+   code:"",
+   opts:["Hamesha execute hota hai","Jab exception aaye","Jab koi exception NA aaye","Sirf finally ke baad"],
+   ans:2, exp:"else block tab execute hota hai jab try block mein koi exception nahi aata. finally hamesha execute hota hai — chahe exception aaye ya na aaye."},
+
+  {t:"python", d:"hard",
+   q:"Following code ka output kya hoga?",
+   code:"x = [1, 2, 3, 4, 5]\nresult = [i*2 for i in x if i%2 == 0]\nprint(result)",
+   opts:["[2, 4, 6, 8, 10]","[4, 8]","[2, 4]","[1, 3, 5]"],
+   ans:1, exp:"List comprehension: x se sirf even numbers lo (2,4) aur unhe 2 se multiply karo (4,8). Odd numbers (1,3,5) condition fail karte hain. Output: [4, 8]"},
+
+  // ── DSA ──
+  {t:"dsa", d:"easy",
+   q:"Stack mein following operations ke baad top element kya hoga? Push(5), Push(10), Pop(), Push(20)",
+   code:"",
+   opts:["5","10","20","Empty"],
+   ans:2, exp:"Trace: [] → Push(5) [5] → Push(10) [5,10] → Pop() removes 10 → [5] → Push(20) [5,20]. Top = 20. Stack LIFO follow karta hai."},
+
+  {t:"dsa", d:"medium",
+   q:"BST ka Inorder Traversal kya deta hai?",
+   code:"",
+   opts:["Random order","Descending sorted order","Ascending sorted order","Level order"],
+   ans:2, exp:"BST (Binary Search Tree) ka Inorder Traversal (L → N → R) hamesha ascending sorted order deta hai. Ye BST ki key property hai! CUET mein guarantee aata hai."},
+
+  {t:"dsa", d:"easy",
+   q:"Queue ka principle kya hai?",
+   code:"",
+   opts:["LIFO — Last In First Out","FIFO — First In First Out","Random Access","Priority Based Only"],
+   ans:1, exp:"Queue FIFO (First In First Out) follow karta hai — jaise cinema line mein pehle aaya woh pehle bahar jaata hai. Stack LIFO hota hai."},
+
+  {t:"dsa", d:"medium",
+   q:"Binary Search ke liye array mein kya condition zaroor honi chahiye?",
+   code:"",
+   opts:["Array mein unique elements hone chahiye","Array SORTED hona chahiye","Array ka size power of 2 hona chahiye","Array mein sirf positive numbers hone chahiye"],
+   ans:1, exp:"Binary Search sirf SORTED array pe kaam karta hai. Unsorted array mein Binary Search galat result deta hai. Time complexity O(log n) tabhi milti hai."},
+
+  {t:"dsa", d:"hard",
+   q:"Following binary tree ka Preorder traversal kya hoga? Root=1, Left subtree: 2(left=4, right=5), Right=3",
+   code:"",
+   opts:["4, 2, 5, 1, 3","1, 2, 4, 5, 3","4, 5, 2, 3, 1","2, 4, 5, 1, 3"],
+   ans:1, exp:"Preorder = NLR (Node, Left, Right). Start: 1 (root) → 2 (left) → 4 (left of 2) → 5 (right of 2) → 3 (right of root). Output: 1, 2, 4, 5, 3"},
+
+  {t:"dsa", d:"easy",
+   q:"Merge Sort ki time complexity worst case mein kya hai?",
+   code:"",
+   opts:["O(n)","O(n squared)","O(n log n)","O(log n)"],
+   ans:2, exp:"Merge Sort Divide and Conquer use karta hai. Har level pe O(n) kaam hota hai aur O(log n) levels hote hain. Total = O(n log n) — best, average, worst sab same!"},
+
+  {t:"dsa", d:"medium",
+   q:"Linked List ka main advantage over array kya hai?",
+   code:"",
+   opts:["Random access O(1) mein hoti hai","Dynamic size — insert/delete memory-efficient hai","Binary search O(log n) possible hai","Less memory use karta hai"],
+   ans:1, exp:"Linked List ka main advantage dynamic size hai. Beginning mein insert/delete O(1) (sirf pointer change). Array mein fixed size aur shifting required hoti hai."},
+
+  {t:"dsa", d:"hard",
+   q:"Quick Sort ka worst case kab hota hai?",
+   code:"",
+   opts:["Jab array completely random ho","Jab array already sorted ho aur pehla/aakhri element pivot ho","Jab array reverse sorted ho","Jab sab elements equal hon"],
+   ans:1, exp:"Quick Sort worst case O(n squared) tab hota hai jab pivot hamesha sabse chota ya sabse bada element ho — ye tab hota hai jab array already sorted ho aur pehla ya aakhri element pivot ho. Partition unbalanced hota hai."},
+
+  {t:"dsa", d:"medium",
+   q:"Stack ka application kaun sa hai?",
+   code:"",
+   opts:["BFS (Breadth First Search) traversal","CPU Scheduling","Function call management aur recursion","Disk scheduling SSTF"],
+   ans:2, exp:"Stack function calls manage karta hai — recursive calls ke liye call stack use hoti hai. BFS queue use karta hai. CPU scheduling aur disk scheduling OS mein hain."},
+
+  {t:"dsa", d:"easy",
+   q:"Binary Search mein mid index kaise calculate hota hai?",
+   code:"",
+   opts:["mid = low + high","mid = (low + high) / 2 (integer division)","mid = high - low","mid = low * high"],
+   ans:1, exp:"Binary Search mein mid = (low + high) // 2 (integer/floor division). Phir a[mid] ko target se compare karo. Equal: found, Greater: right mein search, Smaller: left mein."},
+
+  // ── SQL ──
+  {t:"sql", d:"easy",
+   q:"Primary Key ke baare mein kaunsa statement SAHI hai?",
+   code:"",
+   opts:["NULL values allow karta hai","Duplicate values allow karta hai","Unique + NOT NULL hona zaroori hai","Ek table mein multiple PK ho sakti hain"],
+   ans:2, exp:"Primary Key: (1) Unique — no duplicate rows, (2) NOT NULL — koi bhi row blank nahi hogi. Ek table mein sirf EK Primary Key hoti hai (composite bhi ek counted hoti hai)."},
+
+  {t:"sql", d:"medium",
+   q:"WHERE aur HAVING mein kya difference hai?",
+   code:"",
+   opts:["Dono bilkul same kaam karte hain","WHERE groups pe apply hota hai, HAVING rows pe","WHERE rows filter karta hai GROUP BY se pehle, HAVING groups filter karta hai baad mein","HAVING sirf COUNT() ke saath kaam karta hai"],
+   ans:2, exp:"WHERE: individual rows filter karta hai, GROUP BY se PEHLE apply hota hai. HAVING: groups filter karta hai, GROUP BY ke BAAD apply hota hai. Aggregate functions WHERE mein nahi chal sakte!"},
+
+  {t:"sql", d:"easy",
+   q:"SQL mein DDL commands kaun se hain?",
+   code:"",
+   opts:["SELECT, INSERT, UPDATE, DELETE","CREATE, ALTER, DROP, TRUNCATE","GRANT, REVOKE","COMMIT, ROLLBACK, SAVEPOINT"],
+   ans:1, exp:"DDL (Data Definition Language) = CREATE (table banao), ALTER (structure modify karo), DROP (delete karo), TRUNCATE (sab rows delete, structure rakho). DML = INSERT/UPDATE/DELETE. DCL = GRANT/REVOKE."},
+
+  {t:"sql", d:"medium",
+   q:"Following query kitne rows return karegi jab Department 'IT' mein 4 employees hain jinki salary > 30000?",
+   code:"SELECT Department, COUNT(*)\nFROM Employee\nWHERE Salary > 30000\nGROUP BY Department\nHAVING COUNT(*) >= 3",
+   opts:["0 rows","1 row (IT department)","4 rows (4 employees)","Error"],
+   ans:1, exp:"WHERE Salary>30000 individual rows filter karta hai. GROUP BY Department se ek group banta hai IT ka. HAVING COUNT(*)>=3 check karta hai — agar 4 employees hain to condition satisfy hoti hai. 1 row return hogi IT ka count lekar."},
+
+  {t:"sql", d:"hard",
+   q:"INNER JOIN ka result kya hota hai?",
+   code:"",
+   opts:["Dono tables ke sab rows","Sirf left table ke sab rows","Sirf right table ke sab rows","Sirf wo rows jo dono tables mein match karti hain"],
+   ans:3, exp:"INNER JOIN sirf matching rows return karta hai — wo rows jo dono tables ki ON condition satisfy karein. Non-matching rows dono taraf se exclude hote hain."},
+
+  {t:"sql", d:"medium",
+   q:"2NF (Second Normal Form) kya eliminate karta hai?",
+   code:"",
+   opts:["Transitive dependencies","Partial dependencies on composite primary key","Multi-valued attributes","NULL values"],
+   ans:1, exp:"2NF partial dependencies eliminate karta hai. Partial dependency tab hoti hai jab koi non-key attribute composite PK ke sirf ek part pe depend kare, poore PK pe nahi. Agar PK single column ho toh 2NF automatic satisfy hoti hai."},
+
+  {t:"sql", d:"easy",
+   q:"SQL mein duplicate rows remove karke results dikhane ke liye kya use hota hai?",
+   code:"",
+   opts:["UNIQUE","DISTINCT","DIFFERENT","NODUPLICATE"],
+   ans:1, exp:"DISTINCT keyword duplicate rows remove karta hai. Example: SELECT DISTINCT City FROM Customers — sab unique cities dikhayega, same city ek baar."},
+
+  {t:"sql", d:"medium",
+   q:"SQL mein LIKE operator mein % ka kya matlab hai?",
+   code:"",
+   opts:["Exactly ek character","Zero ya ek character","Zero ya usse zyada characters (any)","Sirf digits"],
+   ans:2, exp:"% (percent) zero ya usse zyada koi bhi characters match karta hai. _ (underscore) exactly ek character. Example: WHERE Name LIKE 'A%' — 'A' se shuru hone wale sab names."},
+
+  // ── NETWORK ──
+  {t:"network", d:"easy",
+   q:"Router kis OSI layer pe operate karta hai?",
+   code:"",
+   opts:["Physical Layer (Layer 1)","Data Link Layer (Layer 2)","Network Layer (Layer 3)","Transport Layer (Layer 4)"],
+   ans:2, exp:"Router Network Layer (Layer 3) pe operate karta hai. Ye IP addresses use karke packets route karta hai between different networks. Switch Layer 2, Hub Layer 1 pe hain."},
+
+  {t:"network", d:"medium",
+   q:"TCP aur UDP mein kya fundamental difference hai?",
+   code:"",
+   opts:["TCP faster hai, UDP reliable","TCP reliable aur connection-oriented hai, UDP fast aur connectionless hai","Dono same hain bas speed different","UDP error checking karta hai, TCP nahi"],
+   ans:1, exp:"TCP: 3-way handshake, guaranteed delivery, ordered, slower. Uses: HTTP, HTTPS, FTP, email. UDP: No connection setup, fast, no guarantee. Uses: Video streaming, DNS, gaming, VoIP."},
+
+  {t:"network", d:"easy",
+   q:"DNS ka kaam kya hai?",
+   code:"",
+   opts:["Devices ko automatically IP address assign karta hai","Domain name ko IP address mein translate karta hai","Data ko encrypt karta hai","Network traffic route karta hai"],
+   ans:1, exp:"DNS (Domain Name System) = Internet ka phone book. Human-readable domain names (google.com) ko machine-readable IP addresses (142.250.x.x) mein translate karta hai."},
+
+  {t:"network", d:"medium",
+   q:"IPv4 address kitne bits ka hota hai?",
+   code:"",
+   opts:["16 bits","32 bits","64 bits","128 bits"],
+   ans:1, exp:"IPv4 address 32 bits ka hota hai, 4 octets mein divide — dotted decimal notation (e.g. 192.168.1.1). IPv6 128 bits ka hai. IPv4 mein approximately 4.3 billion unique addresses possible hain."},
+
+  {t:"network", d:"hard",
+   q:"Kaunsa attack server ko legitimate users ke liye unavailable kar deta hai?",
+   code:"",
+   opts:["Phishing attack","Man-in-the-Middle attack","Denial of Service (DoS) attack","SQL Injection attack"],
+   ans:2, exp:"DoS/DDoS attack server ko fake requests se overwhelm karta hai jisse real users service access nahi kar paate. Phishing = fake sites se credentials steal. MitM = communication intercept. SQLi = database attack through input."},
+
+  {t:"network", d:"easy",
+   q:"Hub aur Switch mein kya main difference hai?",
+   code:"",
+   opts:["Hub Layer 2, Switch Layer 1 pe operate karta hai","Hub sab ports pe broadcast karta hai, Switch MAC table se specific port pe bhejta hai","Hub zyada fast hai Switch se","Dono same kaam karte hain"],
+   ans:1, exp:"Hub (Layer 1): Koi intelligence nahi, sab connected ports pe data broadcast karta hai. Switch (Layer 2): MAC address table maintain karta hai, sirf correct port pe data bhejta hai — zyada efficient."},
+
+  // ── OS ──
+  {t:"os", d:"easy",
+   q:"Process states ka correct order kya hai?",
+   code:"",
+   opts:["Created → Running → Waiting → Terminated","New → Ready → Running → Waiting → Terminated","New → Running → Ready → Terminated","Start → Execute → Stop"],
+   ans:1, exp:"Process states: New (created) → Ready (CPU ke liye wait) → Running (CPU pe execute ho raha hai) → Waiting (I/O ke liye wait, phir Ready mein jaata hai) → Terminated (complete)."},
+
+  {t:"os", d:"medium",
+   q:"Round Robin scheduling mein kya use hota hai?",
+   code:"",
+   opts:["Priority numbers","Time Quantum (fixed time slice)","Memory size of process","Process creation time"],
+   ans:1, exp:"Round Robin mein har process ko ek fixed Time Quantum milta hai CPU pe. Quantum expire hone pe process preempt hoti hai aur queue ke end mein jaati hai. Fair aur preemptive algorithm hai."},
+
+  {t:"os", d:"medium",
+   q:"Virtual Memory kya hai?",
+   code:"",
+   opts:["Ek special type ki RAM hai","Hard disk ka portion jo RAM ki tarah behave karta hai","CPU cache ka extension hai","ROM ka ek type hai"],
+   ans:1, exp:"Virtual Memory secondary storage (HDD/SSD) ka ek portion hai jo RAM extend karta hai. Jab RAM full ho jaati hai, OS pages ko disk ke swap area mein move karta hai. Slower but allows running large programs."},
+
+  {t:"os", d:"hard",
+   q:"Deadlock ke liye kaunsi chaaron conditions ek saath honi chahiye?",
+   code:"",
+   opts:["Mutual Exclusion only","Mutual Exclusion + Hold and Wait + No Preemption + Circular Wait","Hold and Wait + Circular Wait only","No Preemption + Circular Wait only"],
+   ans:1, exp:"Coffman conditions — deadlock ke liye sab chaaron ek saath zaroor honi chahiye: (1) Mutual Exclusion (2) Hold and Wait (3) No Preemption (4) Circular Wait. Ek bhi absent ho toh deadlock nahi hoga."},
+
+  {t:"os", d:"medium",
+   q:"SJF (Shortest Job First) scheduling ka main advantage kya hai?",
+   code:"",
+   opts:["Implement karna sabse simple hai","Minimum average waiting time deta hai","Sabhi processes ke liye fair hai","Starvation kabhi nahi hoti"],
+   ans:1, exp:"SJF theoretically minimum average waiting time provide karta hai — isliye optimal algorithm maana jaata hai. Disadvantages: Long processes starve ho sakti hain (starvation), aur burst time advance mein pata nahi hoti usually."}
+];
+
+// ── FLASHCARDS DATA ──
+var FLASHCARDS = [
+  {c:"python", q:"Python mein mutable data types kaun se hain?", a:"Mutable: list, dict, set — in mein create ke baad changes possible hain. Immutable: str, tuple, int, float, bool, frozenset, None"},
+  {c:"python", q:"Lambda function kya hai aur syntax kya hai?", a:"Ek-line anonymous function. Syntax: lambda args: expression. Example: square = lambda x: x**2. square(4) returns 16."},
+  {c:"python", q:"*args aur **kwargs mein kya fark hai?", a:"*args = variable number of positional arguments, function mein tuple ki tarah milte hain. **kwargs = variable keyword arguments, dict ki tarah milte hain."},
+  {c:"python", q:"List aur Tuple mein kya difference hai?", a:"List: Mutable, square brackets [], modify ho sakti hai. Tuple: Immutable, parentheses (), ek baar banane ke baad change nahi. Tuple faster aur memory-efficient hai."},
+  {c:"python", q:"try-except mein finally block kab run hota hai?", a:"HAMESHA run hota hai — chahe exception aaye ya na aaye. File close karna, cleanup, resource release ke liye use hota hai."},
+  {c:"python", q:"Dictionary mein key duplicate hone pe kya hota hai?", a:"Last value overwrite ho jaati hai. Example: d = {\"a\":1, \"a\":2} → {\"a\":2}. Dictionary mein keys unique honi chahiye."},
+  {c:"python", q:"is aur == mein kya fark hai Python mein?", a:"== values compare karta hai (equal value?). is identity compare karta hai (same object in memory?). Example: a=[1,2]; b=[1,2]; a==b is True lekin a is b is False."},
+  {c:"python", q:"List comprehension ka syntax kya hai?", a:"[expression for item in iterable if condition] Example: evens = [x for x in range(10) if x%2==0] gives [0,2,4,6,8]. Original list se new list banana one-liner mein."},
+  {c:"dsa", q:"Stack ka principle kya hai? Examples do.", a:"LIFO — Last In First Out. Examples: Browser Back button, Undo/Redo, Function call stack (recursion), Balanced bracket check, Infix to Postfix conversion."},
+  {c:"dsa", q:"Queue ka principle kya hai? Examples do.", a:"FIFO — First In First Out. Examples: Print spooler, CPU scheduling, BFS traversal, Customer service line, Message queues."},
+  {c:"dsa", q:"BST ka Inorder Traversal kya deta hai aur kyun?", a:"Ascending sorted order hamesha! Kyunki BST property hai: Left < Root < Right. Inorder (L-N-R) is property ko visit karta hai sorted order mein."},
+  {c:"dsa", q:"Merge Sort vs Quick Sort — main differences?", a:"Merge Sort: Stable, O(n log n) always, O(n) extra space. Quick Sort: Unstable, O(n log n) average but O(n squared) worst case, O(log n) space. Quick Sort faster in practice usually."},
+  {c:"dsa", q:"Binary Search ke liye kya condition chahiye?", a:"Array SORTED hona chahiye. Phir mid = (low+high)//2. Agar a[mid]==target: found! a[mid] < target: right half search. a[mid] > target: left half search. Time: O(log n)."},
+  {c:"dsa", q:"Linked List ka main advantage aur disadvantage kya hai?", a:"Advantage: Dynamic size, O(1) insertion/deletion at beginning (just pointer change). Disadvantage: No random access (O(n) traversal), extra memory for pointers."},
+  {c:"dsa", q:"Tree height aur depth mein kya difference hai?", a:"Height: Node se uske subtree ke farthest leaf tak ki edges (bottom-up). Root ki height = tree ki height. Depth: Root se us node tak ki edges (top-down). Root ki depth = 0."},
+  {c:"dsa", q:"Stable aur Unstable sorting algorithms kaun se hain?", a:"Stable (equal elements ka order maintain): Bubble Sort, Insertion Sort, Merge Sort. Unstable: Selection Sort, Quick Sort. Stability ka matlab same values ka relative order preserve hona."},
+  {c:"sql", q:"Primary Key vs Foreign Key difference kya hai?", a:"PK: Apni table mein unique identifier, NOT NULL, sirf ek per table. FK: Doosri table ka PK reference karta hai, referential integrity maintain karta hai, duplicate allowed."},
+  {c:"sql", q:"WHERE vs HAVING kab use karte hain?", a:"WHERE: Individual rows filter, GROUP BY se PEHLE apply hota hai, aggregate functions allowed NAHI. HAVING: Groups filter, GROUP BY ke BAAD apply hota hai, aggregate functions allowed hain."},
+  {c:"sql", q:"INNER JOIN, LEFT JOIN, RIGHT JOIN ka fark?", a:"INNER: Sirf matching rows dono tables se. LEFT: Sab left rows + matched right (NULL if no match). RIGHT: Sab right rows + matched left (NULL if no match)."},
+  {c:"sql", q:"Normalization ke stages kya hain?", a:"1NF: Atomic values only. 2NF: 1NF + No partial dependency. 3NF: 2NF + No transitive dependency. BCNF: Har determinant candidate key hona chahiye."},
+  {c:"sql", q:"DDL, DML, DCL, TCL mein kya kya commands hain?", a:"DDL: CREATE, ALTER, DROP, TRUNCATE. DML: INSERT, UPDATE, DELETE, SELECT. DCL: GRANT, REVOKE. TCL: COMMIT, ROLLBACK, SAVEPOINT."},
+  {c:"sql", q:"SQL mein Aggregate functions kaun se hain?", a:"COUNT(*), SUM(col), AVG(col), MAX(col), MIN(col). GROUP BY ke saath use hote hain. WHERE mein NAHI chal sakte — sirf HAVING mein aggregate conditions daalo."},
+  {c:"network", q:"OSI Model ke 7 layers trick se yaad karo", a:"Trick: All People Seem To Need Data Processing → 7.Application, 6.Presentation, 5.Session, 4.Transport, 3.Network, 2.DataLink, 1.Physical (7 se 1 top to bottom)"},
+  {c:"network", q:"Hub vs Switch vs Router ka fark?", a:"Hub: Layer 1, Broadcast to all ports, no intelligence. Switch: Layer 2, MAC table, selective forwarding. Router: Layer 3, IP routing between different networks."},
+  {c:"network", q:"TCP vs UDP ka main difference?", a:"TCP: Reliable, connection-oriented (3-way handshake), ordered, slower. Uses: HTTP, FTP, email. UDP: Fast, connectionless, no guarantee. Uses: Streaming, DNS, gaming, VoIP."},
+  {c:"network", q:"IPv4 vs IPv6 difference?", a:"IPv4: 32-bit, decimal notation (192.168.1.1), ~4.3 billion addresses — exhausted. IPv6: 128-bit, hexadecimal, virtually unlimited addresses. IPv6 address exhaustion solve karta hai."},
+  {c:"network", q:"Common port numbers yaad karo!", a:"HTTP=80, HTTPS=443, FTP=21, SSH=22, SMTP=25, POP3=110, IMAP=143, DNS=53, RDP=3389, MySQL=3306."},
+  {c:"network", q:"DHCP aur DNS ka kaam kya hai?", a:"DHCP: Devices ko automatically IP address assign karta hai (dynamic). DNS: Domain name (google.com) ko IP address mein translate karta hai — Internet ka phone book."},
+  {c:"fact", q:"Big Data ke 5Vs kya hain?", a:"Volume (kitna data), Velocity (kitni tezi se aata hai), Variety (kitne types — structured, unstructured), Veracity (accuracy/quality), Value (business benefit)."},
+  {c:"fact", q:"Cloud computing ke 3 service models kya hain?", a:"SaaS: Software as a Service — Gmail, Netflix, Zoom. PaaS: Platform as a Service — Heroku, AWS Beanstalk. IaaS: Infrastructure as a Service — AWS EC2, Azure VMs, Google Compute."},
+  {c:"fact", q:"IT Act 2000 ki important sections yaad karo", a:"Sec 43: Unauthorized computer access/damage. Sec 66: Hacking aur computer crimes. Sec 67: Obscene online content publish karna. Sec 72: Privacy breach. Digital signatures legal recognition."},
+  {c:"fact", q:"Active vs Passive Digital Footprint kya hota hai?", a:"Active: Intentionally share karte hain — posts, forms, profile updates, emails. Passive: Automatically collect hota hai — cookies, IP address, browser history, location tracking."},
+  {c:"fact", q:"Malware ke main types aur unka kaam?", a:"Virus: Self-replicates, files infect. Worm: Network se khud spread. Trojan: Useful dikhta hai but harmful. Ransomware: Data encrypt kare, ransom maange. Spyware: Secretly data collect kare."},
+  {c:"fact", q:"Process states ka cycle kya hota hai?", a:"New → Ready (queue mein wait) → Running (CPU pe) → Waiting (I/O ke liye, phir Ready mein) → Terminated. Context switch tab hota hai jab process Running se Ready/Waiting jaati hai."},
+  {c:"fact", q:"OSI aur TCP/IP model mein kya difference hai?", a:"OSI = 7 layers (Application, Presentation, Session, Transport, Network, DataLink, Physical). TCP/IP = 4 layers (Application, Transport, Internet, Network Access). TCP/IP practical implementation hai."}
+];
+
+// ── SEARCH DATA ──
+var SEARCH_ITEMS = [
+  {ic:"🐍", title:"Python Programming", sub:"Unit 1 - 30%", id:"unit1"},
+  {ic:"📋", title:"Lists, Tuples, Dict, Sets", sub:"Python Collections", id:"unit1"},
+  {ic:"🔧", title:"Functions and Lambda", sub:"Python Functions", id:"unit1"},
+  {ic:"📁", title:"File Handling", sub:"Python File I/O", id:"unit1"},
+  {ic:"🏗️", title:"DSA - Stack and Queue", sub:"Unit 2 - 25%", id:"unit2"},
+  {ic:"🌳", title:"Trees and Traversals", sub:"Binary Tree, BST", id:"unit2"},
+  {ic:"🔃", title:"Sorting Algorithms", sub:"Bubble, Merge, Quick Sort", id:"unit2"},
+  {ic:"🔍", title:"Binary Search", sub:"O(log n) Searching", id:"unit2"},
+  {ic:"🗄️", title:"DBMS and SQL", sub:"Unit 3 - 20%", id:"unit3"},
+  {ic:"🔎", title:"SQL Queries and Joins", sub:"SELECT, JOIN, GROUP BY", id:"unit3"},
+  {ic:"📊", title:"Normalization 1NF to BCNF", sub:"Database Theory", id:"unit3"},
+  {ic:"🌐", title:"Computer Networks", sub:"Unit 4 - 15%", id:"unit4"},
+  {ic:"📦", title:"OSI Model 7 Layers", sub:"Networking Layers", id:"unit4"},
+  {ic:"🌍", title:"IP Addressing IPv4 IPv6", sub:"Network Addresses", id:"unit4"},
+  {ic:"🔐", title:"Cybersecurity Threats", sub:"Malware, Phishing, DoS", id:"unit4"},
+  {ic:"⚙️", title:"Operating System", sub:"Unit 5 - 4%", id:"unit5"},
+  {ic:"🔄", title:"CPU Scheduling", sub:"FCFS, SJF, Round Robin", id:"unit5"},
+  {ic:"🌍", title:"Society and Ethics", sub:"Unit 6 - 6%", id:"unit6"},
+  {ic:"⚖️", title:"IT Act 2000", sub:"Cyber Laws India", id:"unit6"},
+  {ic:"🤖", title:"AI ML IoT Blockchain", sub:"Emerging Technologies", id:"unit6"}
+];
+
+// ============================================================
+// TAB SYSTEM
+// ============================================================
+function setTab(name, btn) {
+  // hide all panels
+  var panels = document.querySelectorAll(".panel");
+  for (var i = 0; i < panels.length; i++) {
+    panels[i].classList.remove("on");
+  }
+  // deactivate all tab buttons (topbar)
+  var tbTabs = document.querySelectorAll(".tb-tab");
+  for (var i = 0; i < tbTabs.length; i++) {
+    tbTabs[i].classList.remove("on");
+  }
+  // deactivate all page tab buttons
+  var pageTabs = document.querySelectorAll(".tab-btn");
+  for (var i = 0; i < pageTabs.length; i++) {
+    pageTabs[i].classList.remove("on");
+  }
+  // show selected panel
+  var panel = document.getElementById("panel-" + name);
+  if (panel) panel.classList.add("on");
+  // activate clicked button
+  if (btn) btn.classList.add("on");
+  // activate page tab
+  var pageTab = document.getElementById("ptab-" + name);
+  if (pageTab) pageTab.classList.add("on");
+}
+
+// ============================================================
+// SECTION TOGGLE
+// ============================================================
+function toggleSec(hd) {
+  var body = hd.nextElementSibling;
+  var arr = hd.querySelector(".sc-arr");
+  if (!body || !arr) return;
+  if (body.classList.contains("hide")) {
+    body.classList.remove("hide");
+    arr.classList.add("open");
+  } else {
+    body.classList.add("hide");
+    arr.classList.remove("open");
+  }
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+function openSearch() {
+  var mask = document.getElementById("searchMask");
+  mask.classList.add("open");
+  var inp = document.getElementById("searchIn");
+  inp.value = "";
+  inp.focus();
+  renderSearch("");
+}
+function closeSearch() {
+  document.getElementById("searchMask").classList.remove("open");
+}
+function renderSearch(q) {
+  var out = document.getElementById("searchOut");
+  var lower = q.toLowerCase().trim();
+  var items = lower === "" ? SEARCH_ITEMS : SEARCH_ITEMS.filter(function(s) {
+    return s.title.toLowerCase().indexOf(lower) !== -1 || s.sub.toLowerCase().indexOf(lower) !== -1;
+  });
+  if (items.length === 0) {
+    out.innerHTML = "<div style='padding:14px 18px;color:var(--text3);font-size:0.82rem'>No results found</div>";
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    html += "<div class='sr-item' onclick='gotoUnit(\"" + item.id + "\")'>";
+    html += "<span style='font-size:1.1rem'>" + item.ic + "</span>";
+    html += "<div><div class='sr-main'>" + item.title + "</div><div class='sr-sub'>" + item.sub + "</div></div>";
+    html += "</div>";
+  }
+  out.innerHTML = html;
+}
+function doSearch(val) { renderSearch(val); }
+function gotoUnit(id) {
+  closeSearch();
+  setTab("notes", null);
+  // activate notes topbar tab
+  var tbTabs = document.querySelectorAll(".tb-tab");
+  if (tbTabs[0]) tbTabs[0].classList.add("on");
+  setTimeout(function() {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({behavior:"smooth", block:"start"});
+  }, 80);
+}
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") closeSearch();
+});
+
+// ============================================================
+// QUIZ ENGINE
+// ============================================================
+var QS = {
+  all: [],
+  list: [],
+  idx: 0,
+  correct: 0,
+  wrong: 0,
+  answered: false,
+  filter: "all"
+};
+
+function quizFilter(f, btn) {
+  var btns = document.querySelectorAll("#qFilters .flt");
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove("on");
+  btn.classList.add("on");
+  QS.filter = f;
+  quizReset();
+}
+
+function quizReset() {
+  QS.correct = 0;
+  QS.wrong = 0;
+  QS.idx = 0;
+  QS.answered = false;
+  // filter questions
+  if (QS.filter === "all") {
+    QS.list = QUESTIONS.slice();
+  } else {
+    QS.list = [];
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (QUESTIONS[i].t === QS.filter) QS.list.push(QUESTIONS[i]);
+    }
+  }
+  // shuffle
+  for (var i = QS.list.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = QS.list[i];
+    QS.list[i] = QS.list[j];
+    QS.list[j] = tmp;
+  }
+  document.getElementById("qResult").classList.remove("show");
+  document.getElementById("qArea").style.display = "block";
+  updateScore();
+  renderQ();
+}
+
+function updateScore() {
+  var att = QS.correct + QS.wrong;
+  var score = (QS.correct * 5) - (QS.wrong * 1);
+  document.getElementById("q-att").textContent = att;
+  document.getElementById("q-cor").textContent = QS.correct;
+  document.getElementById("q-wrg").textContent = QS.wrong;
+  document.getElementById("q-scr").textContent = score;
+}
+
+function renderQ() {
+  if (QS.idx >= QS.list.length) {
+    document.getElementById("qArea").style.display = "none";
+    showResult();
+    return;
+  }
+  var q = QS.list[QS.idx];
+  QS.answered = false;
+  var pct = Math.round((QS.idx / QS.list.length) * 100);
+  document.getElementById("qProg").style.width = pct + "%";
+  document.getElementById("qCnt").textContent = "Q " + (QS.idx + 1) + " / " + QS.list.length;
+
+  var topicLabels = {python:"🐍 Python", dsa:"🏗️ DSA", sql:"🗄️ SQL", network:"🌐 Network", os:"⚙️ OS"};
+  var diffClass = {easy:"d-easy", medium:"d-med", hard:"d-hard"};
+
+  var codeHTML = "";
+  if (q.code) {
+    codeHTML = "<div class='q-code-blk'>" + escHtml(q.code) + "</div>";
+  }
+
+  var optsHTML = "";
+  var labels = ["A","B","C","D"];
+  for (var i = 0; i < q.opts.length; i++) {
+    optsHTML += "<button class='opt' id='opt" + i + "' onclick='pickOpt(" + i + ")'>";
+    optsHTML += "<span class='opt-lbl'>" + labels[i] + "</span>";
+    optsHTML += escHtml(q.opts[i]);
+    optsHTML += "</button>";
+  }
+
+  var html = "<div class='q-card'>";
+  html += "<div class='q-meta'>";
+  html += "<span class='q-num'>Q " + (QS.idx + 1) + "</span>";
+  html += "<span class='q-topic-tag' style='background:var(--blue-a);color:var(--blue2)'>" + (topicLabels[q.t] || q.t) + "</span>";
+  html += "<span class='q-diff " + (diffClass[q.d] || "d-med") + "'>" + q.d + "</span>";
+  html += "</div>";
+  html += "<div class='q-text'>" + escHtml(q.q) + "</div>";
+  html += codeHTML;
+  html += "<div class='opts'>" + optsHTML + "</div>";
+  html += "<div class='q-exp' id='qExp'><strong>Explanation:</strong> " + escHtml(q.exp) + "</div>";
+  html += "<div class='q-acts'>";
+  html += "<button class='btn btn-s' onclick='skipQ()'>Skip</button>";
+  html += "<button class='btn btn-p' id='nextBtn' onclick='nextQ()' disabled>Next →</button>";
+  html += "</div>";
+  html += "</div>";
+
+  document.getElementById("qArea").innerHTML = html;
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function pickOpt(idx) {
+  if (QS.answered) return;
+  QS.answered = true;
+  var q = QS.list[QS.idx];
+  var btns = document.querySelectorAll(".opt");
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+  if (idx === q.ans) {
+    QS.correct++;
+    btns[idx].classList.add("ok");
+  } else {
+    QS.wrong++;
+    btns[idx].classList.add("ng");
+    if (btns[q.ans]) btns[q.ans].classList.add("ok");
+  }
+  var exp = document.getElementById("qExp");
+  if (exp) exp.classList.add("show");
+  var nb = document.getElementById("nextBtn");
+  if (nb) nb.disabled = false;
+  updateScore();
+}
+
+function skipQ() {
+  QS.idx++;
+  renderQ();
+}
+
+function nextQ() {
+  QS.idx++;
+  renderQ();
+}
+
+function showResult() {
+  var rs = document.getElementById("qResult");
+  rs.classList.add("show");
+  var total = QS.correct + QS.wrong;
+  var score = (QS.correct * 5) - (QS.wrong * 1);
+  var acc = total > 0 ? Math.round((QS.correct / total) * 100) : 0;
+  document.getElementById("rScore").textContent = score;
+  document.getElementById("rCor").textContent = QS.correct;
+  document.getElementById("rWrg").textContent = QS.wrong;
+  document.getElementById("rAcc").textContent = acc + "%";
+  var ico = "😊", ttl = "Quiz Complete!", sub = "Aage practice karte raho!";
+  if (acc >= 90) { ico = "🏆"; ttl = "Outstanding!"; sub = "CUET mein full marks pakke hain!"; }
+  else if (acc >= 75) { ico = "🌟"; ttl = "Excellent!"; sub = "Bahut badiya! Thodi aur practice se perfect ho jaoge."; }
+  else if (acc >= 60) { ico = "👍"; ttl = "Good Job!"; sub = "Acha kiya! Weak topics pe aur focus karo."; }
+  else if (acc >= 40) { ico = "📚"; ttl = "Keep Studying!"; sub = "Aur practice karo — har baar better hoge!"; }
+  else { ico = "💪"; ttl = "Keep Going!"; sub = "Shuru karo phir se — practice makes perfect!"; }
+  document.getElementById("rIco").textContent = ico;
+  document.getElementById("rTtl").textContent = ttl;
+  document.getElementById("rSub").textContent = sub;
+}
+
+// ============================================================
+// FLASHCARD ENGINE
+// ============================================================
+var FC = {
+  all: FLASHCARDS.slice(),
+  list: FLASHCARDS.slice(),
+  idx: 0
+};
+
+function fcFilter(cat, btn) {
+  var btns = document.querySelectorAll("#fcFilters .flt");
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove("on");
+  btn.classList.add("on");
+  if (cat === "all") {
+    FC.list = FLASHCARDS.slice();
+  } else {
+    FC.list = [];
+    for (var i = 0; i < FLASHCARDS.length; i++) {
+      if (FLASHCARDS[i].c === cat) FC.list.push(FLASHCARDS[i]);
+    }
+  }
+  FC.idx = 0;
+  document.getElementById("fcCard").classList.remove("flip");
+  renderFC();
+}
+
+function renderFC() {
+  if (FC.list.length === 0) return;
+  var card = FC.list[FC.idx];
+  document.getElementById("fcQ").textContent = card.q;
+  document.getElementById("fcA").textContent = card.a;
+  document.getElementById("fcCtr").textContent = (FC.idx + 1) + " / " + FC.list.length;
+  document.getElementById("fcCard").classList.remove("flip");
+}
+
+function fcFlip() {
+  document.getElementById("fcCard").classList.toggle("flip");
+}
+
+function fcNext() {
+  FC.idx = (FC.idx + 1) % FC.list.length;
+  renderFC();
+}
+
+function fcPrev() {
+  FC.idx = (FC.idx - 1 + FC.list.length) % FC.list.length;
+  renderFC();
+}
+
+function fcShuffle() {
+  for (var i = FC.list.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = FC.list[i];
+    FC.list[i] = FC.list[j];
+    FC.list[j] = tmp;
+  }
+  FC.idx = 0;
+  renderFC();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderFC();
+quizReset();
+renderSearch("");
+</script>
+</body>
+</html>
